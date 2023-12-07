@@ -6,9 +6,13 @@ import {
 } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
 import { useDispatch } from "react-redux";
+import mainReducer from "./mainSlice";
+import neuronReducer from "./neuronSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  main: mainReducer,
+  neuron: neuronReducer,
 });
 
 const store: any = configureStore({
