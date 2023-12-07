@@ -3,6 +3,7 @@ import { signOut } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/store";
 import { auth } from "./firebase";
 import { setAuth } from "../../common/storage";
+import { Button } from "antd";
 
 function Logout() {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ function Logout() {
 
   return (
     <>
-      <button onClick={logout}>Log out</button>
+      <Button onClick={logout}>Log out</Button>
     </>
   );
 }

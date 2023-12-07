@@ -1,17 +1,14 @@
 import firebase from "firebase/compat/app";
 import { useEffect } from "react";
+import { setAuth } from "../../common/storage";
 import { signIn } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/store";
 import { ui } from "./firebase";
-import { getAuth, setAuth } from "../../common/storage";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const authResponse = getAuth();
-    dispatch(signIn(authResponse));
-  }, []);
 
   useEffect(() => {
     ui.start("#firebaseui-auth-container", {
@@ -30,6 +27,7 @@ function Login() {
           setAuth(authResponse);
           dispatch(signIn(authResponse));
 
+          navigate("/");
           // Don't redirect to anything else
           return false;
         },

@@ -1,13 +1,27 @@
-import { useSelector } from "react-redux";
-import "./App.css";
-import Login from "./components/auth/login";
-import Logout from "./components/auth/logout";
-import { RootState } from "./redux/store";
+import { useEffect } from "react";
+import AppRoutes from "./Routes";
+import Toolbar from "./components/layout/toolbar";
+import { signIn } from "./redux/authSlice";
+import { useAppDispatch } from "./redux/store";
+import { getAuth } from "./common/storage";
+import Body from "./components/layout/body";
 
 function App() {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
 
-  return <>{isAuthenticated ? <Logout /> : <Login />}</>;
+  useEffect(() => {
+    const authResponse = getAuth();
+    dispatch(signIn(authResponse));
+  }, []);
+
+  return (
+    <>
+      <Toolbar />
+      <Body>
+        <AppRoutes />
+      </Body>
+    </>
+  );
 }
 
 export default App;
