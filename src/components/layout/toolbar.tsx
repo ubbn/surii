@@ -12,7 +12,7 @@ const Container = styled.div`
   top: 0;
   position: sticky;
   background-color: aliceblue;
-  padding: 0 30px;
+  padding: 10px 40px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
@@ -41,7 +41,7 @@ const Toolbar = () => {
 
   return (
     <Container>
-      <h4>Hello, {name}</h4>
+      <h4>{isAuthenticated ? `Hello, ${name}` : ""}</h4>
       <Popover
         placement="bottomRight"
         open={menuOpen}

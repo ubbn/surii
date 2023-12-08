@@ -5,8 +5,16 @@ import { signIn } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/store";
 import { ui } from "./firebase";
 import { useNavigate } from "react-router-dom";
+import { styled } from "styled-components";
 
-function Login() {
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  width: 100%;
+`;
+
+const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -36,10 +44,10 @@ function Login() {
   }, []);
 
   return (
-    <>
+    <Container>
       <div id="firebaseui-auth-container"></div>
-    </>
+    </Container>
   );
-}
+};
 
 export default Login;

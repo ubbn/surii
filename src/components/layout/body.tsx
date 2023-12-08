@@ -1,9 +1,10 @@
 import { styled } from "styled-components";
 
 const Container = styled.div`
-  min-height: 20vh;
+  margin: auto;
+  min-height: 80vh;
   display: flex;
-  justify-content: center;
+  max-width: 1098px;
 `;
 
 const Body = ({ children }: { children: any }) => {
