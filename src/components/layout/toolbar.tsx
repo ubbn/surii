@@ -3,25 +3,30 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { BASE_COLOR, FlexRow } from "../../common";
 import { RootState } from "../../redux/store";
 import Logout from "../auth/logout";
-import defaultProfile from "./profile-default.svg";
+import iconProfile from "./icon-profile.svg";
+import Menu from "./menu";
+import Tooltip from "../../common/tooltip";
 
 const Container = styled.div`
   max-width: 100%;
   top: 0;
   position: sticky;
-  background-color: aliceblue;
-  padding: 10px 40px;
+  background-color: ${BASE_COLOR};
+  padding: 6px 30px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: white;
 `;
 
 const Profile = styled.img`
   width: 40px;
   height: 40px;
+  border: 1px solid white;
   border-radius: 50%;
   margin-right: 5px;
   cursor: pointer;
@@ -40,24 +45,26 @@ const Toolbar = () => {
 
   return (
     <Container>
-      <div onClick={() => navigate("/")}>Home, sweet home</div>
-      <div onClick={() => navigate("/learn")}>Learn</div>
-      <h4>{isAuthenticated ? `Hello, ${name}` : ""}</h4>
-      <Popover
-        placement="bottomRight"
-        open={menuOpen}
-        content={
-          isAuthenticated ? (
-            <Logout />
-          ) : (
-            <Button onClick={onClickLogin}>Log in</Button>
-          )
-        }
-        onOpenChange={setMenuOpen}
-        trigger="click"
-      >
-        <Profile src={profileUrl || defaultProfile} alt={"profile"} />
-      </Popover>
+      <Menu />
+      <FlexRow>
+        <Popover
+          placement="bottomRight"
+          open={menuOpen}
+          content={
+            isAuthenticated ? (
+              <Logout />
+            ) : (
+              <Button onClick={onClickLogin}>Log in</Button>
+            )
+          }
+          onOpenChange={setMenuOpen}
+          trigger="click"
+        >
+          <Tooltip text={name ? `Welcome, ${name}` : ""}>
+            <Profile src={profileUrl || iconProfile} alt={"profile"} />
+          </Tooltip>
+        </Popover>
+      </FlexRow>
     </Container>
   );
 };

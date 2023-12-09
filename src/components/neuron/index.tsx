@@ -13,8 +13,8 @@ import {
 import { RootState, useAppDispatch } from "../../redux/store";
 import EditModal from "./Modal";
 import StudyModal from "./study";
-import ITable from "./table";
-import TreeGroup from "./tree";
+import NeuronTable from "./table";
+import CategoryTree from "./tree";
 import { Anchor } from "./utils";
 
 const Ilearn = () => {
@@ -50,6 +50,7 @@ const Ilearn = () => {
   const setActive = (neuron: any) => {
     dispatch(setNeuron(neuron));
   };
+
   const openNotification = (neuron?: Neuron) => {
     notification.info({
       message: `${neuron?.title}`,
@@ -90,8 +91,8 @@ const Ilearn = () => {
   return (
     <div style={{ fontSize: 14 }}>
       <FlexRow>
-        <TreeGroup />
-        <ITable neurons={items} onClick={onClickNeuron} />
+        <CategoryTree />
+        <NeuronTable neurons={items} onClick={onClickNeuron} />
       </FlexRow>
       <Anchor>
         <Tooltip title="Add a neuron">

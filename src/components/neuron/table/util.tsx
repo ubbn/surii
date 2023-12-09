@@ -91,13 +91,13 @@ export const getColumns = (
           cell: (info) => info.getValue(),
         }),
         columnHelper.accessor("ntree", {
-          header: () => <span>Node</span>,
+          header: () => <span>Category</span>,
           cell: (info) => renderNodeTitle(info.getValue()),
         }),
       ],
     }),
     columnHelper.group({
-      header: "Consistent",
+      header: "Days after",
       columns: studyInterval.map((day) =>
         columnHelper.accessor(mapRepititionDays(day), {
           id: `${day}`,

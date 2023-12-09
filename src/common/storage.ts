@@ -14,7 +14,7 @@ const setItem = (id: string, value: any | undefined) => {
   localStorage.setItem(id, value ? JSON.stringify(value) : "");
 };
 
-export const getAuth = (): AuthResponse => {
+export const getAuthenticationData = (): AuthResponse => {
   return getItem("auth");
 };
 

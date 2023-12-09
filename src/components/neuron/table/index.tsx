@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FlexRow } from "../../../common";
 import { setStudyDate } from "../../../redux/neuronSlice";
 import DatePicker from "../../../common/DatePicker";
+import Tooltip from "../../../common/tooltip";
 
 const intervals: { [key: string]: number[] } = {
   "Short-term": [1, 3, 5, 7, 10, 14, 18, 21, 28, 35, 42, 49],
@@ -110,9 +111,11 @@ function ITable({
   return (
     <ITableStyled>
       <FlexRow style={{ marginBottom: 10 }}>
-        <Button type="primary" onClick={() => onDateChange(new Date())}>
-          Study
-        </Button>
+        <Tooltip text="Show only today's">
+          <Button type="primary" onClick={() => onDateChange(new Date())}>
+            Study today
+          </Button>
+        </Tooltip>
         <DatePicker
           placeholder="Study date"
           value={studyDate}

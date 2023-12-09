@@ -7,7 +7,7 @@ const Container = styled.div`
   border-top: 1px solid rgba(211, 211, 211, 0.6);
   padding-top: 22px;
   margin: auto;
-  max-width: 30vw;
+  max-width: 50vw;
 `;
 
 const Footer = () => {

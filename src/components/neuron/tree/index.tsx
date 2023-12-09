@@ -3,21 +3,22 @@ import {
   EditOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Button, Input, message, Popconfirm, Tree, TreeProps } from "antd";
+import { Button, Input, Popconfirm, Tree, TreeProps, message } from "antd";
 import type { DataNode } from "antd/es/tree";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import Tooltip from "../../../common/tooltip";
 import {
   setSelectedNode,
   thunkFetchConnectedNeurons,
 } from "../../../redux/neuronSlice";
-import { RootState, useAppDispatch } from "../../../redux/store";
-import Modal from "./Modal";
-import { areSiblings } from "./utils";
 import {
   thunkDeleteTreeNode,
   thunkFetchNeuronTrees,
 } from "../../../redux/neuronTreeSlice";
+import { RootState, useAppDispatch } from "../../../redux/store";
+import Modal from "./Modal";
+import { areSiblings } from "./utils";
 
 const { Search } = Input;
 
@@ -168,23 +169,27 @@ const _Tree: React.FC = () => {
     <div>
       <Search
         value={searchValue}
-        placeholder={`Search among ${treeAsList?.length}`}
+        placeholder={`Search categories`}
         onChange={(e) => onSearch(e.target.value)}
       />
       <div>
-        <Button
-          size="small"
-          style={{ width: 40 }}
-          icon={<PlusCircleOutlined />}
-          onClick={onAdd}
-        />
-        <Button
-          size="small"
-          style={{ width: 40, margin: 8 }}
-          icon={<EditOutlined />}
-          disabled={!selectedNode}
-          onClick={onEdit}
-        />
+        <Tooltip text="Add category">
+          <Button
+            size="small"
+            style={{ width: 40 }}
+            icon={<PlusCircleOutlined />}
+            onClick={onAdd}
+          />
+        </Tooltip>
+        <Tooltip text={selectedNode ? "Edit category" : ""}>
+          <Button
+            size="small"
+            style={{ width: 40, margin: 8 }}
+            icon={<EditOutlined />}
+            disabled={!selectedNode}
+            onClick={onEdit}
+          />
+        </Tooltip>
         <Popconfirm
           placement="topLeft"
           title={"Устгамаар байна уу?"}
@@ -193,12 +198,17 @@ const _Tree: React.FC = () => {
           disabled={!selectedNode}
           cancelText="No"
         >
-          <Button
-            size="small"
-            style={{ width: 40 }}
-            icon={<DeleteOutlined />}
-            disabled={!selectedNode}
-          />
+          <Tooltip
+            text={selectedNode ? "Delete selected category" : ""}
+            placement="right"
+          >
+            <Button
+              size="small"
+              style={{ width: 40 }}
+              icon={<DeleteOutlined />}
+              disabled={!selectedNode}
+            />
+          </Tooltip>
         </Popconfirm>
       </div>
       <Tree

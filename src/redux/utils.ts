@@ -1,4 +1,4 @@
-import { getAuth } from "../common/storage";
+import { getAuthenticationData } from "../common/storage";
 import { actionFail } from "./mainSlice";
 import { AppDispatch } from "./store";
 
@@ -8,7 +8,7 @@ export const handleError = (dispatch: AppDispatch) => (error: any) => {
 };
 
 export const getUserEmail = () => {
-  const token = getAuth();
+  const token = getAuthenticationData();
   return token?.user?.email || "";
 };
 
