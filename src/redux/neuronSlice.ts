@@ -1,11 +1,11 @@
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import qs from "query-string";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { AppThunk } from "./store";
-import { API_NEURON, getUserEmail, handleError } from "./utils";
 import { batch } from "react-redux";
 import { buildTree } from "../components/neuron/tree/utils";
-import { actionFinish, actionStart } from "./mainSlice";
+import { actionFinish, actionStart, resetAction } from "./mainSlice";
+import { AppThunk } from "./store";
+import { API_NEURON, getUserEmail, handleError } from "./utils";
 
 export type NeuronState = {
   selected?: Neuron;
@@ -72,6 +72,12 @@ const neuronSlice = createSlice({
     setStudyDate: (state: NeuronState, action: PayloadAction<any>) => {
       state.studyDate = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(resetAction, () => {
+      console.log("Whataaa neuron");
+      return initialState;
+    });
   },
 });
 

@@ -10,6 +10,7 @@ import { styled } from "styled-components";
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   padding-top: 20px;
   width: 100%;
 `;
@@ -45,6 +46,7 @@ const Login = () => {
 
   return (
     <Container>
+      <h2 style={{ textAlign: "center" }}>Login</h2>
       <div id="firebaseui-auth-container"></div>
     </Container>
   );

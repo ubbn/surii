@@ -1,20 +1,22 @@
+import { Button, message } from "antd";
 import { signOut as logOutFirebase } from "firebase/auth";
-import { signOut } from "../../redux/authSlice";
+import { useNavigate } from "react-router-dom";
+import { setAuth } from "../../common/storage";
+import { resetAll } from "../../redux/mainSlice";
 import { useAppDispatch } from "../../redux/store";
 import { auth } from "./firebase";
-import { setAuth } from "../../common/storage";
-import { Button } from "antd";
 
-function Logout() {
+const Logout = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const logout = () => {
-    dispatch(signOut());
+    dispatch(resetAll());
     setAuth(undefined);
     logOutFirebase(auth)
-      .then(() => console.log("User signed out"))
+      .then(() => message.success("You are signed out"))
       .catch((e) => console.log("Failed to log out: ", e));
-    window.location.reload();
+    navigate("/login");
   };
 
   return (
@@ -22,6 +24,6 @@ function Logout() {
       <Button onClick={logout}>Log out</Button>
     </>
   );
-}
+};
 
 export default Logout;

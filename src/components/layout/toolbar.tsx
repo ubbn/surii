@@ -1,11 +1,11 @@
+import { Button, Popover } from "antd";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Popover, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { RootState } from "../../redux/store";
-import defaultProfile from "./profile-default.svg";
 import Logout from "../auth/logout";
-import { useState } from "react";
+import defaultProfile from "./profile-default.svg";
 
 const Container = styled.div`
   max-width: 100%;
@@ -30,9 +30,8 @@ const Profile = styled.img`
 const Toolbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const { name, profileUrl, isAuthenticated } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const authState = useSelector((state: RootState) => state.auth);
+  const { name, profileUrl, isAuthenticated } = authState;
 
   const onClickLogin = () => {
     setMenuOpen(false);
@@ -41,6 +40,8 @@ const Toolbar = () => {
 
   return (
     <Container>
+      <div onClick={() => navigate("/")}>Home, sweet home</div>
+      <div onClick={() => navigate("/learn")}>Learn</div>
       <h4>{isAuthenticated ? `Hello, ${name}` : ""}</h4>
       <Popover
         placement="bottomRight"

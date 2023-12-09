@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { resetAction } from "./mainSlice";
 
 export type AuthState = {
   isAuthenticated: boolean;
@@ -27,12 +28,13 @@ const authSlice = createSlice({
         state = initialState;
       }
     },
-    signOut: (state: AuthState) => {
-      // state = initialState;
-      state.isAuthenticated = false;
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(resetAction, () => {
+      return initialState;
+    });
   },
 });
 
 export default authSlice.reducer;
-export const { signIn, signOut } = authSlice.actions;
+export const { signIn } = authSlice.actions;

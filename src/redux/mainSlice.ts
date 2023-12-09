@@ -1,4 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAction, createSlice } from "@reduxjs/toolkit";
+import { AppThunk } from "./store";
 
 export type MainState = {
   loading?: boolean;
@@ -23,7 +24,21 @@ const mainSlice = createSlice({
       state.loading = false;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(resetAction, () => {
+      return initialState;
+    });
+  },
 });
 
 export default mainSlice.reducer;
 export const { actionStart, actionFinish, actionFail } = mainSlice.actions;
+
+// Reset states of all slices
+const RESET_ACTION = "RESET";
+export const resetAction = createAction(RESET_ACTION);
+export const resetAll = (): AppThunk => {
+  return (dispatch) => {
+    dispatch({ type: RESET_ACTION });
+  };
+};
