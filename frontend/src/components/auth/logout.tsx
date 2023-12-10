@@ -14,7 +14,7 @@ const Logout = () => {
     dispatch(resetAll());
     setAuth(undefined);
     logOutFirebase(auth)
-      .then(() => message.success("You are signed out"))
+      .then(() => message.info("You are signed out"))
       .catch((e) => console.log("Failed to log out: ", e));
     navigate("/login");
   };

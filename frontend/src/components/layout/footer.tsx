@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const Footer = () => {
-  return <Container>© 2023. BLearn</Container>;
+  return <Container>© 2023. BiSurii</Container>;
 };
 
 export default Footer;

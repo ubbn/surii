@@ -6,6 +6,7 @@ import { setAuth } from "../../common/storage";
 import { signIn } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/store";
 import { ui } from "./firebase";
+import { message } from "antd";
 
 const Container = styled.div`
   display: flex;
@@ -32,6 +33,7 @@ const Login = () => {
       callbacks: {
         signInSuccessWithAuthResult: (authResponse: AuthResponse) => {
           setAuth(authResponse);
+          message.success("Welcome, " + authResponse.user.displayName);
           dispatch(signIn(authResponse));
 
           navigate("/");
@@ -44,7 +46,7 @@ const Login = () => {
 
   return (
     <Container>
-      <h2 style={{ textAlign: "center" }}>Login</h2>
+      <h2 style={{ textAlign: "center" }}>Login via</h2>
       <div id="firebaseui-auth-container"></div>
     </Container>
   );
