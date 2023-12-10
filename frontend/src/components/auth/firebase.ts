@@ -3,13 +3,12 @@ import { getAuth } from "firebase/auth";
 import * as firebaseui from "firebaseui";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCknPCYNRuezYurhsrvYnvC-7_g2P6Zccw",
-  authDomain: "b-learn-57a09.firebaseapp.com",
-  projectId: "b-learn-57a09",
-  storageBucket: "b-learn-57a09.appspot.com",
-  messagingSenderId: "316265251528",
-  appId: "1:316265251528:web:66da54492cc205b6c85bfd",
-  measurementId: "G-6H53PKYXBE",
+  apiKey: "AIzaSyCXjRBZXMEJ-W2U-XqbMm9g1T0TUmJzc7Y",
+  authDomain: "bisurii.firebaseapp.com",
+  projectId: "bisurii",
+  storageBucket: "bisurii.appspot.com",
+  messagingSenderId: "386576051480",
+  appId: "1:386576051480:web:408b2633ecc6217b97826d",
 };
 
 const app = initializeApp(firebaseConfig);
