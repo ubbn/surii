@@ -57,6 +57,7 @@ export const thunkDeleteTreeNode = (id: number): AppThunk => {
 };
 
 export const handleError = (dispatch: AppDispatch) => (error: any) => {
+  console.log("error", error);
   if (error?.response) {
     const { data, status } = error.response;
     dispatch(getResponseMessage({ ...data, status }));

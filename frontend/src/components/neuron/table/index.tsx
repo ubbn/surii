@@ -20,11 +20,29 @@ import { setStudyDate } from "../../../redux/neuronSlice";
 import DatePicker from "../../../common/DatePicker";
 import Tooltip from "../../../common/tooltip";
 
-const intervals: { [key: string]: number[] } = {
-  "Short-term": [1, 3, 5, 7, 10, 14, 18, 21, 28, 35, 42, 49],
-  Normal: [1, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233],
-  "Long-term": [1, 7, 14, 30, 45, 90, 180, 365, 500],
+type Interval = {
+  name: string;
+  desc: string;
+  days: number[];
 };
+
+const intervalsNew: Interval[] = [
+  {
+    name: "Short team",
+    desc: "More frequent, suited for memorizing short term",
+    days: [1, 3, 5, 7, 10, 14, 18, 21, 28, 35, 42, 49],
+  },
+  {
+    name: "Normal",
+    desc: "Normal frequency, most suited for efficiency and longevity",
+    days: [1, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233],
+  },
+  {
+    name: "Long team",
+    desc: "Less frequent, suited for memorizing longer term",
+    days: [1, 7, 14, 30, 45, 90, 180, 365, 500],
+  },
+];
 
 function ITable({
   neurons,
@@ -40,7 +58,7 @@ function ITable({
       desc: true,
     },
   ]);
-  const [studyInterval, setStudyInterval] = React.useState<string>("Normal");
+  const [studyInterval, setStudyInterval] = React.useState<number>(1);
   const { leaves, studyDate } = useSelector((v: RootState) => v.neuron);
   const dispatch = useDispatch();
 
@@ -48,7 +66,7 @@ function ITable({
     () =>
       getColumns(
         data.length,
-        intervals[studyInterval],
+        intervalsNew[studyInterval]?.days || [],
         studyDate || new Date(),
         (treeNodeId) => {
           const found = leaves.find((v) => (v.key as number) === +treeNodeId);
@@ -85,7 +103,7 @@ function ITable({
           if (neuron.created) {
             const created = getDateFromStr(neuron.created) || new Date();
             const diff = differenceInCalendarDays(value, created);
-            return intervals[studyInterval].includes(diff);
+            return intervalsNew[studyInterval].days.includes(diff);
           }
           return false;
         })
@@ -98,7 +116,7 @@ function ITable({
   const onCellClick = (item: Neuron, column: number) => {
     if (column >= 3) {
       const intervalId = column - 3;
-      const interval = intervals[studyInterval];
+      const interval = intervalsNew[studyInterval].days;
       if (interval.length > intervalId) {
         const day = interval[intervalId];
         onClick(item, column, day);
@@ -123,9 +141,12 @@ function ITable({
           style={{ marginRight: 10, width: 120, border: "1px solid #1677ff" }}
         />
         <Segmented
-          options={Object.keys(intervals)}
+          options={intervalsNew.map((v, i) => ({
+            label: <SegmentIdem interval={v} />,
+            value: i,
+          }))}
           value={studyInterval}
-          onChange={(v) => setStudyInterval(v as string)}
+          onChange={(v) => setStudyInterval(+v)}
         />
       </FlexRow>
       <table>
@@ -175,3 +196,11 @@ function ITable({
 }
 
 export default ITable;
+
+const SegmentIdem = ({ interval }: { interval: Interval }) => {
+  return (
+    <Tooltip text={interval.desc} placement="bottom">
+      <span>{interval.name}</span>
+    </Tooltip>
+  );
+};

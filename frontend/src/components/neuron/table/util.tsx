@@ -58,7 +58,7 @@ export const renderMemoCell = (
   return (
     <Popover
       placement="bottomLeft"
-      content={format(studyDate, yyyyMMdd)}
+      content={<>Due date: {format(studyDate, yyyyMMdd)}</>}
       title={<strong>{`Day ${day}`}</strong>}
       trigger="hover"
     >
@@ -97,7 +97,7 @@ export const getColumns = (
       ],
     }),
     columnHelper.group({
-      header: "Days after",
+      header: "Repitition intervals (days)",
       columns: studyInterval.map((day) =>
         columnHelper.accessor(mapRepititionDays(day), {
           id: `${day}`,

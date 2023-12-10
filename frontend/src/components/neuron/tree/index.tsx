@@ -72,6 +72,8 @@ const _Tree: React.FC = () => {
       message.error(backend.message + ": " + theOne?.title);
     } else if (backend?.status === 200) {
       message.success(backend?.message);
+    } else if (backend?.status > 200) {
+      message.error(backend?.message);
     }
   }, [backend]);
 
@@ -190,17 +192,17 @@ const _Tree: React.FC = () => {
             onClick={onEdit}
           />
         </Tooltip>
-        <Popconfirm
-          placement="topLeft"
-          title={"Устгамаар байна уу?"}
-          onConfirm={onDelete}
-          okText="Yes"
-          disabled={!selectedNode}
-          cancelText="No"
+        <Tooltip
+          text={selectedNode ? "Delete selected category" : ""}
+          placement="right"
         >
-          <Tooltip
-            text={selectedNode ? "Delete selected category" : ""}
-            placement="right"
+          <Popconfirm
+            placement="topLeft"
+            title={"Устгамаар байна уу?"}
+            onConfirm={onDelete}
+            okText="Yes"
+            disabled={!selectedNode}
+            cancelText="No"
           >
             <Button
               size="small"
@@ -208,8 +210,8 @@ const _Tree: React.FC = () => {
               icon={<DeleteOutlined />}
               disabled={!selectedNode}
             />
-          </Tooltip>
-        </Popconfirm>
+          </Popconfirm>
+        </Tooltip>
       </div>
       <Tree
         draggable

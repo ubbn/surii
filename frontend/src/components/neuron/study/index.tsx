@@ -85,7 +85,8 @@ const StudyModal = ({
   };
 
   const onEditDetail = () => {
-    item && navigate(`learn/${item.id}`);
+    message.warning("No implemented yet");
+    // item && navigate(`learn/${item.id}`);
   };
 
   const checkPristine = (newItem: any) => {
@@ -145,7 +146,7 @@ const StudyModal = ({
         <FlexRow style={{ justifyContent: "space-between" }}>
           <h2 style={{ marginBottom: 0 }}>{neuron?.title}</h2>
           <div style={{ marginRight: 40, color: "grey" }}>
-            Day {repititionDay}
+            Check at <strong>day {repititionDay}</strong>
           </div>
         </FlexRow>
       }

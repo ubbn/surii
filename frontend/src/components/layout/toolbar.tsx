@@ -47,7 +47,7 @@ const Toolbar = () => {
     <Container>
       <Menu />
       <FlexRow>
-        <Tooltip text={name ? `Welcome, ${name}` : ""}>
+        <Tooltip text={name ? `Hello, ${name}` : ""}>
           <Popover
             placement="bottomRight"
             open={menuOpen}

@@ -6,10 +6,17 @@ import {
   SaveOutlined,
 } from "@ant-design/icons";
 import MDEditor from "@uiw/react-md-editor";
-import { Button, Input, Modal, Popconfirm, Segmented, Space } from "antd";
+import {
+  Button,
+  Input,
+  Modal,
+  Popconfirm,
+  Segmented,
+  Space,
+  message,
+} from "antd";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { FlexRow } from "../../common";
 
 import DatePicker from "../../common/DatePicker";
@@ -46,7 +53,6 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
   const [pristine, setPristine] = React.useState<boolean>(true);
   const { selectedNode } = useSelector((v: RootState) => v.neuron);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     setItem({ ...neuron, ntree: neuron.ntree || selectedNode });
@@ -83,7 +89,8 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
   };
 
   const onEditDetail = () => {
-    item && navigate(`learn/${item.id}`);
+    message.warning("Not implemented yet");
+    // item && navigate(`learn/${item.id}`);
   };
 
   const checkPristine = (newItem: any) => {
@@ -148,7 +155,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
   return (
     <Modal
       width={modalSize}
-      title="What's up?"
+      title={neuron?.id ? "Edit" : "Add a new"}
       okButtonProps={{ style: { display: "none" } }}
       open={visible}
       onCancel={onModalClose}
@@ -213,7 +220,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
           <Input
             key="title"
             status={error?.title}
-            placeholder="I am curious"
+            placeholder="What you've learnt"
             value={item.title}
             style={{ marginRight: 10 }}
             onChange={(e) => onInputChange("title", e.target.value)}
