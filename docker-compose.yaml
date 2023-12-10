@@ -1,0 +1,12 @@
+version: "2"
+services:
+  frontend:
+    image: ubbn/pnpm:8.10.5
+    container_name: surii-frontend
+    user: root
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/home/node/app
+    command: "pnpm run dev --host 0.0.0.0"
