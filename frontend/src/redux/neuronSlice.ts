@@ -75,7 +75,6 @@ const neuronSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(resetAction, () => {
-      console.log("Whataaa neuron");
       return initialState;
     });
   },

@@ -31,7 +31,6 @@ const Login = () => {
       signInFlow: "popup",
       callbacks: {
         signInSuccessWithAuthResult: (authResponse: AuthResponse) => {
-          console.log("Auth: ", authResponse);
           setAuth(authResponse);
           dispatch(signIn(authResponse));
 
