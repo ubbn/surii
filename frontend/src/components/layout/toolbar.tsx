@@ -47,23 +47,23 @@ const Toolbar = () => {
     <Container>
       <Menu />
       <FlexRow>
-        <Popover
-          placement="bottomRight"
-          open={menuOpen}
-          content={
-            isAuthenticated ? (
-              <Logout />
-            ) : (
-              <Button onClick={onClickLogin}>Log in</Button>
-            )
-          }
-          onOpenChange={setMenuOpen}
-          trigger="click"
-        >
-          <Tooltip text={name ? `Welcome, ${name}` : ""}>
+        <Tooltip text={name ? `Welcome, ${name}` : ""}>
+          <Popover
+            placement="bottomRight"
+            open={menuOpen}
+            content={
+              isAuthenticated ? (
+                <Logout />
+              ) : (
+                <Button onClick={onClickLogin}>Log in</Button>
+              )
+            }
+            onOpenChange={setMenuOpen}
+            trigger="click"
+          >
             <Profile src={profileUrl || iconProfile} alt={"profile"} />
-          </Tooltip>
-        </Popover>
+          </Popover>
+        </Tooltip>
       </FlexRow>
     </Container>
   );

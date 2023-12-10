@@ -1,10 +1,11 @@
 import { Input, message, Modal } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { thunkUpdateTreeNode } from "../../../redux/neuronTreeSlice";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import _TreeSelect from "../treeselect";
 import { getTimeStamp } from "../utils";
+import { InputStatus } from "antd/lib/_util/statusUtils";
 
 const _Modal = ({
   open,
@@ -18,7 +19,8 @@ const _Modal = ({
   isAddNew: boolean;
 }) => {
   const dispatch = useAppDispatch();
-  const [title, setTitle] = React.useState<string>();
+  const [title, setTitle] = useState<string>();
+  const [status, setStatus] = useState<InputStatus>();
   const [selectedNode, setSelectedNode] = React.useState<NTree>();
   const { leaves } = useSelector((v: RootState) => v.neuron);
 
@@ -33,20 +35,25 @@ const _Modal = ({
   }, [open]);
 
   const handleOk = () => {
-    onClose();
     if (isAddNew) {
-      dispatch(
-        thunkUpdateTreeNode({
-          title,
-          key: +getTimeStamp(new Date()) as React.Key,
-          parent: selectedKey,
-        })
-      );
+      if (title && title.trim()) {
+        dispatch(
+          thunkUpdateTreeNode({
+            title,
+            key: +getTimeStamp(new Date()) as React.Key,
+            parent: selectedKey,
+          })
+        );
+        onClose();
+      } else {
+        setStatus("error");
+      }
     } else if (selectedNode) {
       if (selectedKey === selectedNode.parent) {
         message.warning("You can't select itself for parent");
       } else {
         dispatch(thunkUpdateTreeNode(selectedNode));
+        onClose();
       }
     }
   };
@@ -58,6 +65,11 @@ const _Modal = ({
   const onChange = (a: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedNode({ ...selectedNode, title: a.target.value } as NTree);
     setTitle(a.target.value);
+    if (a.target.value) {
+      setStatus("");
+    } else {
+      setStatus("error");
+    }
   };
 
   const onSelectNode = (onSelectedNodeKey: React.Key) => {
@@ -71,7 +83,7 @@ const _Modal = ({
 
   return (
     <Modal
-      title={isAddNew ? "Add new" : `Update ${title}`}
+      title={isAddNew ? "Add new category" : `Update ${title}`}
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -81,7 +93,8 @@ const _Modal = ({
         onChange={onSelectNode}
       />
       <Input
-        placeholder="Enter a name"
+        status={status}
+        placeholder="Category name"
         value={title}
         onChange={onChange}
         style={{ marginTop: 5 }}

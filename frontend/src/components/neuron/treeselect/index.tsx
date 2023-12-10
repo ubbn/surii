@@ -36,7 +36,7 @@ const _TreeSelect = ({
       placeholder={
         <span>
           <FolderOpenOutlined />
-          <span style={{ marginLeft: 10 }}>Select node</span>
+          <span style={{ marginLeft: 10 }}>Select category</span>
         </span>
       }
       allowClear
