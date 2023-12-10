@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { FlexRow } from "../../../common";
 
 type MenuEntry = {
   title: string;
@@ -29,16 +30,12 @@ const Menu = () => {
   return (
     <Container>
       {menus.map((menuItem, i) => (
-        <>
-          <Text
-            key={i}
-            onClick={() => navigate(menuItem.path)}
-            selected={i === active}
-          >
+        <FlexRow key={i}>
+          <Text onClick={() => navigate(menuItem.path)} selected={i === active}>
             {menuItem.title}
           </Text>
           {i < menus.length - 1 && <Separator> |</Separator>}
-        </>
+        </FlexRow>
       ))}
     </Container>
   );

@@ -5,8 +5,8 @@ import {
   EyeOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
-import { Button, message, Modal, Rate, Segmented, Space, Switch } from "antd";
-import React, { ReactNode, useEffect } from "react";
+import { Button, Modal, Rate, Segmented, Space, Switch, message } from "antd";
+import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -202,7 +202,7 @@ const StudyModal = ({
               onChange={onRate}
               value={rate}
               tooltips={rateToolTips}
-              character={({ index }: { index: number }) => index as ReactNode}
+              character={(p) => p.index}
             />
           </div>
           <Button
