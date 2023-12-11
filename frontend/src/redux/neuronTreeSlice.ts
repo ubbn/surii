@@ -45,7 +45,7 @@ export const thunkDeleteTreeNode = (id: number): AppThunk => {
       .delete(url() + `&id=${id}`)
       .then((response) => {
         const { data, status } = response;
-        const message = data.length + " nodes are deleted";
+        const message = data.length + " node(s) are deleted";
         dispatch(getResponseMessage({ message, status }));
         dispatch(actionFinish());
       })

@@ -9,7 +9,6 @@ import { Button, Modal, Rate, Segmented, Space, Switch, message } from "antd";
 import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FlexRow } from "../../../common";
 import { RootState } from "../../../redux/store";
@@ -59,7 +58,6 @@ const StudyModal = ({
   const [preview, setPreview] = React.useState<boolean>(false);
   const [pristine, setPristine] = React.useState<boolean>(true);
   const { selectedNode } = useSelector((v: RootState) => v.neuron);
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     setItem(neuron);

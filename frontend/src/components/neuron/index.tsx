@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, message, notification, Tooltip } from "antd";
+import { Button, message, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FlexRow } from "../../common";
@@ -16,6 +16,7 @@ import StudyModal from "./study";
 import NeuronTable from "./table";
 import CategoryTree from "./tree";
 import { Anchor } from "./utils";
+import Tooltip from "../../common/tooltip";
 
 const Ilearn = () => {
   const [hasChanged, setHasChanged] = useState(false);
@@ -96,7 +97,7 @@ const Ilearn = () => {
         <NeuronTable neurons={items} onClick={onClickNeuron} />
       </FlexRow>
       <Anchor>
-        <Tooltip title="Add a neuron">
+        <Tooltip text="Add a new neuron">
           <Button
             type="primary"
             shape="circle"

@@ -58,7 +58,7 @@ export const renderMemoCell = (
   return (
     <Popover
       placement="bottomLeft"
-      content={<>Due date: {format(studyDate, yyyyMMdd)}</>}
+      content={<>Due on {format(studyDate, yyyyMMdd)}</>}
       title={<strong>{`Day ${day}`}</strong>}
       trigger="hover"
     >
