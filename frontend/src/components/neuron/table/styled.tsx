@@ -57,10 +57,11 @@ const ITableStyled = styled.div`
   td {
     border: 1px solid lightgray;
     padding: 1px 2px;
-    :hover {
-      background-color: #f5f5f5;
-      color: #7700ff;
-    }
+  }
+
+  tr:hover td {
+    background-color: #f5f5f5;
+    color: #7700ff;
   }
 
   .subjectCell {
