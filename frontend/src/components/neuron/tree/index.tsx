@@ -169,11 +169,15 @@ const _Tree: React.FC = () => {
 
   return (
     <div>
-      <Search
-        value={searchValue}
-        placeholder={`Search categories`}
-        onChange={(e) => onSearch(e.target.value)}
-      />
+      <div style={{ marginRight: 8 }}>
+        <Search
+          value={searchValue}
+          allowClear
+          placeholder={`Search categories`}
+          onChange={(e) => onSearch(e.target.value)}
+          enterButton={<button style={{ display: "none" }} />}
+        />
+      </div>
       <div>
         <Tooltip text="Add category">
           <Button

@@ -19,3 +19,8 @@ code {
 .site-tree-search-value {
   color: #f50;
 }
+
+/* To show border after hiding search button from antd Search Input */
+.ant-input-search .ant-input-affix-wrapper {
+  border-right-width: 2px;
+}

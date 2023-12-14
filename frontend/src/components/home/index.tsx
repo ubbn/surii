@@ -18,7 +18,12 @@ const Home = () => {
         It is based on the spaced repitition, a science-backed method to learn
         or memorize anything for desired period of time with very little effort.
         Read more about it on{" "}
-        <a href="https://en.wikipedia.org/wiki/Spaced_repetition">wikipedia</a>
+        <a
+          target="blank"
+          href="https://en.wikipedia.org/wiki/Spaced_repetition"
+        >
+          wikipedia
+        </a>
       </p>
       <p>
         Start learn <a onClick={() => navigate("/learn")}>now</a>
