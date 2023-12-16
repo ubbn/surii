@@ -1,51 +1,51 @@
-import { CSSProperties } from 'react'
-import styled from 'styled-components'
+import { CSSProperties } from "react";
+import styled from "styled-components";
 
 export const getCellClassName = (columnId: number): string => {
   switch (columnId) {
     case 0:
-      return 'ognoo'
+      return "ognoo";
     case 1:
-      return 'subjectCell'
+      return "subjectCell";
     case 2:
-      return 'subjectCell'
+      return "subjectCell";
     default:
-      return 'memoCell'
+      return "memoCell";
   }
-}
+};
 
 export const getHeaderCellStyle = (columnId: number): CSSProperties => {
   const common = {
-    background: '#f5f5f5',
-  }
+    background: "#f5f5f5",
+  };
   switch (columnId) {
     case 0:
       return {
         ...common,
-        color: 'brown',
+        color: "brown",
         minWidth: 106,
         maxWidth: 106,
-      }
+      };
     case 1:
       return {
         ...common,
         minWidth: 200,
-        maxWidth: '20%',
-      }
+        maxWidth: "20%",
+      };
     case 2:
       return {
         ...common,
         minWidth: 100,
-        maxWidth: '20%',
-      }
+        maxWidth: "20%",
+      };
     default:
       return {
         ...common,
         minWidth: 30,
         maxWidth: 30,
-      }
+      };
   }
-}
+};
 
 const ITableStyled = styled.div`
   table {
@@ -77,6 +77,11 @@ const ITableStyled = styled.div`
       border-radius: 5px;
     }
   }
-`
 
-export default ITableStyled
+  .ant-btn,
+  .ant-picker {
+    border-radius: 1px;
+  }
+`;
+
+export default ITableStyled;

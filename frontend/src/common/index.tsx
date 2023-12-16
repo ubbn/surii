@@ -18,4 +18,4 @@ export const Bad = styled.div`
   color: red;
 `;
 
-export const BASE_COLOR = "#1890ff";
+export const BASE_COLOR = "#1677ff";
