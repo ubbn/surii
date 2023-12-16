@@ -57,7 +57,7 @@ const Ilearn = () => {
     notification.info({
       message: `${neuron?.title}`,
       description: "New update",
-      placement: "bottomRight",
+      placement: "bottomLeft",
     });
   };
 
