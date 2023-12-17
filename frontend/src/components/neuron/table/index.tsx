@@ -9,16 +9,15 @@ import {
 import { Button, Segmented } from "antd";
 import { differenceInCalendarDays } from "date-fns";
 import * as React from "react";
-
-import { getColumns } from "./util";
-import ITableStyled, { getCellClassName, getHeaderCellStyle } from "./styled";
-import { getDateFromStr } from "../utils";
-import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { FlexRow } from "../../../common";
-import { setStudyDate } from "../../../redux/neuronSlice";
 import DatePicker from "../../../common/DatePicker";
 import Tooltip from "../../../common/tooltip";
+import { setStudyDate } from "../../../redux/neuronSlice";
+import { RootState } from "../../../redux/store";
+import { getDateFromStr } from "../utils";
+import ITableStyled, { getCellClassName, getHeaderCellStyle } from "./styled";
+import { getColumns } from "./util";
 
 type Interval = {
   name: string;
@@ -45,13 +44,13 @@ const intervalsNew: Interval[] = [
 ];
 
 function ITable({
-  neurons,
+  onStudy,
   onClick,
 }: {
-  neurons: Neuron[];
+  onStudy: (neurons: Neuron[]) => void;
   onClick: (neuron: Neuron, column: number, day?: number) => void;
 }) {
-  const [data, setData] = React.useState<Neuron[]>([]);
+  const [visibleNeurons, setVisibleNeurons] = React.useState<Neuron[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([
     {
       id: "ognoo",
@@ -59,13 +58,13 @@ function ITable({
     },
   ]);
   const [studyInterval, setStudyInterval] = React.useState<number>(1);
-  const { leaves, studyDate } = useSelector((v: RootState) => v.neuron);
+  const { items, leaves, studyDate } = useSelector((v: RootState) => v.neuron);
   const dispatch = useDispatch();
 
   const columns = React.useMemo<ColumnDef<Neuron>[]>(
     () =>
       getColumns(
-        data.length,
+        visibleNeurons.length,
         intervalsNew[studyInterval]?.days || [],
         studyDate || new Date(),
         (treeNodeId) => {
@@ -73,11 +72,11 @@ function ITable({
           return <span>{found?.title}</span>;
         }
       ),
-    [studyInterval, data.length]
+    [studyInterval, visibleNeurons.length]
   );
 
   const table = useReactTable({
-    data,
+    data: visibleNeurons,
     columns,
     state: {
       sorting,
@@ -89,27 +88,29 @@ function ITable({
 
   React.useEffect(() => {
     filterNeurons(studyDate);
-  }, [neurons]);
+  }, [items]);
 
   const onDateChange = (value: Date | null) => {
     dispatch(setStudyDate(value));
     filterNeurons(value);
   };
 
+  const filter = (value: Date) => {
+    return items.filter((neuron: Neuron) => {
+      if (neuron.created) {
+        const created = getDateFromStr(neuron.created) || new Date();
+        const diff = differenceInCalendarDays(value, created);
+        return intervalsNew[studyInterval].days.includes(diff);
+      }
+      return false;
+    });
+  };
+
   const filterNeurons = (value?: Date | null) => {
     if (value) {
-      setData(
-        neurons.filter((neuron: Neuron) => {
-          if (neuron.created) {
-            const created = getDateFromStr(neuron.created) || new Date();
-            const diff = differenceInCalendarDays(value, created);
-            return intervalsNew[studyInterval].days.includes(diff);
-          }
-          return false;
-        })
-      );
+      setVisibleNeurons(filter(value));
     } else {
-      setData(neurons);
+      setVisibleNeurons(items);
     }
   };
 
@@ -128,12 +129,13 @@ function ITable({
 
   return (
     <ITableStyled>
-      <FlexRow style={{ marginBottom: 10 }}>
-        <Tooltip text="Show only today's">
-          <Button type="primary" onClick={() => onDateChange(new Date())}>
-            Study today
-          </Button>
-        </Tooltip>
+      <FlexRow style={{ marginBottom: 10, alignItems: "center" }}>
+        <Button
+          type="primary"
+          onClick={() => onStudy(filter(studyDate || new Date()))}
+        >
+          Study today
+        </Button>
         <DatePicker
           placeholder="Study date"
           value={studyDate}

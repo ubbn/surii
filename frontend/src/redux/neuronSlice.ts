@@ -47,7 +47,7 @@ const neuronSlice = createSlice({
       const id = action.payload;
       state.items = state.items.filter((v) => v.id !== +id);
     },
-    setNeuron: (state: NeuronState, action: any) => {
+    setNeuron: (state: NeuronState, action: PayloadAction<any>) => {
       state.selected = action.payload;
     },
     fetchNeurons: (state: NeuronState, action: PayloadAction<any>) => {

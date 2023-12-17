@@ -20,15 +20,12 @@ import Tooltip from "../../common/tooltip";
 
 const Ilearn = () => {
   const [hasChanged, setHasChanged] = useState(false);
-  const {
-    items,
-    selectedNode,
-    selected: active,
-  } = useSelector((v: RootState) => v.neuron);
+  const { selectedNode, selected } = useSelector((v: RootState) => v.neuron);
   const dispatch = useAppDispatch();
+  const [studyList, setStudyList] = useState<Neuron[]>([]);
   const [repititionDay, setRepititionDay] = useState<number>();
-  const [showEditModal, setShowEditModal] = useState(!!active);
-  const [showStudyModal, setShowStudyModal] = useState(!!active);
+  const [showEditModal, setShowEditModal] = useState(!!selected);
+  const [showStudyModal, setShowStudyModal] = useState(false);
 
   useEffect(() => {
     document.addEventListener("keydown", onKeyDown);
@@ -46,7 +43,9 @@ const Ilearn = () => {
 
   const onSave = (neuron: Neuron) => {
     dispatch(thunkUpdateNeuron(neuron));
+    setStudyList(studyList.map((v) => (v.id === neuron.id ? neuron : v)));
     setHasChanged(true);
+    openNotification(neuron);
   };
 
   const setActive = (neuron: any) => {
@@ -65,11 +64,11 @@ const Ilearn = () => {
     if (hasChanged) {
       dispatch(thunkFetchConnectedNeurons(selectedNode));
       setHasChanged(false);
-      openNotification(active);
     }
     setShowEditModal(false);
     setShowStudyModal(false);
     setActive(undefined);
+    setStudyList([]);
   };
 
   const onClickNeuron = (neuron: Neuron, columnId: number, day?: number) => {
@@ -90,11 +89,28 @@ const Ilearn = () => {
     }
   };
 
+  const onStudy = (itemsToStudy: Neuron[]) => {
+    setStudyList(itemsToStudy.sort(comparator));
+    if (itemsToStudy.length > 0) {
+      setActive(itemsToStudy[0]);
+      setShowStudyModal(true);
+    } else {
+      message.info("No neurons to study on this day");
+    }
+  };
+
+  const comparator = (a: Neuron, b: Neuron) => {
+    if (a.created == undefined && b.created == undefined) return 0;
+    if (a.created == undefined) return 1;
+    if (b.created == undefined) return -1;
+    return +b.created - +a.created;
+  };
+
   return (
     <div style={{ fontSize: 14 }}>
       <FlexRow>
         <CategoryTree />
-        <NeuronTable neurons={items} onClick={onClickNeuron} />
+        <NeuronTable onClick={onClickNeuron} onStudy={onStudy} />
       </FlexRow>
       <Anchor>
         <Tooltip text="Add a new neuron">
@@ -108,14 +124,14 @@ const Ilearn = () => {
         </Tooltip>
       </Anchor>
       <EditModal
-        neuron={active}
+        neuron={selected}
         visible={showEditModal}
         onClose={onModalClose}
         onSave={onSave}
       />
       <StudyModal
-        neuron={active}
-        repititionDay={repititionDay}
+        neurons={studyList}
+        repititionForSingleDay={repititionDay}
         visible={showStudyModal}
         onClose={onModalClose}
         onSave={onSave}

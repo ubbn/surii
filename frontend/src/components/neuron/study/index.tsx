@@ -6,11 +6,15 @@ import {
   SaveOutlined,
 } from "@ant-design/icons";
 import { Button, Modal, Rate, Segmented, Space, Switch, message } from "antd";
-import React, { useEffect } from "react";
+import { differenceInCalendarDays } from "date-fns";
+import React from "react";
 import ReactMarkdown from "react-markdown";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FlexRow } from "../../../common";
-import { getTimeStamp } from "../utils";
+import { setNeuron } from "../../../redux/neuronSlice";
+import { RootState } from "../../../redux/store";
+import { getDateFromStr } from "../utils";
 
 const sizeOptions = [
   { label: "Small", value: 700 },
@@ -19,24 +23,17 @@ const sizeOptions = [
 ];
 
 const rateToolTips = [
-  "Completely forgot (0)",
-  "1",
-  "2",
-  "3",
-  "4",
+  "Sorry, completely forgot (0)",
+  "Oops, almost forgot",
+  "Hmm, it was hard",
+  "Okayish",
+  "Okay",
   "Clearly recalls (5)",
 ];
 
-export const empty: Neuron = {
-  title: "",
-  detail: "",
-  memo: {},
-  created: getTimeStamp(new Date()),
-};
-
 type Props = {
-  neuron?: Neuron;
-  repititionDay?: number;
+  neurons: Neuron[];
+  repititionForSingleDay?: number;
   visible: boolean;
   onClose: () => void;
   onSave: (neuron: Neuron) => void;
@@ -44,38 +41,63 @@ type Props = {
 
 const StudyModal = ({
   visible,
+  repititionForSingleDay,
   onClose,
   onSave,
-  neuron = empty,
-  repititionDay,
+  neurons,
 }: Props) => {
-  const [initial, setInitial] = React.useState<any>(neuron);
-  const [item, setItem] = React.useState<Neuron>(neuron);
+  const { studyDate, selected } = useSelector((v: RootState) => v.neuron);
+  const [index, setIndex] = React.useState<number>(0);
+  const [item, setItem] = React.useState<Neuron | undefined>(selected);
   const [rate, setRate] = React.useState<number | undefined>();
   const [modalSize, setModalSize] = React.useState<number | string>(700);
   const [preview, setPreview] = React.useState<boolean>(false);
   const [pristine, setPristine] = React.useState<boolean>(true);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-    setItem(neuron);
-    setInitial(neuron);
-    setPristine(true);
-  }, [neuron]);
+    if (selected && visible) {
+      setItem(selected);
+      setPristine(true);
+      const score = getScore(selected);
+      setRate(score);
+    }
+  }, [selected]);
 
-  useEffect(() => {
+  React.useEffect(() => {
+    if (index >= 0 && index < neurons.length) {
+      dispatch(setNeuron(neurons[index]));
+    }
     setPreview(false);
+  }, [index]);
+
+  React.useEffect(() => {
+    if (!visible) {
+      dispatch(setNeuron(undefined));
+      setIndex(0);
+      setPreview(false);
+    }
   }, [visible]);
 
-  useEffect(() => {
-    if (item) {
-      setRate(getScore(item));
+  const getThatFuckingDay = () => {
+    if (neurons.length === 0) {
+      return repititionForSingleDay;
     }
-  }, [item]);
+    return getIntervalDay();
+  };
+
+  const getIntervalDay = () => {
+    const created = getDateFromStr(selected?.created);
+    if (created) {
+      const diff = differenceInCalendarDays(studyDate || new Date(), created);
+      return diff;
+    }
+    return undefined;
+  };
 
   const saveNeuron = () => {
     setPristine(true);
-    onSave(item);
-    setInitial(item);
+    item && onSave(item);
   };
 
   const onEditDetail = () => {
@@ -84,15 +106,16 @@ const StudyModal = ({
   };
 
   const checkPristine = (newItem: any) => {
-    if (initial && newItem) {
-      return getScore(initial) === getScore(newItem);
+    if (selected && newItem) {
+      return getScore(selected) === getScore(newItem);
     }
     return false;
   };
 
   const onRate = (value: number) => {
     const memoValue = value === 0 ? undefined : value - 1;
-    if (repititionDay) {
+    const repititionDay = getThatFuckingDay();
+    if (repititionDay && item) {
       const day = `${repititionDay}`;
       const newItem = {
         ...item,
@@ -103,12 +126,14 @@ const StudyModal = ({
       };
       setPristine(checkPristine(newItem));
       setItem(newItem);
+      setRate(getScore(newItem));
     } else {
-      message.error("Repitition day is invalid: " + repititionDay);
+      message.error("Repitition day has invalid value: " + repititionDay);
     }
   };
 
   const getScore = (neuron: Neuron) => {
+    const repititionDay = getThatFuckingDay();
     if (repititionDay && neuron?.memo) {
       const memoScore = neuron?.memo[`${repititionDay}`];
       if (memoScore !== undefined) {
@@ -133,14 +158,19 @@ const StudyModal = ({
     }
   };
 
+  const onPrevious = () =>
+    setIndex(index === 0 ? neurons.length - 1 : index - 1);
+
+  const onNext = () => setIndex(index >= neurons.length - 1 ? 0 : index + 1);
+
   return (
     <Modal
       width={modalSize}
       title={
         <FlexRow style={{ justifyContent: "space-between" }}>
-          <h2 style={{ marginBottom: 0 }}>{neuron?.title}</h2>
-          <div style={{ marginRight: 40, color: "grey" }}>
-            Check at <strong>day {repititionDay}</strong>
+          <h2 style={{ marginBottom: 0 }}>{selected?.title}</h2>
+          <div style={{ marginRight: 40, color: "grey", fontWeight: "normal" }}>
+            Study at <strong>day {getThatFuckingDay()}</strong>
           </div>
         </FlexRow>
       }
@@ -148,9 +178,21 @@ const StudyModal = ({
       style={{ padding: 0 }}
       onCancel={onModalClose}
       footer={[
-        <Button key="close" onClick={onModalClose}>
-          Close
-        </Button>,
+        <FlexRow key="foot" style={{ justifyContent: "space-between" }}>
+          {neurons.length > 0 && (
+            <div>
+              <Button onClick={onPrevious}>{"<"}</Button>
+              <span style={{ margin: "0 15px", fontWeight: "bold" }}>
+                {index + 1} of {neurons.length}
+              </span>
+              <Button onClick={onNext}>{">"}</Button>
+            </div>
+          )}
+          <div />
+          <Button key="close" onClick={onModalClose}>
+            Close
+          </Button>
+        </FlexRow>,
       ]}
     >
       <Space
@@ -190,22 +232,24 @@ const StudyModal = ({
             onClick={() => setPreview(!preview)}
             checked={preview}
           />
-          <div style={{ border: "1px solid #d9d9d9", borderRadius: 3 }}>
-            <Rate
-              count={6}
-              style={{ margin: "0 15px", color: "green" }}
-              onChange={onRate}
-              value={rate}
-              tooltips={rateToolTips}
-              character={(p) => p.index}
+          <FlexRow>
+            <div style={{ border: "1px solid #d9d9d9", marginRight: 10 }}>
+              <Rate
+                count={6}
+                style={{ margin: "0 15px", color: "green" }}
+                onChange={onRate}
+                value={rate}
+                tooltips={rateToolTips}
+                character={(p) => p.index}
+              />
+            </div>
+            <Button
+              type="primary"
+              disabled={pristine}
+              icon={<SaveOutlined />}
+              onClick={saveNeuron}
             />
-          </div>
-          <Button
-            type="primary"
-            disabled={pristine}
-            icon={<SaveOutlined />}
-            onClick={saveNeuron}
-          />
+          </FlexRow>
         </FlexRow>
         {preview && (
           <$Wrapper>
