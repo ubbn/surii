@@ -4,6 +4,7 @@ import { getAuthenticationData } from "./common/storage";
 import Login from "./components/auth/login";
 import Home from "./components/home";
 import Ilearn from "./components/neuron";
+import Stats from "./components/stats";
 
 const ProtectedRoute = () => {
   // Had to read directly from localstorage
@@ -24,7 +25,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/learn" element={<Ilearn />} />
-          <Route path="/stats" element={<>comming soon...</>} />
+          <Route path="/stats" element={<Stats />} />
         </Route>
         <Route path="*" element={<>Not found</>} />
       </Routes>

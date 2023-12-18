@@ -20,3 +20,26 @@ code {
 .site-tree-search-value {
   color: #f50;
 }
+
+/* green scheme */
+.react-calendar-heatmap .color-green-1 {
+  fill: #d6e685;
+}
+.react-calendar-heatmap .color-green-2 {
+  fill: #99d18f;
+}
+.react-calendar-heatmap .color-green-3 {
+  fill: #7bc86c;
+}
+.react-calendar-heatmap .color-green-4 {
+  fill: #61bd4f;
+}
+.react-calendar-heatmap .color-green-5 {
+  fill: #5aac44;
+}
+.react-calendar-heatmap .color-green-6 {
+  fill: #49852e;
+}
+.react-calendar-heatmap .color-green-7 {
+  fill: #3f6f21;
+}
