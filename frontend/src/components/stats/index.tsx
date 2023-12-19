@@ -1,9 +1,15 @@
-import { addDays, format, isBefore } from "date-fns";
+import { DatePicker } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
-import HeatMap from "../../common/HeatMap";
-import { RootState } from "../../redux/store";
+import { HeatMap, ToolTip } from "../../common";
+import { thunkFetchNeurons } from "../../redux/neuronSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { greenScalClasses, prepareData } from "./utils";
+import { lastDayOfMonth } from "date-fns";
+import dayjs from "dayjs";
+
+const { RangePicker } = DatePicker;
 
 const Container = styled.div`
   width: 100%;
@@ -16,34 +22,45 @@ const Container = styled.div`
   .react-calendar-heatmap-weekday-labels {
     transform: translate(5px, 14px);
   }
-`;
 
-const prepagreenata = (startDate: Date, endDate: Date, data: Neuron[]) => {
-  let temp = startDate;
-  let endDateOffset = addDays(endDate, 1);
-  const prepagreen = [];
-  do {
-    const tempStr = format(temp, "yyyyMMdd");
-    const found = data.filter((v) => `${v.created}`?.startsWith(tempStr));
-    prepagreen.push({ date: format(temp, "yyyy/MM/dd"), count: found.length });
-    temp = addDays(temp, 1);
-  } while (isBefore(temp, endDateOffset));
-  return prepagreen;
-};
+  & input {
+    color: gray !important;
+  }
+`;
 
 const Stats = () => {
   const [data, setData] = useState<any>([]);
+  const [startDate, setStartDate] = useState<Date>(new Date("2023-01-01"));
+  const [endDate, setEndDate] = useState<Date>(new Date("2023-12-31"));
   const { items } = useSelector((v: RootState) => v.neuron);
-  const startDate = new Date("2023-01-01");
-  const endDate = new Date("2023-12-31");
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setData(prepagreenata(startDate, endDate, items));
-  }, [items]);
+    dispatch(thunkFetchNeurons());
+  }, []);
+
+  useEffect(() => {
+    setData(prepareData(startDate, endDate, items));
+  }, [items, startDate, endDate]);
+
+  const onRangeChange = (_: any, range: string[]) => {
+    setStartDate(new Date(range[0] + "-01"));
+    setEndDate(lastDayOfMonth(new Date(range[1] + "-01")));
+  };
 
   return (
     <Container>
       <div style={{ height: 50, width: "100%", marginRight: 20 }}>
+        <div style={{ margin: "5px 0 15px 5px" }}>
+          <ToolTip text="Choose a range">
+            <RangePicker
+              picker="month"
+              size="small"
+              onChange={onRangeChange}
+              value={[dayjs(startDate), dayjs(endDate)]}
+            />
+          </ToolTip>
+        </div>
         <HeatMap
           data={data}
           classForValue={greenScalClasses}
@@ -59,25 +76,3 @@ const Stats = () => {
 };
 
 export default Stats;
-
-export const greenScalClasses = (value: any): string => {
-  if (value && value.count) {
-    if (+value.count <= 0) {
-      return "color-empty";
-    } else if (+value.count <= 1) {
-      return "color-green-2";
-    } else if (+value.count <= 2) {
-      return "color-green-5";
-    } else if (+value.count <= 3) {
-      return "color-green-6";
-    } else if (+value.count <= 5) {
-      return "color-green-7";
-    } else if (+value.count <= 7) {
-      return "color-green-7";
-    } else if (+value.count <= 10) {
-      return "color-green-7";
-    }
-    return "color-green-7";
-  }
-  return "color-empty";
-};

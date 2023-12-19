@@ -15,10 +15,6 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.div`
-  font-weight: bold;
-`;
-
 type Props = {
   startDate: Date;
   data: any[];
@@ -30,7 +26,6 @@ type Props = {
 const HeatMap = ({ startDate, data, title, tipText, ...props }: Props) => {
   return (
     <Container>
-      <Title>{title}</Title>
       <CalendarHeatmap
         tooltipDataAttrs={(value: any) => ({
           "data-tooltip-id": "heatmap-tooltip",

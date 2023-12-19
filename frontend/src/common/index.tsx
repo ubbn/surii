@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import ToolTip from "./tooltip";
+import HeatMap from "./HeatMap";
 
 export const FlexRow = styled.div`
   display: flex;
@@ -19,3 +21,5 @@ export const Bad = styled.div`
 `;
 
 export const BASE_COLOR = "#1677ff";
+
+export { ToolTip, HeatMap };
