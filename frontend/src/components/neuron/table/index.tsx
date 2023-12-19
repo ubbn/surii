@@ -27,7 +27,7 @@ type Interval = {
 
 const intervalsNew: Interval[] = [
   {
-    name: "Short team",
+    name: "Short term",
     desc: "More frequent, suited for memorizing short term",
     days: [1, 3, 5, 7, 10, 14, 18, 21, 28, 35, 42, 49],
   },
@@ -37,7 +37,7 @@ const intervalsNew: Interval[] = [
     days: [1, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233],
   },
   {
-    name: "Long team",
+    name: "Long term",
     desc: "Less frequent, suited for memorizing longer term",
     days: [1, 7, 14, 30, 45, 90, 180, 365, 500],
   },

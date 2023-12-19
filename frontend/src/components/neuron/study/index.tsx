@@ -17,9 +17,9 @@ import { RootState } from "../../../redux/store";
 import { getDateFromStr } from "../utils";
 
 const sizeOptions = [
-  { label: "Small", value: 700 },
-  { label: "Medium", value: 1000 },
-  { label: "Large", value: 1300 },
+  { label: "S", value: 700 },
+  { label: "M", value: 1000 },
+  { label: "L", value: 1300 },
 ];
 
 const rateToolTips = [
