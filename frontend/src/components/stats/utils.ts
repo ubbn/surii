@@ -1,4 +1,4 @@
-import { addDays, format, isBefore } from "date-fns";
+import { addDays, format, isBefore, lastDayOfMonth, subMonths } from "date-fns";
 
 export const prepareData = (startDate: Date, endDate: Date, data: Neuron[]) => {
   let temp = startDate;
@@ -33,4 +33,19 @@ export const greenScalClasses = (value: any): string => {
     return "color-green-7";
   }
   return "color-empty";
+};
+
+export const getCurrentYear = () => {
+  const today = new Date();
+  const startDate = new Date(today.getFullYear(), 0, 1);
+  const endDate = new Date(today.getFullYear(), 11, 31);
+  return { startDate, endDate };
+};
+
+export const getLastXMonths = (months: number) => {
+  const today = new Date();
+  const last = subMonths(today, months - 1);
+  const startDate = new Date(last.getFullYear(), last.getMonth(), 1);
+  const endDate = lastDayOfMonth(today);
+  return { startDate, endDate };
 };

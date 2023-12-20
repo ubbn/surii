@@ -1,13 +1,18 @@
-import { DatePicker } from "antd";
+import { DatePicker, Space, Tag } from "antd";
+import { lastDayOfMonth } from "date-fns";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { HeatMap, ToolTip } from "../../common";
 import { thunkFetchNeurons } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { greenScalClasses, prepareData } from "./utils";
-import { lastDayOfMonth } from "date-fns";
-import dayjs from "dayjs";
+import {
+  getCurrentYear,
+  getLastXMonths,
+  greenScalClasses,
+  prepareData,
+} from "./utils";
 
 const { RangePicker } = DatePicker;
 
@@ -30,6 +35,7 @@ const Container = styled.div`
 
 const Stats = () => {
   const [data, setData] = useState<any>([]);
+  const [activeChip, setActiveChip] = useState<number | undefined>(0);
   const [startDate, setStartDate] = useState<Date>(new Date("2023-01-01"));
   const [endDate, setEndDate] = useState<Date>(new Date("2023-12-31"));
   const { items } = useSelector((v: RootState) => v.neuron);
@@ -46,13 +52,32 @@ const Stats = () => {
   const onRangeChange = (_: any, range: string[]) => {
     setStartDate(new Date(range[0] + "-01"));
     setEndDate(lastDayOfMonth(new Date(range[1] + "-01")));
+    setActiveChip(undefined);
+  };
+
+  const onClickChip = (chipIndex: number) => {
+    setActiveChip(chipIndex);
+    const result = chips[chipIndex].func();
+    setStartDate(result.startDate);
+    setEndDate(result.endDate);
   };
 
   return (
     <Container>
       <div style={{ height: 50, width: "100%", marginRight: 20 }}>
         <div style={{ margin: "5px 0 15px 5px" }}>
-          <ToolTip text="Choose a range">
+          <Space size={[0, 8]} wrap>
+            {chips.map((v, i) => (
+              <Chip
+                key={i}
+                onClick={() => onClickChip(i)}
+                color={activeChip === i ? "processing" : "default"}
+              >
+                {v.label}
+              </Chip>
+            ))}
+          </Space>
+          <ToolTip text="Choose custom range" placement="right" color="black">
             <RangePicker
               picker="month"
               size="small"
@@ -76,3 +101,26 @@ const Stats = () => {
 };
 
 export default Stats;
+
+const Chip = styled(Tag)`
+  cursor: pointer;
+`;
+
+const chips = [
+  {
+    label: "This year",
+    func: () => getCurrentYear(),
+  },
+  {
+    label: "Last 3 months",
+    func: () => getLastXMonths(3),
+  },
+  {
+    label: "Last 6 months",
+    func: () => getLastXMonths(6),
+  },
+  {
+    label: "Last 12 months",
+    func: () => getLastXMonths(12),
+  },
+];
