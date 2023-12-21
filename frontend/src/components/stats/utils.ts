@@ -1,6 +1,26 @@
-import { addDays, format, isBefore, lastDayOfMonth, subMonths } from "date-fns";
+import {
+  addDays,
+  format,
+  isAfter,
+  isBefore,
+  lastDayOfMonth,
+  subMonths,
+} from "date-fns";
+import { getDateFromStr } from "../neuron/utils";
 
-export const prepareData = (startDate: Date, endDate: Date, data: Neuron[]) => {
+/**
+ * Find all learned words between given range from given data
+ *
+ * @param startDate beginning of range
+ * @param endDate end of range
+ * @param data all data
+ * @returns all days filled with number of words 0 - ...
+ */
+export const getNewNeurons = (
+  startDate: Date,
+  endDate: Date,
+  data: Neuron[]
+) => {
   let temp = startDate;
   let endDateOffset = addDays(endDate, 1);
   const prepared = [];
@@ -11,6 +31,52 @@ export const prepareData = (startDate: Date, endDate: Date, data: Neuron[]) => {
     temp = addDays(temp, 1);
   } while (isBefore(temp, endDateOffset));
   return prepared;
+};
+
+/**
+ * Find days you studied neurons
+ *
+ * @param startDate
+ * @param endDate
+ * @param data
+ * @returns
+ */
+export const getSolidNeurons = (
+  startDate: Date,
+  endDate: Date,
+  data: Neuron[]
+) => {
+  const cumulatedSolid = data
+    .filter((v) => v.created && v.memo && getDateFromStr(v.created))
+    .reduce((acc: any, curr: Neuron) => {
+      const created = getDateFromStr(curr.created);
+      Object.keys(curr.memo).forEach((day) => {
+        const studiedDate = addDays(created, +day);
+        if (isBefore(studiedDate, endDate) && isAfter(studiedDate, startDate)) {
+          const studied = format(studiedDate, "yyyy/MM/dd");
+          if (acc[studied]) {
+            acc[studied].push(curr.title);
+          } else {
+            acc[studied] = [curr.title];
+          }
+        }
+      });
+      return acc;
+    }, {});
+
+  let date = startDate;
+  const endDateOffset = addDays(endDate, 1);
+  const result = [];
+  do {
+    const tempStr = format(date, "yyyy/MM/dd");
+    let count = 0;
+    if (cumulatedSolid[tempStr]) {
+      count = cumulatedSolid[tempStr].length;
+    }
+    result.push({ date, count });
+    date = addDays(date, 1);
+  } while (isBefore(date, endDateOffset));
+  return result;
 };
 
 export const greenScalClasses = (value: any): string => {

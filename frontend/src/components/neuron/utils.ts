@@ -6,11 +6,14 @@ type AnyDate = Date | undefined | null;
 export const yyyyMMddHHmmss = "yyyyMMddHHmmss";
 export const yyyyMMdd = "yyyy-MM-dd";
 
-export const getDateFromStrInFormat = (date: string, format: string): Date => {
+export const getDateFromStrInFormat = (
+  date: string,
+  format: string
+): Date | undefined => {
   try {
     return parse(date, format, new Date());
   } catch (e) {
-    return new Date();
+    return undefined;
   }
 };
 
@@ -20,8 +23,8 @@ export const getDateFromStrInFormat = (date: string, format: string): Date => {
  * @param date string value
  * @returns parsed date value, or current date if the value can't be parsed
  */
-export const getDateFromStr = (date = ""): Date | undefined => {
-  return getDateFromStrInFormat(date, yyyyMMddHHmmss);
+export const getDateFromStr = (date = ""): Date => {
+  return getDateFromStrInFormat(date, yyyyMMddHHmmss) || new Date();
 };
 
 export const getGoodFormatted = (date?: string): string => {

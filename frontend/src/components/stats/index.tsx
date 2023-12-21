@@ -11,7 +11,8 @@ import {
   getCurrentYear,
   getLastXMonths,
   greenScalClasses,
-  prepareData,
+  getNewNeurons,
+  getSolidNeurons,
 } from "./utils";
 
 const { RangePicker } = DatePicker;
@@ -34,7 +35,8 @@ const Container = styled.div`
 `;
 
 const Stats = () => {
-  const [data, setData] = useState<any>([]);
+  const [neuronsAdded, setNeuronsAdded] = useState<any[]>([]);
+  const [neuronsSolid, setNeuronsSolid] = useState<any[]>([]);
   const [activeChip, setActiveChip] = useState<number | undefined>(0);
   const [startDate, setStartDate] = useState<Date>(new Date("2023-01-01"));
   const [endDate, setEndDate] = useState<Date>(new Date("2023-12-31"));
@@ -46,7 +48,8 @@ const Stats = () => {
   }, []);
 
   useEffect(() => {
-    setData(prepareData(startDate, endDate, items));
+    setNeuronsAdded(getNewNeurons(startDate, endDate, items));
+    setNeuronsSolid(getSolidNeurons(startDate, endDate, items));
   }, [items, startDate, endDate]);
 
   const onRangeChange = (_: any, range: string[]) => {
@@ -86,8 +89,21 @@ const Stats = () => {
             />
           </ToolTip>
         </div>
+        <p>
+          <strong>Neurons added</strong>
+        </p>
         <HeatMap
-          data={data}
+          data={neuronsAdded}
+          classForValue={greenScalClasses}
+          title={"Days you added new neurons"}
+          mapper={(v: any) => ({ date: v.date, count: v.minutes })}
+          tipText={"word(s)"}
+          startDate={startDate}
+          endDate={endDate}
+        />
+        <strong>Neurons studied</strong>
+        <HeatMap
+          data={neuronsSolid}
           classForValue={greenScalClasses}
           title={"Days you added new neurons"}
           mapper={(v: any) => ({ date: v.date, count: v.minutes })}
