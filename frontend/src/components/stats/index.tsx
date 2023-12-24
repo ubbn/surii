@@ -37,6 +37,8 @@ const Container = styled.div`
 const Stats = () => {
   const [neuronsAdded, setNeuronsAdded] = useState<any[]>([]);
   const [neuronsSolid, setNeuronsSolid] = useState<any[]>([]);
+  const [visibleAdded, setVisibleAdded] = useState<Neuron[]>([]);
+  const [addedDate, setAddedDate] = useState<string>("");
   const [activeChip, setActiveChip] = useState<number | undefined>(0);
   const [startDate, setStartDate] = useState<Date>(new Date("2023-01-01"));
   const [endDate, setEndDate] = useState<Date>(new Date("2023-12-31"));
@@ -65,9 +67,17 @@ const Stats = () => {
     setEndDate(result.endDate);
   };
 
+  const onClickAdded = (param: any) => {
+    if (param?.date) {
+      const clicked = param.date.replaceAll("/", ""); // yyyy/MM/dd => yyyyMMdd
+      setVisibleAdded(items.filter((v) => `${v.created}`?.startsWith(clicked)));
+    }
+    setAddedDate(param.date);
+  };
+
   return (
     <Container>
-      <div style={{ height: 50, width: "100%", marginRight: 20 }}>
+      <div style={{ width: "100%" }}>
         <div style={{ margin: "5px 0 15px 5px" }}>
           <Space size={[0, 8]} wrap>
             {chips.map((v, i) => (
@@ -100,6 +110,7 @@ const Stats = () => {
           tipText={"word(s)"}
           startDate={startDate}
           endDate={endDate}
+          onClick={onClickAdded}
         />
         <strong>Neurons studied</strong>
         <HeatMap
@@ -111,6 +122,18 @@ const Stats = () => {
           startDate={startDate}
           endDate={endDate}
         />
+        {addedDate && (
+          <div>
+            <strong>On {addedDate}, you added:</strong>
+            <div>
+              {visibleAdded.map((v) => (
+                <div key={v.id}>
+                  {v.title} - {v.detail}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </Container>
   );
