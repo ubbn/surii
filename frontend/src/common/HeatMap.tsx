@@ -18,12 +18,11 @@ const Container = styled.div`
 type Props = {
   startDate: Date;
   data: any[];
-  title: any;
   tipText: any;
   [_: string]: any;
 };
 
-const HeatMap = ({ startDate, data, title, tipText, ...props }: Props) => {
+const HeatMap = ({ startDate, data, tipText, ...props }: Props) => {
   return (
     <Container>
       <CalendarHeatmap

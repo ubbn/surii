@@ -38,7 +38,9 @@ const Stats = () => {
   const [neuronsAdded, setNeuronsAdded] = useState<any[]>([]);
   const [neuronsSolid, setNeuronsSolid] = useState<any[]>([]);
   const [visibleAdded, setVisibleAdded] = useState<Neuron[]>([]);
+  const [visibleStudied, setVisibleStudied] = useState<string[]>([]);
   const [addedDate, setAddedDate] = useState<string>("");
+  const [studiedDate, setStudiedDate] = useState<string>("");
   const [activeChip, setActiveChip] = useState<number | undefined>(0);
   const [startDate, setStartDate] = useState<Date>(new Date("2023-01-01"));
   const [endDate, setEndDate] = useState<Date>(new Date("2023-12-31"));
@@ -65,14 +67,28 @@ const Stats = () => {
     const result = chips[chipIndex].func();
     setStartDate(result.startDate);
     setEndDate(result.endDate);
+    setAddedDate("");
+    setStudiedDate("");
   };
 
   const onClickAdded = (param: any) => {
     if (param?.date) {
-      const clicked = param.date.replaceAll("/", ""); // yyyy/MM/dd => yyyyMMdd
-      setVisibleAdded(items.filter((v) => `${v.created}`?.startsWith(clicked)));
+      const clicked = param.date.replaceAll("-", ""); // yyyy/MM/dd => yyyyMMdd
+      setVisibleAdded(
+        items.filter((v: any) => `${v.created}`?.startsWith(clicked))
+      );
     }
     setAddedDate(param.date);
+    setStudiedDate("");
+  };
+
+  const onClickStudied = (param: any) => {
+    const found = neuronsSolid.find((v: any) => v.date === param?.date);
+    if (found) {
+      setVisibleStudied(found.words);
+    }
+    setStudiedDate(param.date);
+    setAddedDate("");
   };
 
   return (
@@ -105,8 +121,6 @@ const Stats = () => {
         <HeatMap
           data={neuronsAdded}
           classForValue={greenScalClasses}
-          title={"Days you added new neurons"}
-          mapper={(v: any) => ({ date: v.date, count: v.minutes })}
           tipText={"word(s)"}
           startDate={startDate}
           endDate={endDate}
@@ -116,22 +130,33 @@ const Stats = () => {
         <HeatMap
           data={neuronsSolid}
           classForValue={greenScalClasses}
-          title={"Days you added new neurons"}
-          mapper={(v: any) => ({ date: v.date, count: v.minutes })}
           tipText={"word(s)"}
           startDate={startDate}
           endDate={endDate}
+          onClick={onClickStudied}
         />
         {addedDate && (
           <div>
             <strong>On {addedDate}, you added:</strong>
-            <div>
-              {visibleAdded.map((v) => (
-                <div key={v.id}>
+            <ul>
+              {visibleAdded.map((v, i) => (
+                <li key={i}>
                   {v.title} - {v.detail}
-                </div>
+                </li>
               ))}
-            </div>
+              {visibleAdded.length === 0 && <li>Nothing ... 😢</li>}
+            </ul>
+          </div>
+        )}
+        {studiedDate && (
+          <div>
+            <strong>On {studiedDate}, you studied:</strong>
+            <ul>
+              {visibleStudied.map((v, i) => (
+                <li key={i}>{v}</li>
+              ))}
+              {visibleStudied.length === 0 && <li>Nothing ... 😭</li>}
+            </ul>
           </div>
         )}
       </div>

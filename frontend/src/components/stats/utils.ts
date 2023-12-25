@@ -27,7 +27,7 @@ export const getNewNeurons = (
   do {
     const tempStr = format(temp, "yyyyMMdd");
     const found = data.filter((v) => `${v.created}`?.startsWith(tempStr));
-    prepared.push({ date: format(temp, "yyyy/MM/dd"), count: found.length });
+    prepared.push({ date: format(temp, "yyyy-MM-dd"), count: found.length });
     temp = addDays(temp, 1);
   } while (isBefore(temp, endDateOffset));
   return prepared;
@@ -53,7 +53,7 @@ export const getSolidNeurons = (
       Object.keys(curr.memo).forEach((day) => {
         const studiedDate = addDays(created, +day);
         if (isBefore(studiedDate, endDate) && isAfter(studiedDate, startDate)) {
-          const studied = format(studiedDate, "yyyy/MM/dd");
+          const studied = format(studiedDate, "yyyy-MM-dd");
           if (acc[studied]) {
             acc[studied].push(curr.title);
           } else {
@@ -64,18 +64,18 @@ export const getSolidNeurons = (
       return acc;
     }, {});
 
-  let date = startDate;
+  let tmp = startDate;
   const endDateOffset = addDays(endDate, 1);
   const result = [];
   do {
-    const tempStr = format(date, "yyyy/MM/dd");
-    let count = 0;
-    if (cumulatedSolid[tempStr]) {
-      count = cumulatedSolid[tempStr].length;
+    const date = format(tmp, "yyyy-MM-dd");
+    let words = [];
+    if (cumulatedSolid[date]) {
+      words = cumulatedSolid[date];
     }
-    result.push({ date, count });
-    date = addDays(date, 1);
-  } while (isBefore(date, endDateOffset));
+    result.push({ date, words, count: words.length });
+    tmp = addDays(tmp, 1);
+  } while (isBefore(tmp, endDateOffset));
   return result;
 };
 
