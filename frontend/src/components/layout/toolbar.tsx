@@ -21,6 +21,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   color: white;
+  z-index: 999;
 `;
 
 const Profile = styled.img`

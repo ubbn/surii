@@ -15,8 +15,8 @@ dependencies:
     specifier: ^8.10.7
     version: 8.10.7(react-dom@18.2.0)(react@18.2.0)
   '@uiw/react-md-editor':
-    specifier: ^4.0.1
-    version: 4.0.1(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^4.0.2
+    version: 4.0.2(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0)
   antd:
     specifier: ~5.0.7
     version: 5.0.7(date-fns@2.30.0)(react-dom@18.2.0)(react@18.2.0)
@@ -1826,13 +1826,13 @@ packages:
     resolution: {integrity: sha512-IXR+N363nLTR3ilklmM+B0nk774jVE/muOrBYt4Rdww/Pf3uP9XHyv2x6YZrbDh29F7w9BkzQyB8QF6WDShmJA==}
     dev: false
 
-  /@uiw/react-markdown-preview@5.0.3(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-3x6d9HH2CwtM78HRXkrqOrsaYxrq8enXlCjuw46ZSnGxogo/myAZcWiesWyDpSAAqmWUkJSvKxrMHq/j2++6WA==}
+  /@uiw/react-markdown-preview@5.0.6(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-zd+T02xFhy6K75XPdkF3RRAWKzVzJctZ6CCpFDcn/CgdQlEj8Z+Z9k11nkPspzbznB43UYdoe4qQvnjgG6TfZw==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@babel/runtime': 7.23.5
+      '@babel/runtime': 7.23.6
       '@uiw/copy-to-clipboard': 1.0.16
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -1851,14 +1851,14 @@ packages:
       - supports-color
     dev: false
 
-  /@uiw/react-md-editor@4.0.1(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-+UTBQAfawQNU3JwOB0VMAYS+O9Po5xJTQCYoMVcn+O5BdbFW8mYBFjxvHwOF7unWCAOM6GwpTBpIOWypg+sD6w==}
+  /@uiw/react-md-editor@4.0.2(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-T1dnxOqm/+ncriHUfVsGaDTiB1d91zKqz1WmtMl50tJUjR3uW4e2mjv+ynKS6S9wt+t9wdAj9oU8iI8wHwWwHw==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@babel/runtime': 7.23.5
-      '@uiw/react-markdown-preview': 5.0.3(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0)
+      '@babel/runtime': 7.23.6
+      '@uiw/react-markdown-preview': 5.0.6(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       rehype: 13.0.1

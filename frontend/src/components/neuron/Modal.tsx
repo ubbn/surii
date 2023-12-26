@@ -266,6 +266,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
           />
         </FlexRow>
         <MDEditor
+          overflow={false}
           autoFocus
           value={item?.detail}
           onChange={(v) => onInputChange("detail", v || "")}
