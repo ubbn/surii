@@ -133,7 +133,6 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
         ntree: item.ntree,
         created: getTimeStamp(new Date()),
       } as Neuron);
-      onClose();
     }
   };
 
