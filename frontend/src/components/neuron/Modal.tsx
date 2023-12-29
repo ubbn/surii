@@ -6,19 +6,12 @@ import {
   SaveOutlined,
 } from "@ant-design/icons";
 import MDEditor from "@uiw/react-md-editor";
-import {
-  Button,
-  Input,
-  Modal,
-  Popconfirm,
-  Segmented,
-  Space,
-  message,
-} from "antd";
+import { Button, Input, Modal, Popconfirm, Segmented, Space } from "antd";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FlexRow } from "../../common";
 
+import { useNavigate } from "react-router-dom";
 import DatePicker from "../../common/DatePicker";
 import { thunkDeleteNeuron } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -53,6 +46,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
   const [pristine, setPristine] = React.useState<boolean>(true);
   const { selectedNode } = useSelector((v: RootState) => v.neuron);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     setItem({ ...neuron, ntree: neuron.ntree || selectedNode });
@@ -89,8 +83,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
   };
 
   const onEditDetail = () => {
-    message.warning("Not implemented yet");
-    // item && navigate(`learn/${item.id}`);
+    item && navigate(`/learn/${item.id}/edit`);
   };
 
   const checkPristine = (newItem: any) => {

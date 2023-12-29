@@ -4,6 +4,7 @@ import { getAuthenticationData } from "./common/storage";
 import Login from "./components/auth/login";
 import Home from "./components/home";
 import Ilearn from "./components/neuron";
+import Iedit from "./components/neuron/edit";
 import Stats from "./components/stats";
 
 const ProtectedRoute = () => {
@@ -24,6 +25,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/learn/:id/edit" element={<Iedit />} />
           <Route path="/learn" element={<Ilearn />} />
           <Route path="/stats" element={<Stats />} />
         </Route>
