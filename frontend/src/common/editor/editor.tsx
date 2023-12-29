@@ -19,11 +19,11 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { $getRoot } from "lexical";
+import { useState } from "react";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
 import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
-import TreeViewPlugin from "./plugins/TreeViewPlugin";
 import "./styles.css";
 import ExampleTheme from "./themes/ExampleTheme";
 
@@ -31,16 +31,14 @@ function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
 }
 
-const markdown = "**Hello**  _world_ Yes `code block`";
-
-const editorConfig: any = {
+const editorConfig = (value: string): any => ({
   // The editor theme
   theme: ExampleTheme,
   // Handling of errors during update
   onError(error: any) {
     throw error;
   },
-  editorState: () => $convertFromMarkdownString(markdown, TRANSFORMERS),
+  editorState: () => $convertFromMarkdownString(value, TRANSFORMERS),
   // Any custom nodes go here
   nodes: [
     HeadingNode,
@@ -55,21 +53,29 @@ const editorConfig: any = {
     AutoLinkNode,
     LinkNode,
   ],
+});
+
+type Props = {
+  text?: string;
 };
 
-function onChange(editorState: any) {
-  editorState.read(() => {
-    // Read the contents of the EditorState here.
-    const root = $getRoot();
+export default function Editor({ text = "" }: Props) {
+  const [value, setValue] = useState<string>(text);
 
-    console.log(root.__cachedText);
-    console.log($convertToMarkdownString(TRANSFORMERS, root));
-  });
-}
+  function onChange(editorState: any) {
+    editorState.read(() => {
+      // Read the contents of the EditorState here.
+      const root = $getRoot();
 
-export default function Editor() {
+      // console.log(root.__cachedText);
+      const mdValue = $convertToMarkdownString(TRANSFORMERS, root);
+      console.log(mdValue);
+      setValue(mdValue);
+    });
+  }
+
   return (
-    <LexicalComposer initialConfig={editorConfig}>
+    <LexicalComposer initialConfig={editorConfig(value)}>
       <div className="editor-container">
         <ToolbarPlugin />
         <div className="editor-inner">
@@ -84,7 +90,6 @@ export default function Editor() {
             ignoreSelectionChange
           />
           <HistoryPlugin />
-          <TreeViewPlugin />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
           <ListPlugin />
