@@ -1,9 +1,5 @@
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getRoot, $getSelection } from "lexical";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Editor from "./editor";
-import "./styles.css";
+import Editor from "../../../common/editor/editor";
 
 function Iedit() {
   const { id } = useParams();
