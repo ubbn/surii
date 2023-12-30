@@ -3,10 +3,13 @@ import AppRoutes from "./AppRoutes";
 import { getAuthenticationData } from "./common/storage";
 import { Body, Footer, Toolbar } from "./components/layout";
 import { signIn } from "./redux/authSlice";
-import { useAppDispatch } from "./redux/store";
+import { RootState, useAppDispatch } from "./redux/store";
+import { useSelector } from "react-redux";
+import FadingDots from "./common/FadingDots";
 
 function App() {
   const dispatch = useAppDispatch();
+  const loading = useSelector((v: RootState) => v.main.loading);
 
   useEffect(() => {
     const authResponse = getAuthenticationData();
@@ -20,6 +23,11 @@ function App() {
         <AppRoutes />
       </Body>
       <Footer />
+      {loading! && (
+        <FadingDots
+          style={{ position: "absolute", top: "30vh", left: "50vw" }}
+        />
+      )}
     </>
   );
 }
