@@ -8,11 +8,13 @@ import authReducer from "./authSlice";
 import { useDispatch } from "react-redux";
 import mainReducer from "./mainSlice";
 import neuronReducer from "./neuronSlice";
+import periodReducer from "./periodSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   main: mainReducer,
   neuron: neuronReducer,
+  period: periodReducer,
 });
 
 const store: any = configureStore({
