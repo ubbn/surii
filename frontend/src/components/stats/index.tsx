@@ -15,9 +15,9 @@ import {
   getSolidNeurons,
 } from "./utils";
 import {
-  setEndtDateRedux,
-  setPeriodIndex,
-  setStartDateRedux,
+  setEndtDate,
+  setActiveChip,
+  setStartDate,
 } from "../../redux/periodSlice";
 
 const { RangePicker } = DatePicker;
@@ -46,29 +46,9 @@ const Stats = () => {
   const [visibleStudied, setVisibleStudied] = useState<string[]>([]);
   const [addedDate, setAddedDate] = useState<string>("");
   const [studiedDate, setStudiedDate] = useState<string>("");
-  const periodIndex = useSelector((v: RootState) => v.period.periodIndex);
-  const startDateRedux = useSelector((v: RootState) => v.period.startDate);
-  const endDateRedux = useSelector((v: RootState) => v.period.endDate);
-  let periodIndexInitial: number | undefined;
-  if (periodIndex && startDateRedux && endDateRedux) {
-    periodIndexInitial = periodIndex;
-  } else if (!periodIndex && startDateRedux && endDateRedux) {
-    periodIndexInitial = undefined;
-  } else if (!periodIndex && !startDateRedux && !endDateRedux) {
-    periodIndexInitial = 0;
-  } else {
-    periodIndexInitial = undefined;
-  }
-
-  const [activeChip, setActiveChip] = useState<number | undefined>(
-    periodIndexInitial
-  );
-  const [startDate, setStartDate] = useState<Date>(
-    startDateRedux ? startDateRedux : new Date("2023-01-01")
-  );
-  const [endDate, setEndDate] = useState<Date>(
-    endDateRedux ? endDateRedux : new Date("2023-12-31")
-  );
+  const activeChip = useSelector((v: RootState) => v.period.periodIndex);
+  const startDate = useSelector((v: RootState) => v.period.startDate);
+  const endDate = useSelector((v: RootState) => v.period.endDate);
   const { items } = useSelector((v: RootState) => v.neuron);
 
   const dispatch = useAppDispatch();
@@ -83,22 +63,16 @@ const Stats = () => {
   }, [items, startDate, endDate]);
 
   const onRangeChange = (_: any, range: string[]) => {
-    setStartDate(new Date(range[0] + "-01"));
-    dispatch(setStartDateRedux(new Date(range[0] + "-01")));
-    setEndDate(lastDayOfMonth(new Date(range[1] + "-01")));
-    dispatch(setEndtDateRedux(lastDayOfMonth(new Date(range[1] + "-01"))));
-    setActiveChip(undefined);
-    dispatch(setPeriodIndex(undefined));
+    dispatch(setStartDate(new Date(range[0] + "-01")));
+    dispatch(setEndtDate(lastDayOfMonth(new Date(range[1] + "-01"))));
+    dispatch(setActiveChip(undefined));
   };
 
   const onClickChip = (chipIndex: number) => {
-    dispatch(setPeriodIndex(chipIndex));
-    setActiveChip(chipIndex);
+    dispatch(setActiveChip(chipIndex));
     const result = chips[chipIndex].func();
-    setStartDate(result.startDate);
-    setEndDate(result.endDate);
-    dispatch(setStartDateRedux(result.startDate));
-    dispatch(setEndtDateRedux(result.endDate));
+    dispatch(setStartDate(result.startDate));
+    dispatch(setEndtDate(result.endDate));
     setAddedDate("");
     setStudiedDate("");
   };

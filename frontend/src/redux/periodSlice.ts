@@ -2,32 +2,31 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export type periodState = {
   periodIndex: number | undefined;
-  startDate: Date | undefined;
-  endDate: Date | undefined;
+  startDate: Date;
+  endDate: Date;
 };
 
 const initialState: periodState = {
-  periodIndex: undefined,
-  startDate: undefined,
-  endDate: undefined,
+  periodIndex: 0,
+  startDate: new Date("2023-01-01"),
+  endDate: new Date("2023-12-31"),
 };
 
 const periodSlice = createSlice({
   name: "periods",
-  initialState: initialState,
+  initialState,
   reducers: {
-    setPeriodIndex: (state, action: PayloadAction<any>) => {
+    setActiveChip: (state, action: PayloadAction<any>) => {
       state.periodIndex = action.payload;
     },
-    setStartDateRedux: (state, action: PayloadAction<any>) => {
+    setStartDate: (state, action: PayloadAction<any>) => {
       state.startDate = action.payload;
     },
-    setEndtDateRedux: (state, action: PayloadAction<any>) => {
+    setEndtDate: (state, action: PayloadAction<any>) => {
       state.endDate = action.payload;
     },
   },
 });
 
-export const { setPeriodIndex, setStartDateRedux, setEndtDateRedux } =
-  periodSlice.actions;
+export const { setActiveChip, setStartDate, setEndtDate } = periodSlice.actions;
 export default periodSlice.reducer;
