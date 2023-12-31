@@ -1,9 +1,8 @@
-import axios from "axios";
-import { AppDispatch, AppThunk } from "./store";
-import { API_NEURON_TREE, getUserEmail } from "./utils";
 import { batch } from "react-redux";
-import { fetchTree, getResponseMessage } from "./neuronSlice";
 import { actionFinish, actionStart } from "./mainSlice";
+import { fetchTree, getResponseMessage } from "./neuronSlice";
+import { AppDispatch, AppThunk } from "./store";
+import axios, { API_NEURON_TREE, getUserEmail } from "./utils";
 
 const url = () => API_NEURON_TREE + "?user=" + getUserEmail();
 

@@ -1,11 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import qs from "query-string";
 import { batch } from "react-redux";
 import { buildTree } from "../components/neuron/tree/utils";
 import { actionFinish, actionStart, resetAction } from "./mainSlice";
 import { AppThunk } from "./store";
-import { API_NEURON, getUserEmail, handleError } from "./utils";
+import axios, { API_NEURON, getUserEmail, handleError } from "./utils";
 
 export type NeuronState = {
   selected?: Neuron;
