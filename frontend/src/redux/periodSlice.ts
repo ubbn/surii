@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { getCurrentYear } from "../components/stats/utils";
 
 export type periodState = {
   periodIndex: number | undefined;
@@ -8,8 +9,8 @@ export type periodState = {
 
 const initialState: periodState = {
   periodIndex: 0,
-  startDate: new Date("2023-01-01"),
-  endDate: new Date("2023-12-31"),
+  startDate: getCurrentYear().startDate,
+  endDate: getCurrentYear().endDate,
 };
 
 const periodSlice = createSlice({
