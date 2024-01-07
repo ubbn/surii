@@ -56,14 +56,19 @@ export const renderMemoCell = (
     cellValue = ".";
   }
   return (
-    <Popover
-      placement="bottomLeft"
-      content={<>Due on {format(studyDate, yyyyMMdd)}</>}
-      title={<strong>{`Day ${day}`}</strong>}
-      trigger="hover"
+    // <Popover
+    //   placement="bottomLeft"
+    //   content={<>Due on {format(studyDate, yyyyMMdd)}</>}
+    //   title={<strong>{`Day ${day}`}</strong>}
+    //   trigger="hover"
+    // >
+    <CellMemo
+      style={{ backgroundColor }}
+      title={`Day ${day} on ${format(studyDate, yyyyMMdd)}`}
     >
-      <CellMemo style={{ backgroundColor }}>{cellValue}</CellMemo>
-    </Popover>
+      {cellValue}
+    </CellMemo>
+    //</Popover>
   );
 };
 
