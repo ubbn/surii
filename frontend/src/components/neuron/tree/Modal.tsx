@@ -83,14 +83,16 @@ const _Modal = ({
 
   return (
     <Modal
-      title={isAddNew ? "Add new category" : `Update ${title}`}
+      title={isAddNew ? "Add new category" : `${title}`}
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}
+      okText="Save"
     >
       <_TreeSelect
         selected={isAddNew ? selectedKey : selectedNode?.parent}
         onChange={onSelectNode}
+        placeholder="Parent category"
       />
       <Input
         status={status}

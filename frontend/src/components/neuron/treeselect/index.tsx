@@ -6,9 +6,11 @@ import { RootState } from "../../../redux/store";
 
 const _TreeSelect = ({
   selected,
+  placeholder = "Select category",
   onChange,
 }: {
   selected?: React.Key;
+  placeholder?: string;
   onChange?: (value: React.Key) => void;
 }) => {
   const treeData = useSelector((v: RootState) => v.neuron.tree);
@@ -36,7 +38,7 @@ const _TreeSelect = ({
       placeholder={
         <span>
           <FolderOpenOutlined />
-          <span style={{ marginLeft: 10 }}>Select category</span>
+          <span style={{ marginLeft: 10 }}>{placeholder}</span>
         </span>
       }
       allowClear
