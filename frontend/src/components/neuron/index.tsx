@@ -37,7 +37,8 @@ const Ilearn = () => {
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "c") {
       e.stopPropagation();
-      setShowEditModal(true);
+      // TODO solve keypress feature generally
+      // setShowEditModal(true);
     }
   };
 
