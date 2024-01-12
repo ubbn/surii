@@ -98,8 +98,8 @@ const _Tree: React.FC = () => {
 
   const treeData = useMemo(() => {
     const loop = (data: DataNode[]): DataNode[] =>
-      data.map((item) => {
-        const strTitle = item.title as string;
+      data.map(({ children, key, title: _title }) => {
+        const strTitle = _title as string;
         const index = strTitle.toLowerCase().indexOf(searchValue.toLowerCase());
         const beforeStr = strTitle.substring(0, index);
         const matched = strTitle.substring(index, index + searchValue.length);
@@ -114,14 +114,11 @@ const _Tree: React.FC = () => {
           ) : (
             <span>{strTitle}</span>
           );
-        if (item.children) {
-          return { title, key: item.key, children: loop(item.children) };
+        if (children) {
+          return { title, key, children: loop(children) };
         }
 
-        return {
-          title,
-          key: item.key,
-        };
+        return { title, key };
       });
     return loop((tree || []) as DataNode[]);
   }, [searchValue, tree]);
