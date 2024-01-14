@@ -167,8 +167,26 @@ const StudyModal = ({
     <Modal
       width={modalSize}
       title={
-        <FlexRow style={{ justifyContent: "space-between" }}>
+        <FlexRow
+          style={{ justifyContent: "space-between", alignItems: "center" }}
+        >
           <h2 style={{ marginBottom: 0 }}>{selected?.title}</h2>
+          <Switch
+            title={`${preview ? "Hide" : "Show"} preview`}
+            checkedChildren={
+              <>
+                <EyeOutlined /> shown
+              </>
+            }
+            unCheckedChildren={
+              <>
+                <EyeInvisibleOutlined /> hidden
+              </>
+            }
+            onChange={() => setPreview(!preview)}
+            onClick={() => setPreview(!preview)}
+            checked={preview}
+          />
           <div style={{ marginRight: 40, color: "grey", fontWeight: "normal" }}>
             Study at <strong>day {getThatFuckingDay()}</strong>
           </div>
@@ -189,9 +207,19 @@ const StudyModal = ({
             </div>
           )}
           <div />
-          <Button key="close" onClick={onModalClose}>
-            Close
-          </Button>
+          <div>
+            <Button
+              type="primary"
+              disabled={pristine}
+              icon={<SaveOutlined />}
+              onClick={saveNeuron}
+            >
+              Save
+            </Button>
+            <Button key="close" onClick={onModalClose}>
+              Close
+            </Button>
+          </div>
         </FlexRow>,
       ]}
     >
@@ -207,48 +235,28 @@ const StudyModal = ({
               options={sizeOptions}
               onChange={setModalSize}
               value={modalSize}
+              style={{ marginRight: 10 }}
             />
             <Button
-              style={{ margin: "0 10px", width: 35 }}
+              style={{ width: 35 }}
               icon={<ExpandAltOutlined />}
               onClick={onEditDetail}
               title="Show in full page"
               block
             />
           </div>
-          <Switch
-            title={`${preview ? "Hide" : "Show"} preview`}
-            checkedChildren={
-              <>
-                <EyeOutlined /> shown
-              </>
-            }
-            unCheckedChildren={
-              <>
-                <EyeInvisibleOutlined /> hidden
-              </>
-            }
-            onChange={() => setPreview(!preview)}
-            onClick={() => setPreview(!preview)}
-            checked={preview}
-          />
+
           <FlexRow>
-            <div style={{ border: "1px solid #d9d9d9", marginRight: 10 }}>
+            <div style={{ border: "1px solid #d9d9d9" }}>
               <Rate
                 count={6}
-                style={{ margin: "0 15px", color: "green" }}
+                style={{ margin: "0 15px 0", color: "green", minWidth: 108 }}
                 onChange={onRate}
                 value={rate}
                 tooltips={rateToolTips}
                 character={(p) => p.index}
               />
             </div>
-            <Button
-              type="primary"
-              disabled={pristine}
-              icon={<SaveOutlined />}
-              onClick={saveNeuron}
-            />
           </FlexRow>
         </FlexRow>
         {preview && (
