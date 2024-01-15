@@ -19,6 +19,7 @@ import {
 import { RootState, useAppDispatch } from "../../../redux/store";
 import Modal from "./Modal";
 import { areSiblings } from "./utils";
+import { styled } from "styled-components";
 
 const { Search } = Input;
 
@@ -165,7 +166,7 @@ const _Tree: React.FC = () => {
   };
 
   return (
-    <div>
+    <Container>
       <div style={{ marginRight: 8 }}>
         <Search
           value={searchValue}
@@ -235,8 +236,15 @@ const _Tree: React.FC = () => {
         onClose={() => setShowModal(false)}
         isAddNew={isAddNew}
       />
-    </div>
+    </Container>
   );
 };
 
 export default _Tree;
+
+const Container = styled.div`
+  display: block;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
