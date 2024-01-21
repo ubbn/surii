@@ -23,6 +23,6 @@ axios.defaults.headers.common = { Authorization: `Bearer ${getIdToken()}` };
 export default axios;
 
 export const API_NEURON =
-  "https://zv467817l5.execute-api.eu-north-1.amazonaws.com/prod/neuron";
+  "https://9htvr3wtf4.execute-api.eu-north-1.amazonaws.com/prod/neuron";
 export const API_NEURON_TREE =
-  "https://vt66afp8r2.execute-api.eu-north-1.amazonaws.com/prod/ntree";
+  "https://f1d9armvce.execute-api.eu-north-1.amazonaws.com/prod/ntree";
