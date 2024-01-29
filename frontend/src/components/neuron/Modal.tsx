@@ -183,7 +183,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
                 title="Эхлүүлэх"
                 disabled={item.id === undefined}
                 icon={<RetweetOutlined />}
-                danger
+                color="green"
               />
             </Popconfirm>
           </div>
