@@ -26,7 +26,7 @@ export const thunkUpdateTreeNode = (item: NTree): AppThunk => {
   return (dispatch) => {
     dispatch(actionStart());
     return axios
-      .post(API_NEURON_TREE, { ...item, user: getUserEmail() })
+      .post(url(), { ...item, user: getUserEmail() })
       .then(({ data }) => {
         const message = "Updated to " + data?.title;
         dispatch(getResponseMessage({ message, status: 200 }));

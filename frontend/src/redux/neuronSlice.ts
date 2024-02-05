@@ -148,7 +148,7 @@ export const thunkUpdateNeuron = (item: Neuron): AppThunk => {
   return (dispatch) => {
     dispatch(actionStart());
     return axios
-      .post(API_NEURON, { user: getUserEmail(), ...item })
+      .post(url(), { user: getUserEmail(), ...item })
       .then(({ data }) => {
         dispatch(setNeuron(data));
         dispatch(actionFinish());
