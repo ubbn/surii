@@ -43,3 +43,8 @@ code {
 .react-calendar-heatmap .color-green-7 {
   fill: #3f6f21;
 }
+
+.react-calendar-heatmap .color-today {
+  stroke-width: 2;
+  stroke: blue;
+}

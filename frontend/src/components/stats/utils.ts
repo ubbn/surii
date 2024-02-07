@@ -6,7 +6,7 @@ import {
   lastDayOfMonth,
   subMonths,
 } from "date-fns";
-import { getDateFromStr } from "../neuron/utils";
+import { getDateFromStr, isEqual } from "../neuron/utils";
 
 /**
  * Find all learned words between given range from given data
@@ -80,25 +80,29 @@ export const getSolidNeurons = (
 };
 
 export const greenScalClasses = (value: any): string => {
+  let className = "color-empty";
   if (value && value.count) {
     if (+value.count <= 0) {
-      return "color-empty";
+      className = "color-empty";
     } else if (+value.count <= 1) {
-      return "color-green-2";
+      className = "color-green-2";
     } else if (+value.count <= 2) {
-      return "color-green-5";
+      className = "color-green-5";
     } else if (+value.count <= 3) {
-      return "color-green-6";
+      className = "color-green-6";
     } else if (+value.count <= 5) {
-      return "color-green-7";
+      className = "color-green-7";
     } else if (+value.count <= 7) {
-      return "color-green-7";
+      className = "color-green-7";
     } else if (+value.count <= 10) {
-      return "color-green-7";
+      className = "color-green-7";
     }
-    return "color-green-7";
+    className = "color-green-7";
   }
-  return "color-empty";
+  if (value?.date && isEqual(new Date(), new Date(value.date))) {
+    className = className + " color-today";
+  }
+  return className;
 };
 
 export const getCurrentYear = () => {
