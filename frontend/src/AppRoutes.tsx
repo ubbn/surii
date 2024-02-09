@@ -6,6 +6,7 @@ import Home from "./components/home";
 import Ilearn from "./components/neuron";
 import Iedit from "./components/neuron/edit";
 import Stats from "./components/stats";
+import Blog from "./components/blog";
 
 const ProtectedRoute = () => {
   // Had to read directly from localstorage
@@ -23,6 +24,7 @@ const AppRoutes = () => {
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/blog" element={<Blog />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/learn/:id/edit" element={<Iedit />} />
