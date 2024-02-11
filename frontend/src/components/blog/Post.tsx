@@ -1,6 +1,6 @@
 type Props = {
   title: string;
-  ognoo: string;
+  ognoo?: string;
 };
 
 const Post = ({ title, ognoo }: Props) => {
@@ -14,7 +14,7 @@ const Post = ({ title, ognoo }: Props) => {
         cursor: "pointer"
       }}
     >
-      <h3>{title}</h3>
+      <h2>{title}</h2>
       {ognoo}
     </div>
   );
