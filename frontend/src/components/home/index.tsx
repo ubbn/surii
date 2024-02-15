@@ -1,5 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { FlexColumn } from "../../common";
+
+const Link = styled.a`
+  cursor: pointer;
+  text-decoration: underline;
+  color: purple;
+`;
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,15 +25,15 @@ const Home = () => {
         It is based on the spaced repitition, a science-backed method to learn
         or memorize anything for desired period of time with very little effort.
         Read more about it on{" "}
-        <a
+        <Link
           target="blank"
           href="https://en.wikipedia.org/wiki/Spaced_repetition"
         >
           wikipedia
-        </a>
+        </Link>
       </p>
       <p>
-        Start learn <a onClick={() => navigate("/learn")}>now</a>
+        Start learn <Link onClick={() => navigate("/learn")}>now</Link>
       </p>
     </FlexColumn>
   );
