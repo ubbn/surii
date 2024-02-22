@@ -38,7 +38,11 @@ const getParentKey = (key: React.Key, tree: NTree[]): React.Key => {
   return parentKey!;
 };
 
-const _Tree: React.FC = () => {
+type Props = {
+  tourRefs: any[];
+};
+
+const _Tree = ({ tourRefs }: Props) => {
   const dispatch = useAppDispatch();
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [searchValue, setSearchValue] = useState("");
@@ -167,7 +171,7 @@ const _Tree: React.FC = () => {
 
   return (
     <Container>
-      <div style={{ marginRight: 8 }}>
+      <div style={{ marginRight: 8 }} ref={tourRefs[0]}>
         <Search
           value={searchValue}
           allowClear
@@ -176,7 +180,7 @@ const _Tree: React.FC = () => {
           enterButton={<button style={{ display: "none" }} />}
         />
       </div>
-      <div>
+      <div ref={tourRefs[1]}>
         <Tooltip text="Add category">
           <Button
             size="small"

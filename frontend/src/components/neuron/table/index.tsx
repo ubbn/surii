@@ -46,9 +46,11 @@ const intervalsNew: Interval[] = [
 function ITable({
   onStudy,
   onClick,
+  tourRefs
 }: {
   onStudy: (neurons: Neuron[]) => void;
   onClick: (neuron: Neuron, column: number, day?: number) => void;
+  tourRefs: any[]
 }) {
   const [visibleNeurons, setVisibleNeurons] = React.useState<Neuron[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([
@@ -133,6 +135,7 @@ function ITable({
         <Button
           type="primary"
           onClick={() => onStudy(filter(studyDate || new Date()))}
+          ref={tourRefs[0]}
         >
           Study today
         </Button>
@@ -142,7 +145,7 @@ function ITable({
           onChange={onDateChange}
           style={{ marginRight: 10, width: 120, border: "1px solid #1677ff" }}
         />
-        <Segmented
+        <Segmented ref={tourRefs[1]}
           options={intervalsNew.map((v, i) => ({
             label: <SegmentIdem interval={v} />,
             value: i,
