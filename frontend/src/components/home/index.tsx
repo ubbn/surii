@@ -33,7 +33,7 @@ const Home = () => {
         </Link>
       </p>
       <p>
-        Start learn <Link onClick={() => navigate("/learn")}>now</Link>
+        Start learning <Link onClick={() => navigate("/learn")}>now</Link>
       </p>
     </FlexColumn>
   );
