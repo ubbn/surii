@@ -57,12 +57,18 @@ const editorConfig = (value: string): any => ({
 
 type Props = {
   text?: string;
+  onChange?: (value: string) => void;
+  hideToolbar?: boolean;
 };
 
-export default function Editor({ text = "" }: Props) {
+export default function Editor({
+  text = "",
+  onChange,
+  hideToolbar = false,
+}: Props) {
   const [value, setValue] = useState<string>(text);
 
-  function onChange(editorState: any) {
+  function onTextChange(editorState: any) {
     editorState.read(() => {
       // Read the contents of the EditorState here.
       const root = $getRoot();
@@ -71,13 +77,14 @@ export default function Editor({ text = "" }: Props) {
       const mdValue = $convertToMarkdownString(TRANSFORMERS, root);
       console.log(mdValue);
       setValue(mdValue);
+      onChange && onChange(mdValue);
     });
   }
 
   return (
     <LexicalComposer initialConfig={editorConfig(value)}>
       <div className="editor-container">
-        <ToolbarPlugin />
+        {!hideToolbar && <ToolbarPlugin />}
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
@@ -85,7 +92,7 @@ export default function Editor({ text = "" }: Props) {
             ErrorBoundary={LexicalErrorBoundary}
           />
           <OnChangePlugin
-            onChange={onChange}
+            onChange={onTextChange}
             ignoreHistoryMergeTagChange
             ignoreSelectionChange
           />

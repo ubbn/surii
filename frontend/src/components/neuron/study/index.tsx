@@ -8,10 +8,10 @@ import {
 import { Button, Modal, Rate, Segmented, Space, Switch, message } from "antd";
 import { differenceInCalendarDays } from "date-fns";
 import React from "react";
-import ReactMarkdown from "react-markdown";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FlexRow } from "../../../common";
+import Editor from "../../../common/editor/editor";
 import { setNeuron } from "../../../redux/neuronSlice";
 import { RootState } from "../../../redux/store";
 import { getDateFromStr } from "../utils";
@@ -188,7 +188,7 @@ const StudyModal = ({
             checked={preview}
           />
           <div style={{ marginRight: 40, color: "grey", fontWeight: "normal" }}>
-            Study at <strong>day {getThatFuckingDay()}</strong>
+            Study on <strong>day {getThatFuckingDay()}</strong>
           </div>
         </FlexRow>
       }
@@ -261,7 +261,16 @@ const StudyModal = ({
         </FlexRow>
         {preview && (
           <$Wrapper>
-            <ReactMarkdown children={item?.detail || ""} />
+            <Editor
+              text={item?.detail}
+              hideToolbar
+              onChange={(value) => {
+                if (item) {
+                  setPristine(value === item.detail);
+                  setItem({ ...item, detail: value });
+                }
+              }}
+            />
           </$Wrapper>
         )}
       </Space>
@@ -273,7 +282,6 @@ export default StudyModal;
 
 const $Wrapper = styled.div`
   flex: 1;
-  padding: 10px;
   max-width: 100%;
   & img {
     max-width: 100%;
