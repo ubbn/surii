@@ -15,4 +15,4 @@ docker compose run --rm frontend <command inside container>
 docker compose up
 ```
 
-Open in browser on [surii.com:5137](surii.com:5137)
+Open in browser on [localhost:5137](http://localhost:5173/)

@@ -10,3 +10,5 @@ services:
     volumes:
       - ./frontend:/home/node/app
     command: "pnpm run dev --host 0.0.0.0"
+    ports:
+    - "5173:5173"
