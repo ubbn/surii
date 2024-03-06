@@ -23,6 +23,11 @@ const Container = styled.div`
   color: white;
   z-index: 999;
 `;
+const ColumnLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
 
 const Toolbar = () => {
   const navigate = useNavigate();
@@ -49,10 +54,10 @@ const Toolbar = () => {
             open={menuOpen}
             content={
               isAuthenticated ? (
-                <>
+                <ColumnLayout>
                   <Button onClick={onClickProfile}>Profile</Button>
                   <Logout />
-                </>
+                </ColumnLayout>
               ) : (
                 <Button onClick={onClickLogin}>Log in</Button>
               )
