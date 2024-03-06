@@ -7,6 +7,7 @@ import Ilearn from "./components/neuron";
 import Iedit from "./components/neuron/edit";
 import Stats from "./components/stats";
 import Blog from "./components/blog";
+import MyProfile from "./components/profile/MyProfile";
 
 const ProtectedRoute = () => {
   // Had to read directly from localstorage
@@ -24,6 +25,7 @@ const AppRoutes = () => {
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/myProfile" element={<MyProfile />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<ProtectedRoute />}>

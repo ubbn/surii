@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { BASE_COLOR, FlexRow } from "../../common";
+import { BASE_COLOR, FlexRow, Profile } from "../../common";
 import { RootState } from "../../redux/store";
 import Logout from "../auth/logout";
 import iconProfile from "./icon-profile.svg";
@@ -24,15 +24,6 @@ const Container = styled.div`
   z-index: 999;
 `;
 
-const Profile = styled.img`
-  width: 40px;
-  height: 40px;
-  border: 1px solid white;
-  border-radius: 50%;
-  margin-right: 5px;
-  cursor: pointer;
-`;
-
 const Toolbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -42,6 +33,10 @@ const Toolbar = () => {
   const onClickLogin = () => {
     setMenuOpen(false);
     navigate("/login");
+  };
+
+  const onClickProfile = () => {
+    navigate("/myProfile");
   };
 
   return (
@@ -54,7 +49,10 @@ const Toolbar = () => {
             open={menuOpen}
             content={
               isAuthenticated ? (
-                <Logout />
+                <>
+                  <Button onClick={onClickProfile}>Profile</Button>
+                  <Logout />
+                </>
               ) : (
                 <Button onClick={onClickLogin}>Log in</Button>
               )

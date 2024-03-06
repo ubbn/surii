@@ -22,4 +22,13 @@ export const Bad = styled.div`
 
 export const BASE_COLOR = "#1677ff";
 
+export const Profile = styled.img`
+  width: 40px;
+  height: 40px;
+  border: 1px solid white;
+  border-radius: 50%;
+  margin-right: 5px;
+  cursor: pointer;
+`;
+
 export { ToolTip, HeatMap };
