@@ -2,6 +2,11 @@
 
 Memory management app
 
+## Requirement
+
+`docker` and `docker compose plugin` is required for development.  
+VSCode is recommended.  
+
 ## Develop locally
 
 ```bash
