@@ -8,6 +8,7 @@ import {
 } from "@lexical/markdown";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -19,7 +20,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { $getRoot } from "lexical";
-import { useState } from "react";
+import { useEffect } from "react";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
 import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
@@ -55,34 +56,76 @@ const editorConfig = (value: string): any => ({
   ],
 });
 
+function MyOnChangePlugin({ onChange, value }: { onChange: any, value: any }) {
+  const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    return editor.registerUpdateListener(({ editorState }) => {
+      // onChange(editorState);
+
+      editorState.read(() => {
+        // Read the contents of the EditorState here.
+        const root = $getRoot();
+
+        // console.log(root.__cachedText);
+        const mdValue = $convertToMarkdownString(TRANSFORMERS, root);
+        console.log(value, "<= ||||||||||||| =>", mdValue);
+
+        // setValue(mdValue);
+        onChange && onChange(mdValue)
+      });
+
+    });
+  }, [editor, onChange]);
+
+  useEffect(() => {
+    // const editorState = editor.getEditorState()
+    // const st = { ...editorState, }
+    // // const editorState = editor.parseEditorState("Yes we can");
+    // editor.setEditorState(JSON.stringify({ ...editorState }));
+    // console.log("Has update come!!!!");
+
+
+    editor.update(() => {
+      // Get the RootNode from the EditorState
+      const rootNode = $getRoot();
+
+      // Create a new TextNode
+      $convertFromMarkdownString(value, TRANSFORMERS, rootNode)
+    });
+  }, [value])
+
+  return null;
+}
+
 type Props = {
   text?: string;
   onChange?: (value: string) => void;
+  onSave?: (value: string) => void;
+  editorRef: any,
   hideToolbar?: boolean;
 };
 
 export default function Editor({
   text = "",
   onChange,
+  editorRef,
   hideToolbar = false,
 }: Props) {
-  const [value, setValue] = useState<string>(text);
-
   function onTextChange(editorState: any) {
     editorState.read(() => {
       // Read the contents of the EditorState here.
       const root = $getRoot();
-
-      // console.log(root.__cachedText);
       const mdValue = $convertToMarkdownString(TRANSFORMERS, root);
-      console.log(mdValue);
-      setValue(mdValue);
-      onChange && onChange(mdValue);
+
+      if (editorRef) {
+        editorRef.current = mdValue;
+      }
     });
   }
 
   return (
-    <LexicalComposer initialConfig={editorConfig(value)}>
+    <LexicalComposer initialConfig={editorConfig("")}>
       <div className="editor-container">
         {!hideToolbar && <ToolbarPlugin />}
         <div className="editor-inner">
@@ -96,6 +139,7 @@ export default function Editor({
             ignoreHistoryMergeTagChange
             ignoreSelectionChange
           />
+          <MyOnChangePlugin value={text} onChange={onChange} />
           <HistoryPlugin />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />

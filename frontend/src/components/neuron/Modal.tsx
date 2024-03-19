@@ -5,9 +5,9 @@ import {
   RetweetOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
-import MDEditor from "@uiw/react-md-editor";
+import Editor from "../../common/editor/editor";
 import { Button, Input, Modal, Popconfirm, Segmented, Space } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { FlexRow } from "../../common";
 
@@ -17,6 +17,7 @@ import { thunkDeleteNeuron } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import _TreeSelect from "./treeselect";
 import { getDateFromStr, getTimeStamp } from "./utils";
+import { styled } from "styled-components";
 
 const sizeOptions = [
   { label: "S", value: 700 },
@@ -47,6 +48,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
   const { selectedNode } = useSelector((v: RootState) => v.neuron);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const editorRef = useRef<any>()
 
   React.useEffect(() => {
     setItem({ ...neuron, ntree: neuron.ntree || selectedNode });
@@ -145,7 +147,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
   };
 
   return (
-    <Modal
+    <$Modal
       width={modalSize}
       title={neuron?.id ? "Edit" : "Add a new"}
       okButtonProps={{ style: { display: "none" } }}
@@ -204,8 +206,8 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
         </FlexRow>,
       ]}
     >
-      <Space
-        direction="vertical"
+      <div
+        // direction="vertical"
         style={{ width: "100%", minHeight: +modalSize / 2 }}
       >
         <FlexRow>
@@ -213,7 +215,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
             key="title"
             status={error?.title}
             placeholder="What you've learnt"
-            value={item.title}
+            value={item.title || ""}
             style={{ marginRight: 10 }}
             onChange={(e) => onInputChange("title", e.target.value)}
           />
@@ -257,37 +259,24 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
             block
           />
         </FlexRow>
-        <MDEditor
-          overflow={false}
-          autoFocus
-          value={item?.detail}
-          onChange={(v) => onInputChange("detail", v || "")}
-          preview="edit"
-          height={450}
-          style={{ width: "100%" }}
-          components={{
-            toolbar: (command, disabled, executeCommand) => {
-              if (command.keyCommand === "code") {
-                return (
-                  <button
-                    aria-label="Insert code"
-                    disabled={disabled}
-                    onClick={(evn) => {
-                      evn.stopPropagation();
-                      executeCommand(command, command.groupName);
-                    }}
-                  >
-                    Code
-                  </button>
-                );
-              }
-              return null;
-            },
-          }}
+
+        <Editor
+          editorRef={editorRef}
+          text={initial?.detail}
+          onChange={(value) => onInputChange("detail", value || "")}
         />
-      </Space>
-    </Modal>
+      </div>
+      {/* </Space> */}
+    </$Modal>
   );
 };
 
 export default EditModal;
+
+
+const $Modal = styled(Modal)`
+  .ant-modal-body {
+    display: flex
+  }
+
+`
