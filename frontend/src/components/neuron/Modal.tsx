@@ -206,8 +206,8 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
         </FlexRow>,
       ]}
     >
-      <div
-        // direction="vertical"
+      <Space
+        direction="vertical"
         style={{ width: "100%", minHeight: +modalSize / 2 }}
       >
         <FlexRow>
@@ -259,14 +259,12 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
             block
           />
         </FlexRow>
-
         <Editor
           editorRef={editorRef}
           text={initial?.detail}
           onChange={(value) => onInputChange("detail", value || "")}
         />
-      </div>
-      {/* </Space> */}
+      </Space>
     </$Modal>
   );
 };
@@ -276,7 +274,12 @@ export default EditModal;
 
 const $Modal = styled(Modal)`
   .ant-modal-body {
-    display: flex
+    display: flex;
+  }
+
+  .ant-space-item:last-child {
+    display: flex;
+    height: 100%;
   }
 
 `
