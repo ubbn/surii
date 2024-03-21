@@ -102,7 +102,7 @@ type Props = {
   text?: string;
   onChange?: (value: string) => void;
   onSave?: (value: string) => void;
-  editorRef: any,
+  editorRef?: any,
   hideToolbar?: boolean;
 };
 
