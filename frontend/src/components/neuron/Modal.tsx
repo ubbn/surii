@@ -39,34 +39,45 @@ type Props = {
   onSave: (neuron: Neuron) => void;
 };
 
-const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
-  const [initial, setInitial] = React.useState<any>(neuron);
-  const [item, setItem] = React.useState<Neuron>(neuron);
+const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
+  const [initial, setInitial] = React.useState<Neuron>(empty);
+  const [item, setItem] = React.useState<Neuron>(empty);
+  const [pristine, setPristine] = React.useState<boolean>(true);
+
   const [error, setError] = React.useState<any>();
   const [modalSize, setModalSize] = React.useState<number | string>(1000);
-  const [pristine, setPristine] = React.useState<boolean>(true);
-  const { selectedNode } = useSelector((v: RootState) => v.neuron);
+  const { selectedNode } = useSelector((v: RootState) => v.neuron); // Selected tree node if any
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const editorRef = useRef<any>()
 
   React.useEffect(() => {
-    setItem({ ...neuron, ntree: neuron.ntree || selectedNode });
-    setError(undefined);
-    setInitial(neuron);
-    setPristine(true);
+    if (neuron) {
+      resetTo(neuron)
+      setError(undefined);
+    }
   }, [neuron]);
 
+  // Set selected tree node as category when adding a new neuron
   useEffect(() => {
-    setItem({ ...neuron, ntree: selectedNode });
-  }, [selectedNode]);
+    if (visible && neuron === undefined) {
+      resetTo({ ...empty, ntree: selectedNode })
+    }
+  }, [visible]);
+
+  const resetTo = (value: any) => {
+    setInitial(value)
+    setItem(value)
+    setPristine(true);
+  }
 
   const onDateChange = (date: Date | null, dateStr: string) => {
     const newItem = {
       ...item,
       created: dateStr ? getTimeStamp(date) : undefined,
     };
-    setPristine(checkPristine(newItem));
+    setPristine(compare(initial, newItem));
     setItem(newItem);
   };
 
@@ -77,24 +88,21 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
       setError({ ...error, detail: "error" });
     } else {
       onSave(item);
-      setPristine(true);
-      setInitial(item);
-      return true;
+      resetTo(item)
     }
-    return false;
   };
 
   const onEditDetail = () => {
     item && navigate(`/learn/${item.id}/edit`);
   };
 
-  const checkPristine = (newItem: any) => {
-    if (initial && newItem) {
+  const compare = (one: any, other: any) => {
+    if (one && other) {
       return (
-        initial?.created === newItem?.created &&
-        initial?.title === newItem?.title &&
-        initial?.detail === newItem?.detail &&
-        initial?.ntree === newItem?.ntree
+        one?.created === other?.created &&
+        one?.title === other?.title &&
+        one?.detail === other?.detail &&
+        one?.ntree === other?.ntree
       );
     }
     return false;
@@ -105,7 +113,9 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
       ...item,
       [key]: value,
     };
-    setPristine(checkPristine(newItem));
+
+    const stats = compare(initial, newItem)
+    setPristine(stats);
     setItem(newItem);
     setError({
       ...error,
@@ -116,6 +126,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
   const onDelete = () => {
     if (item.id !== undefined) {
       dispatch(thunkDeleteNeuron(item.id, selectedNode));
+      resetTo(empty)
       onClose();
     }
   };
@@ -133,6 +144,7 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
 
   const onModalClose = () => {
     if (pristine) {
+      resetTo(empty)
       onClose();
     } else {
       Modal.confirm({
@@ -140,6 +152,8 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
         icon: <ExclamationCircleOutlined />,
         content: "Do you want to discard unsaved changes?",
         onOk() {
+          console.log("Here it is being closed: ", initial, item);
+          resetTo(empty)
           onClose();
         },
       });
@@ -232,17 +246,12 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
         <FlexRow style={{ alignItems: "center" }}>
           <_TreeSelect
             selected={item.ntree}
-            onChange={(treeNodeKey) =>
-              onInputChange("ntree", treeNodeKey as number)
-            }
+            onChange={(treeNodeKey) => onInputChange("ntree", treeNodeKey as number)}
           />
           <Button
             type="link"
             title="Clean modal"
-            onClick={() => {
-              setItem(empty);
-              setInitial(empty);
-            }}
+            onClick={() => resetTo(empty)}
           >
             Clean
           </Button>
@@ -261,8 +270,12 @@ const EditModal = ({ visible, onClose, neuron = empty, onSave }: Props) => {
         </FlexRow>
         <Editor
           editorRef={editorRef}
-          text={initial?.detail}
-          onChange={(value) => onInputChange("detail", value || "")}
+          text={initial.detail}
+          onChange={(value) => {
+            console.log("Sending me back this: ", value);
+
+            // onInputChange("detail", value || "")
+          }}
         />
       </Space>
     </$Modal>
@@ -277,9 +290,5 @@ const $Modal = styled(Modal)`
     display: flex;
   }
 
-  .ant-space-item:last-child {
-    display: flex;
-    height: 100%;
-  }
 
 `

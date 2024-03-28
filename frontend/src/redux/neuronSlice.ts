@@ -51,7 +51,7 @@ const neuronSlice = createSlice({
     },
     fetchNeurons: (state: NeuronState, action: PayloadAction<any>) => {
       const { data } = action.payload;
-      state.items = data as any[];
+      state.items = (data as any[]).sort((a,b) => b.id - a.id).slice(0,10);
     },
     deleteNodeFromTree: (state: NeuronState, action: PayloadAction<any>) => {
       const { data } = action.payload;
