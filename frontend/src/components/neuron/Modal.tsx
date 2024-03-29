@@ -113,7 +113,6 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
       ...item,
       [key]: value,
     };
-
     const stats = compare(initial, newItem)
     setPristine(stats);
     setItem(newItem);
@@ -152,7 +151,6 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
         icon: <ExclamationCircleOutlined />,
         content: "Do you want to discard unsaved changes?",
         onOk() {
-          console.log("Here it is being closed: ", initial, item);
           resetTo(empty)
           onClose();
         },
@@ -272,9 +270,7 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
           editorRef={editorRef}
           text={initial.detail}
           onChange={(value) => {
-            console.log("Sending me back this: ", value);
-
-            // onInputChange("detail", value || "")
+            onInputChange("detail", value)
           }}
         />
       </Space>
@@ -290,5 +286,9 @@ const $Modal = styled(Modal)`
     display: flex;
   }
 
+.ant-space-item:last-child {
+    display: flex;
+    height: 100%;
+  }
 
 `

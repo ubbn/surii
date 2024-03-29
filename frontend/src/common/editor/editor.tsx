@@ -69,23 +69,17 @@ function MyOnChangePlugin({ onChange, value }: { onChange: any, value: any }) {
 
         // console.log(root.__cachedText);
         const mdValue = $convertToMarkdownString(TRANSFORMERS, root);
-        console.log(value, "<= ||||||||||||| =>", mdValue);
+        console.log(value, "<= || =>", mdValue);
 
-        // setValue(mdValue);
-        onChange && onChange(mdValue)
+        if (onChange && mdValue != "") {
+          onChange(mdValue)
+        }
       });
 
     });
   }, [editor, onChange]);
 
   useEffect(() => {
-    // const editorState = editor.getEditorState()
-    // const st = { ...editorState, }
-    // // const editorState = editor.parseEditorState("Yes we can");
-    // editor.setEditorState(JSON.stringify({ ...editorState }));
-    // console.log("Has update come!!!!");
-
-
     editor.update(() => {
       // Get the RootNode from the EditorState
       const rootNode = $getRoot();
