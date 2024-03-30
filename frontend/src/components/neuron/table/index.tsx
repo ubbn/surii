@@ -2,11 +2,13 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
+  PaginationState,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button, Segmented } from "antd";
+import { Button, Segmented, Select } from "antd";
 import { differenceInCalendarDays } from "date-fns";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,6 +61,10 @@ function ITable({
       desc: true,
     },
   ]);
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 40,
+  })
   const [studyInterval, setStudyInterval] = React.useState<number>(1);
   const { items, leaves, studyDate } = useSelector((v: RootState) => v.neuron);
   const dispatch = useDispatch();
@@ -82,7 +88,10 @@ function ITable({
     columns,
     state: {
       sorting,
+      pagination
     },
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -168,9 +177,9 @@ function ITable({
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
                   {{
                     asc: " 🔼",
                     desc: " 🔽",
@@ -196,6 +205,61 @@ function ITable({
           ))}
         </tbody>
       </table>
+      <div style={{ display: "flex", marginTop: 5 }}>
+        <Button
+          title="Go to first page"
+          size="small"
+          onClick={() => table.firstPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<< first'}
+        </Button>
+        <Button
+          title="Go to previous page"
+          size="small"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'< prev'}
+        </Button>
+        <span style={{ margin: "0 10px" }}>
+          <span>Page </span>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount().toLocaleString()}
+          </strong>
+        </span>
+        <Button
+          title="Go to next page"
+          size="small"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'next >'}
+        </Button>
+        <Button
+          title="Go to last page"
+          size="small"
+          onClick={() => table.lastPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'last >>'}
+        </Button>
+        <Select
+          size="small"
+          style={{ width: 100 }}
+          value={table.getState().pagination.pageSize}
+          onChange={value => {
+            table.setPageSize(Number(value))
+          }}
+        >
+          {[20, 40, 60, 100, 150].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </Select>
+      </div>
     </ITableStyled>
   );
 }
