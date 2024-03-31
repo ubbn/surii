@@ -205,7 +205,7 @@ function ITable({
           ))}
         </tbody>
       </table>
-      <div style={{ display: "flex", marginTop: 5 }}>
+      <div style={{ display: "flex", margin: "5px 0 15px" }}>
         <Button
           title="Go to first page"
           size="small"
