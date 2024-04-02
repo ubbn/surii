@@ -1,8 +1,6 @@
-// eslint-disable-next-line node/no-extraneous-import
-import dateFnsGenerateConfig from "rc-picker/lib/generate/dateFns";
-import generatePicker from "antd/es/date-picker/generatePicker";
-import "antd/es/date-picker/style/index";
+import { DatePicker } from 'antd';
+import dateFnsGenerateConfig from 'rc-picker/lib/generate/dateFns';
 
-const DatePicker = generatePicker<Date>(dateFnsGenerateConfig);
+const MyDatePicker = DatePicker.generatePicker<Date>(dateFnsGenerateConfig);
 
-export default DatePicker;
+export default MyDatePicker;
