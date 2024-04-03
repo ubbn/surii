@@ -25,10 +25,6 @@ const _TreeSelect = ({
     onChange && onChange(newValue);
   };
 
-  const onSearch = (a: any) => {
-    console.log("Dummy search", a);
-  };
-
   return (
     <TreeSelect
       showSearch
@@ -44,7 +40,7 @@ const _TreeSelect = ({
       allowClear
       treeDefaultExpandAll
       onChange={onSelectedChange}
-      onSearch={onSearch}
+      treeNodeFilterProp='title'
       treeData={treeData}
     />
   );
