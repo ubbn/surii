@@ -72,7 +72,7 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
     setPristine(true);
   }
 
-  const onDateChange = (date: Date | null, dateStr: string) => {
+  const onDateChange = (date: Date, dateStr: string | string[]) => {
     const newItem = {
       ...item,
       created: dateStr ? getTimeStamp(date) : undefined,
