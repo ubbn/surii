@@ -41,7 +41,7 @@ const _TreeSelect = ({
       treeDefaultExpandAll
       onChange={onSelectedChange}
       treeNodeFilterProp='title'
-      treeData={treeData}
+      treeData={treeData.slice().sort((a, b) => (((a.title || "") > (b.title || "")) ? 1 : -1))}
     />
   );
 };

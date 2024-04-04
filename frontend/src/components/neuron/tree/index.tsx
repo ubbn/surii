@@ -103,7 +103,7 @@ const _Tree = ({ tourRefs }: Props) => {
 
   const treeData = useMemo(() => {
     const loop = (data: DataNode[]): DataNode[] =>
-      data.map(({ children, key, title: _title }) => {
+      data.slice().sort((a, b) => (((a.title || "") > (b.title || "")) ? 1 : -1)).map(({ children, key, title: _title }) => {
         const strTitle = _title as string;
         const index = strTitle.toLowerCase().indexOf(searchValue.toLowerCase());
         const beforeStr = strTitle.substring(0, index);
