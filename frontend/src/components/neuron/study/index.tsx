@@ -28,7 +28,7 @@ const rateToolTips = [
   "Hmm, it was hard",
   "Okayish",
   "Okay",
-  "Clearly recalls (5)",
+  "Superb (5)",
 ];
 
 type Props = {
@@ -107,7 +107,7 @@ const StudyModal = ({
 
   const checkPristine = (newItem: any) => {
     if (selected && newItem) {
-      return getScore(selected) === getScore(newItem);
+      return getScore(selected) === getScore(newItem) && selected.detail === newItem.detail;
     }
     return false;
   };
@@ -164,7 +164,7 @@ const StudyModal = ({
   const onNext = () => setIndex(index >= neurons.length - 1 ? 0 : index + 1);
 
   return (
-    <Modal
+    <$Modal
       width={modalSize}
       title={
         <FlexRow
@@ -225,10 +225,10 @@ const StudyModal = ({
     >
       <Space
         direction="vertical"
-        style={{ width: "100%", minHeight: +modalSize / 2.7 }}
+        style={{ width: "100%", minHeight: +modalSize / 2.7, justifyContent: "flex-start" }}
       >
         <FlexRow
-          style={{ alignItems: "center", justifyContent: "space-between" }}
+          style={{ alignItems: "flex-start", justifyContent: "space-between", width: "100%" }}
         >
           <div>
             <Segmented
@@ -245,12 +245,11 @@ const StudyModal = ({
               block
             />
           </div>
-
           <FlexRow>
-            <div style={{ border: "1px solid #d9d9d9" }}>
+            <div style={{ border: "1px solid #d9d9d9", borderRadius: 5 }}>
               <Rate
                 count={6}
-                style={{ margin: "0 15px 0", color: "green", minWidth: 108 }}
+                style={{ margin: "5px 15px 4px", color: "green", minWidth: 108 }}
                 onChange={onRate}
                 value={rate}
                 tooltips={rateToolTips}
@@ -262,19 +261,20 @@ const StudyModal = ({
         {preview && (
           <$Wrapper>
             <Editor
-              text={item?.detail}
+              text={selected?.detail}
               hideToolbar
               onChange={(value) => {
                 if (item) {
-                  setPristine(value === item.detail);
-                  setItem({ ...item, detail: value });
+                  const newItem = { ...item, detail: value }
+                  setPristine(checkPristine(newItem));
+                  setItem(newItem);
                 }
               }}
             />
           </$Wrapper>
         )}
       </Space>
-    </Modal>
+    </$Modal>
   );
 };
 
@@ -282,8 +282,20 @@ export default StudyModal;
 
 const $Wrapper = styled.div`
   flex: 1;
-  max-width: 100%;
+  height: 100%
   & img {
     max-width: 100%;
   }
 `;
+
+const $Modal = styled(Modal)`
+  .ant-modal-body {
+    display: flex;
+  }
+
+  .ant-space-item:last-child {
+    display: flex;
+    height: 100%;
+  }
+
+`

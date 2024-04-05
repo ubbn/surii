@@ -286,7 +286,7 @@ const $Modal = styled(Modal)`
     display: flex;
   }
 
-.ant-space-item:last-child {
+  .ant-space-item:last-child {
     display: flex;
     height: 100%;
   }
