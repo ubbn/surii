@@ -6,6 +6,7 @@ const Container = styled.div`
   justify-content: center;
   border-top: 1px solid rgba(211, 211, 211, 0.6);
   padding-top: 22px;
+  height: 100px;
   margin: auto;
   max-width: 50vw;
 `;

@@ -72,3 +72,10 @@ export const Anchor = styled.div`
   right: 2%;
   bottom: 5%;
 `;
+
+export const empty: Neuron = {
+  title: "",
+  detail: "",
+  memo: {},
+  created: getTimeStamp(new Date()),
+};

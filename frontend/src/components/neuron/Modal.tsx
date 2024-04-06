@@ -16,7 +16,7 @@ import DatePicker from "../../common/DatePicker";
 import { thunkDeleteNeuron } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import _TreeSelect from "./treeselect";
-import { getDateFromStr, getTimeStamp } from "./utils";
+import { empty, getDateFromStr, getTimeStamp } from "./utils";
 import { styled } from "styled-components";
 
 const sizeOptions = [
@@ -24,13 +24,6 @@ const sizeOptions = [
   { label: "M", value: 1000 },
   { label: "L", value: 1300 },
 ];
-
-export const empty: Neuron = {
-  title: "",
-  detail: "",
-  memo: {},
-  created: getTimeStamp(new Date()),
-};
 
 type Props = {
   neuron?: Neuron;
