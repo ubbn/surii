@@ -7,8 +7,10 @@ services:
     working_dir: /home/node/app
     environment:
       - NODE_ENV=development
+      - VITE_NEURON_API=${NEURON_API}
+      - VITE_NTREE_API=${NTREE_API}
     volumes:
       - ./frontend:/home/node/app
     command: "pnpm run dev --host 0.0.0.0"
     ports:
-    - "5173:5173"
+      - "5173:5173"
