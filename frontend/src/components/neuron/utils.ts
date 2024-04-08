@@ -79,3 +79,10 @@ export const empty: Neuron = {
   memo: {},
   created: getTimeStamp(new Date()),
 };
+
+export const compareNeurons = (a: Neuron, b: Neuron) => {
+  if (a.created == undefined && b.created == undefined) return 0;
+  if (a.created == undefined) return 1;
+  if (b.created == undefined) return -1;
+  return +b.created - +a.created;
+};

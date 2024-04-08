@@ -15,7 +15,7 @@ import EditModal from "./Modal";
 import StudyModal from "./study";
 import NeuronTable from "./table";
 import CategoryTree from "./tree";
-import { Anchor } from "./utils";
+import { Anchor, compareNeurons } from "./utils";
 import Tooltip from "../../common/tooltip";
 import { styled } from "styled-components";
 
@@ -120,36 +120,32 @@ const Ilearn = () => {
   const onClickNeuron = (neuron: Neuron, columnId: number, day?: number) => {
     try {
       if (columnId >= 3) {
+        // Clicked on repetition day columns
         setShowStudyModal(true);
         setRepititionDay(day);
-        setActive(neuron);
+        setStudyList([neuron])
       } else if (columnId === 2) {
+        // Clicked on category column
         dispatch(setSelectedNode(neuron?.ntree));
       } else {
+        // Clicked on itself
         setShowEditModal(true);
         setActive(neuron);
       }
-    } catch (e: any) {
-      message.error(e);
+    } catch (error: any) {
+      message.error(error);
       setActive(undefined);
     }
   };
 
-  const onStudy = (itemsToStudy: Neuron[]) => {
-    setStudyList(itemsToStudy.sort(comparator));
+  const onClickStudyButton = (itemsToStudy: Neuron[]) => {
+    setStudyList(itemsToStudy.sort(compareNeurons));
+    setRepititionDay(undefined);
     if (itemsToStudy.length > 0) {
-      setActive(itemsToStudy[0]);
       setShowStudyModal(true);
     } else {
       message.info("No neurons to study on this day");
     }
-  };
-
-  const comparator = (a: Neuron, b: Neuron) => {
-    if (a.created == undefined && b.created == undefined) return 0;
-    if (a.created == undefined) return 1;
-    if (b.created == undefined) return -1;
-    return +b.created - +a.created;
   };
 
   return (
@@ -158,7 +154,7 @@ const Ilearn = () => {
         <CategoryTree tourRefs={[refCategoryFilter, refCategoryControl]} />
         <NeuronTable
           onClick={onClickNeuron}
-          onStudy={onStudy}
+          onStudy={onClickStudyButton}
           tourRefs={[refStudyButton, refIntervals]}
         />
       </FlexRow>
