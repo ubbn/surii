@@ -1,9 +1,9 @@
 version: "2"
 services:
   frontend:
-    image: ubbn/pnpm:8.10.5
+    build: .
     container_name: surii-frontend
-    user: root
+    user: node
     working_dir: /home/node/app
     environment:
       - NODE_ENV=development

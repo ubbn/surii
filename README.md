@@ -10,16 +10,20 @@ VSCode is recommended.
 ## Develop locally
 
 ```bash
+# Build image
+docker compose build --build-arg UID=$(id -u) --build-arg GID=$(id -g) --no-cache
+
 # Install all dependencies
 docker compose run --rm frontend pnpm install
-
-# Execute other commands if necessary
-docker compose run --rm frontend <command inside container>
 
 # Run development server inside docker container
 docker compose up
 
-# Remove any residual data, volumes, container history etc...
+# Optionally, execute other commands if necessary
+docker compose run --rm frontend <command inside container>
+docker compose run --rm frontend pnpm --version
+
+# Optionally, remove any residual data, volumes, container history etc...
 docker compose rm -fsv
 ```
 
