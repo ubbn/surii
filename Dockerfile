@@ -1,13 +1,7 @@
-# ARG NODE_VERSION=current-alpine
-# FROM node:$NODE_VERSION AS base
+FROM node:20.9.0-alpine
 
-# ARG PNPM_VERSION=latest
-
-# RUN apk update \ 
-#   && apk add --no-cache libc6-compat \
-#   && corepack enable \
-#   && corepack prepare pnpm@$PNPM_VERSION --activate
-FROM ubbn/pnpm:8.10.5
+# Enable pnpm which is already present in node image 
+RUN corepack enable
 
 ARG GID=10001
 ARG UID=10001
