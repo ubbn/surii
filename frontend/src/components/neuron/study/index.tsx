@@ -240,7 +240,7 @@ const StudyModal = ({
         {preview && (
           <$Wrapper>
             <Editor
-              text={item?.detail}
+              text={neurons[index]?.detail}
               hideToolbar
               onChange={(value) => {
                 if (item) {

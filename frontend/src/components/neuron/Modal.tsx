@@ -46,7 +46,7 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
   const editorRef = useRef<any>()
 
   React.useEffect(() => {
-    if (neuron) {
+    if (visible && neuron) {
       resetTo(neuron)
       setError(undefined);
     }
