@@ -244,7 +244,7 @@ const StudyModal = ({
               hideToolbar
               onChange={(value) => {
                 if (item) {
-                  const newItem = { ...item, detail: value }
+                  const newItem = { ...neurons[index], detail: value }
                   setPristine(checkPristine(neurons[index], newItem))
                   setItem(newItem)
                 }
