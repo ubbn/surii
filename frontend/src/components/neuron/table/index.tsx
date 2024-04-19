@@ -90,6 +90,7 @@ function ITable({
       sorting,
       pagination
     },
+    autoResetPageIndex: false, // Don't reset to page 1 when gets updated
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
