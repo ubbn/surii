@@ -8,7 +8,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button, Segmented, Select } from "antd";
+import { Button, Input, Segmented, Select } from "antd";
 import { differenceInCalendarDays } from "date-fns";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,6 +55,7 @@ function ITable({
   tourRefs: any[]
 }) {
   const [visibleNeurons, setVisibleNeurons] = React.useState<Neuron[]>([]);
+  const [searchKey, setSearchKey] = React.useState<string>('')
   const [sorting, setSorting] = React.useState<SortingState>([
     {
       id: "ognoo",
@@ -105,6 +106,7 @@ function ITable({
   const onDateChange = (value: Date | null) => {
     dispatch(setStudyDate(value));
     filterNeurons(value);
+    setSearchKey("")
   };
 
   const filter = (value: Date) => {
@@ -139,6 +141,16 @@ function ITable({
     }
   };
 
+  const onSearchNeuron = (e: any) => {
+    const value = e?.target?.value
+    if (value) {
+      setVisibleNeurons(items.filter(v => v.title.includes(value)))
+    } else {
+      setVisibleNeurons(items)
+    }
+    setSearchKey(value)
+  };
+
   return (
     <ITableStyled>
       <FlexRow style={{ marginBottom: 10, alignItems: "center" }}>
@@ -153,7 +165,11 @@ function ITable({
           placeholder="Study date"
           value={studyDate}
           onChange={onDateChange}
-          style={{ marginRight: 10, width: 120, border: "1px solid #1677ff" }}
+          style={{ width: 120, border: "1px solid #1677ff" }}
+        />
+        <Input placeholder="Search neurons" allowClear
+          style={{ margin: "0 5px", maxWidth: 220 }}
+          value={searchKey} onChange={onSearchNeuron}
         />
         <Segmented ref={tourRefs[1]}
           options={intervalsNew.map((v, i) => ({
