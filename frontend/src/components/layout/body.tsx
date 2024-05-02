@@ -5,6 +5,9 @@ const Container = styled.div`
   min-height: 80vh;
   display: flex;
   max-width: 1098px;
+  @media (max-width: 600px) {
+    margin: 30px 20px;
+  }
 `;
 
 const Body = ({ children }: { children: any }) => {

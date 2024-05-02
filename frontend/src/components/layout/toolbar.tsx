@@ -22,6 +22,10 @@ const Container = styled.div`
   align-items: center;
   color: white;
   z-index: 999;
+
+  @media (max-width: 600px) {
+    padding: 6px 20px;
+  }
 `;
 const ColumnLayout = styled.div`
   display: flex;

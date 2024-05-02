@@ -9,6 +9,10 @@ const Container = styled.div`
   height: 100px;
   margin: auto;
   max-width: 50vw;
+  @media (max-width: 600px) {
+    margin: 20px;
+    max-width: 100vw;
+  }
 `;
 
 const Footer = () => {
