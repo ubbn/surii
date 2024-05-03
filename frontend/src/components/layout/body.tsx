@@ -6,7 +6,7 @@ const Container = styled.div`
   display: flex;
   max-width: 1098px;
   @media (max-width: 600px) {
-    margin: 30px 20px;
+    margin: 20px 10px;
   }
 `;
 

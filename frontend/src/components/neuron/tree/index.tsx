@@ -2,6 +2,7 @@ import {
   DeleteOutlined,
   EditOutlined,
   PlusCircleOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { Button, Input, Popconfirm, Tree, TreeProps, message } from "antd";
 import type { DataNode } from "antd/es/tree";
@@ -173,6 +174,7 @@ const _Tree = ({ tourRefs }: Props) => {
     <Container>
       <div style={{ marginRight: 8 }} ref={tourRefs[0]}>
         <Search
+          prefix={<SearchOutlined />}
           value={searchValue}
           allowClear
           placeholder={`Search categories`}

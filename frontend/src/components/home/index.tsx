@@ -8,11 +8,17 @@ const Link = styled.a`
   color: purple;
 `;
 
+const Container = styled(FlexColumn)`
+  @media (max-width: 600px) {
+    margin: 0 10px;
+  }
+`
+
 const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <FlexColumn>
+    <Container>
       <div>
         <h2>BiSurii</h2>
       </div>
@@ -35,7 +41,7 @@ const Home = () => {
       <p>
         Start learning <Link onClick={() => navigate("/learn")}>now</Link>
       </p>
-    </FlexColumn>
+    </Container>
   );
 };
 

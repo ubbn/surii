@@ -1,3 +1,4 @@
+import { SearchOutlined } from "@ant-design/icons";
 import {
   ColumnDef,
   flexRender,
@@ -12,6 +13,7 @@ import { Button, Input, Segmented, Select } from "antd";
 import { differenceInCalendarDays } from "date-fns";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { styled } from "styled-components";
 import { FlexRow } from "../../../common";
 import DatePicker from "../../../common/DatePicker";
 import Tooltip from "../../../common/tooltip";
@@ -26,6 +28,20 @@ type Interval = {
   desc: string;
   days: number[];
 };
+
+const StyledDatePicker = styled(DatePicker)`
+  min-width: 120px;
+  border: 1px solid #1677ff;
+  @media (max-width: 600px) {
+    display: none;
+  }
+`
+
+const StyledSegmented = styled(Segmented)`
+  @media (max-width: 600px) {
+    display: none;
+  }
+`
 
 const intervalsNew: Interval[] = [
   {
@@ -161,23 +177,19 @@ function ITable({
         >
           Study today
         </Button>
-        <DatePicker
-          placeholder="Study date"
-          value={studyDate}
-          onChange={onDateChange}
-          style={{ width: 120, border: "1px solid #1677ff" }}
-        />
+        <StyledDatePicker placeholder="Study date" value={studyDate} onChange={onDateChange} />
         <Input placeholder="Search neurons" allowClear
-          style={{ margin: "0 5px", maxWidth: 220 }}
+          prefix={<SearchOutlined />}
+          style={{ margin: "0 5px", maxWidth: '100%' }}
           value={searchKey} onChange={onSearchNeuron}
         />
-        <Segmented ref={tourRefs[1]}
+        <StyledSegmented ref={tourRefs[1]}
           options={intervalsNew.map((v, i) => ({
             label: <SegmentIdem interval={v} />,
             value: i,
           }))}
           value={studyInterval}
-          onChange={(v) => setStudyInterval(+v)}
+          onChange={(v: any) => setStudyInterval(+v)}
         />
       </FlexRow>
       <table>
