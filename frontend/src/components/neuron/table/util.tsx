@@ -98,15 +98,18 @@ export const getColumns = (
         columnHelper.accessor("ntree", {
           header: () => <span>Category</span>,
           cell: (info) => renderNodeTitle(info.getValue()),
+          meta: "hide-mobile",
         }),
       ],
     }),
     columnHelper.group({
       header: "Repitition intervals (days)",
+      meta: "hide-mobile",
       columns: studyInterval.map((day) =>
         columnHelper.accessor(mapRepititionDays(day), {
           id: `${day}`,
           cell: (cell) => renderMemoCell(studyDate, cell, day),
+          meta: "hide-mobile",
         })
       ),
     }),

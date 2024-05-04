@@ -202,6 +202,7 @@ function ITable({
                   key={header.id}
                   colSpan={header.colSpan}
                   style={getHeaderCellStyle(i)}
+                  className={String(header.column.columnDef.meta ?? "always")}
                 >
                   {header.isPlaceholder
                     ? null

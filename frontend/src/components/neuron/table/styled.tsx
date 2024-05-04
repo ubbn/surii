@@ -8,7 +8,7 @@ export const getCellClassName = (columnId: number): string => {
     case 1:
       return "subjectCell";
     case 2:
-      return "subjectCell";
+      return "categoryCell";
     default:
       return "memoCell";
   }
@@ -50,6 +50,7 @@ export const getHeaderCellStyle = (columnId: number): CSSProperties => {
 const ITableStyled = styled.div`
   table {
     border: 1px solid lightgray;
+    width: 100%;
   }
 
   th,
@@ -64,7 +65,7 @@ const ITableStyled = styled.div`
     color: #7700ff;
   }
 
-  .subjectCell {
+  .subjectCell, .categoryCell {
     cursor: pointer;
     padding: 0 8px;
   }
@@ -81,6 +82,20 @@ const ITableStyled = styled.div`
   .ant-btn,
   .ant-picker {
     border-radius: 1px;
+  }
+
+  @media (max-width: 600px) {
+    .memoCell {
+      display: none;
+    }
+
+    .hide-mobile {
+      display: none;
+    }
+
+    .categoryCell {
+      display: none;
+    }
   }
 `;
 
