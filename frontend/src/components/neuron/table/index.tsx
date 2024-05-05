@@ -37,9 +37,24 @@ const StyledDatePicker = styled(DatePicker)`
   }
 `
 
+const StyledInput = styled(Input)`
+  margin-left: 5px;
+  border-radius: 0;
+  width: 100%;
+`
+
 const StyledSegmented = styled(Segmented)`
+  margin-left: 5px;
   @media (max-width: 600px) {
     display: none;
+  }
+`
+
+const StyledSelect = styled(Select)`
+  margin-left: 5px;
+  @media (max-width: 600px) {
+    margin: 10px 0 0;
+    width: 100%;
   }
 `
 
@@ -178,10 +193,8 @@ function ITable({
           Study today
         </Button>
         <StyledDatePicker placeholder="Study date" value={studyDate} onChange={onDateChange} />
-        <Input placeholder="Search neurons" allowClear
-          prefix={<SearchOutlined />}
-          style={{ margin: "0 5px", maxWidth: '100%' }}
-          value={searchKey} onChange={onSearchNeuron}
+        <StyledInput placeholder="Search neurons" allowClear
+          prefix={<SearchOutlined />} value={searchKey} onChange={onSearchNeuron}
         />
         <StyledSegmented ref={tourRefs[1]}
           options={intervalsNew.map((v, i) => ({
@@ -235,7 +248,7 @@ function ITable({
           ))}
         </tbody>
       </table>
-      <div style={{ display: "flex", margin: "15px 0 45px", justifyContent: "center" }}>
+      <div style={{ display: "flex", margin: "15px 0 45px", flexWrap: "wrap" }}>
         <Button
           title="Go to first page"
           size="small"
@@ -275,20 +288,17 @@ function ITable({
         >
           {'last >>'}
         </Button>
-        <Select
+        <StyledSelect
           size="small"
-          style={{ width: 100 }}
           value={table.getState().pagination.pageSize}
-          onChange={value => {
-            table.setPageSize(Number(value))
-          }}
+          onChange={value => table.setPageSize(Number(value))}
         >
           {[20, 40, 60, 100, 150].map(pageSize => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
           ))}
-        </Select>
+        </StyledSelect>
       </div>
     </ITableStyled>
   );

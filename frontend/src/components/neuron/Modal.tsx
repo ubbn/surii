@@ -284,4 +284,10 @@ const $Modal = styled(Modal)`
     height: 100%;
   }
 
+  @media (max-width: 600px) {
+    .ant-modal-content {
+      padding: 20px 8px;
+    }
+  }
+
 `
