@@ -156,26 +156,17 @@ const StudyModal = ({
     <$Modal
       width={modalSize}
       title={
-        <FlexRow style={{ justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ marginBottom: 0 }}>{item?.title}</h2>
-          <Switch
-            title={`${preview ? "Hide" : "Show"} preview`}
-            checkedChildren={<><EyeOutlined /> shown</>}
-            unCheckedChildren={<><EyeInvisibleOutlined /> hidden</>}
-            onChange={() => setPreview(!preview)}
-            onClick={() => setPreview(!preview)}
-            checked={preview}
-          />
-          <div style={{ marginRight: 40, color: "grey", fontWeight: "normal" }}>
-            Study on <strong>day {getThatFuckingDay(item)}</strong>
-          </div>
+        <FlexRow>
+          <StudyTitle>
+            {item?.title}
+          </StudyTitle>
         </FlexRow>
       }
       open={visible}
       style={{ padding: 0 }}
       onCancel={onModalClose}
       footer={[
-        <FlexRow key="foot" style={{ justifyContent: "space-between" }}>
+        <FlexRow key="foot" style={{ justifyContent: "space-between", alignItems: "center" }}>
           {neurons.length > 0 && (
             <div>
               <Button onClick={onPrevious}>{"<"}</Button>
@@ -185,7 +176,9 @@ const StudyModal = ({
               <Button onClick={onNext}>{">"}</Button>
             </div>
           )}
-          <div />
+          <StudyHeader>
+            <span className="non-mobile">Study on </span><strong>Day {getThatFuckingDay(item)}</strong>
+          </StudyHeader>
           <div>
             <Button
               type="primary"
@@ -193,9 +186,9 @@ const StudyModal = ({
               icon={<SaveOutlined />}
               onClick={saveNeuron}
             >
-              Save
+              <span className="non-mobile">Save</span>
             </Button>
-            <Button key="close" onClick={onModalClose}>
+            <Button key="close" onClick={onModalClose} className="non-mobile">
               Close
             </Button>
           </div>
@@ -206,9 +199,7 @@ const StudyModal = ({
         direction="vertical"
         style={{ width: "100%", minHeight: +modalSize / 2.7, justifyContent: "flex-start" }}
       >
-        <FlexRow
-          style={{ alignItems: "flex-start", justifyContent: "space-between", width: "100%" }}
-        >
+        <FlexRow style={{ alignItems: "flex-start", justifyContent: "space-between", width: "100%" }} >
           <div>
             <Segmented
               options={sizeOptions}
@@ -217,6 +208,7 @@ const StudyModal = ({
               style={{ marginRight: 10 }}
             />
             <Button
+              className="non-mobile"
               style={{ width: 35 }}
               icon={<ExpandAltOutlined />}
               onClick={onEditDetail}
@@ -224,6 +216,15 @@ const StudyModal = ({
               block
             />
           </div>
+          <Switch
+            style={{ marginTop: 2 }}
+            title={`${preview ? "Hide" : "Show"} preview`}
+            checkedChildren={<><EyeOutlined /> <span className="non-mobile">shown</span></>}
+            unCheckedChildren={<><EyeInvisibleOutlined /> <span className="non-mobile">hidden</span></>}
+            onChange={() => setPreview(!preview)}
+            onClick={() => setPreview(!preview)}
+            checked={preview}
+          />
           <FlexRow>
             <div style={{ border: "1px solid #d9d9d9", borderRadius: 5 }}>
               <Rate
@@ -279,7 +280,24 @@ const $Modal = styled(Modal)`
 
   @media (max-width: 600px) {
     .ant-modal-content {
-      padding: 20px 8px;
+      padding: 15px 10px;
+    }
+
+    .non-mobile {
+      display: none;
     }
   }
+`
+
+const StudyHeader = styled.div`
+  color: grey;
+  font-weight: normal;
+`
+
+const StudyTitle = styled.div`
+  max-width: 95%;
+  font-size: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
