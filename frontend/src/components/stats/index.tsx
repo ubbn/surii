@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
-import { HeatMap, ToolTip } from "../../common";
+import { FlexRow, HeatMap } from "../../common";
 import { thunkFetchNeurons } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import {
@@ -100,7 +100,7 @@ const Stats = () => {
   return (
     <Container>
       <div style={{ width: "100%" }}>
-        <div style={{ margin: "5px 0 15px 5px" }}>
+        <div style={{ margin: "5px 0 15px 5px", display: "flex", justifyContent: "space-between" }}>
           <Space size={[0, 8]} wrap>
             {chips.map((v, i) => (
               <Chip
@@ -112,14 +112,15 @@ const Stats = () => {
               </Chip>
             ))}
           </Space>
-          <ToolTip text="Choose custom range" placement="right" color="black">
+          <StyledRangePicker>
+            <div style={{ marginRight: 10 }}>Custom range:</div>
             <RangePicker
               picker="month"
               size="small"
               onChange={onRangeChange}
               value={[dayjs(startDate), dayjs(endDate)]}
             />
-          </ToolTip>
+          </StyledRangePicker>
         </div>
         <p>
           <strong>Neurons added</strong>
@@ -174,7 +175,17 @@ export default Stats;
 
 const Chip = styled(Tag)`
   cursor: pointer;
+  @media (max-width: 600px) {
+    font-size: 13px;
+    padding: 3px 5px;
+  }
 `;
+
+const StyledRangePicker = styled(FlexRow)`
+  @media (max-width: 600px) {
+    display: none;
+  }
+`
 
 const chips = [
   {

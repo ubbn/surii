@@ -53,7 +53,7 @@ const StyledSegmented = styled(Segmented)`
 const StyledSelect = styled(Select)`
   margin-left: 5px;
   @media (max-width: 600px) {
-    margin: 10px 0 0;
+    margin: 15px 0 0;
     width: 100%;
   }
 `
