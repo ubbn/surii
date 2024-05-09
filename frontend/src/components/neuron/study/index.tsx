@@ -58,6 +58,7 @@ const StudyModal = ({
     setRate(score)
     setItem(neurons[index])
     setPreview(false)
+    setPristine(true)
   }, [index])
 
   React.useEffect(() => {
@@ -245,7 +246,7 @@ const StudyModal = ({
               hideToolbar
               onChange={(value) => {
                 if (item) {
-                  const newItem = { ...neurons[index], detail: value }
+                  const newItem = { ...neurons[index], detail: value, memo: item.memo }
                   setPristine(checkPristine(neurons[index], newItem))
                   setItem(newItem)
                 }
