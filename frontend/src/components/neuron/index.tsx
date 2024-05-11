@@ -38,7 +38,7 @@ const Ilearn = () => {
   const dispatch = useAppDispatch();
   const [studyList, setStudyList] = useState<Neuron[]>([]);
   const [repititionDay, setRepititionDay] = useState<number>();
-  const [showEditModal, setShowEditModal] = useState(!!selected);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showStudyModal, setShowStudyModal] = useState(false);
 
   useEffect(() => {

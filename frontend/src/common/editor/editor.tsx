@@ -32,7 +32,7 @@ function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
 }
 
-const editorConfig = (value: string): any => ({
+const editorConfig = (value: string, editable: boolean): any => ({
   // The editor theme
   theme: ExampleTheme,
   // Handling of errors during update
@@ -54,6 +54,7 @@ const editorConfig = (value: string): any => ({
     AutoLinkNode,
     LinkNode,
   ],
+  editable,
 });
 
 function MyOnChangePlugin({ onChange, value }: { onChange: any, value: any }) {
@@ -98,6 +99,7 @@ type Props = {
   onSave?: (value: string) => void;
   editorRef?: any,
   hideToolbar?: boolean;
+  editable?: boolean
 };
 
 export default function Editor({
@@ -105,6 +107,7 @@ export default function Editor({
   onChange,
   editorRef,
   hideToolbar = false,
+  editable = true,
 }: Props) {
   function onTextChange(editorState: any) {
     editorState.read(() => {
@@ -119,7 +122,7 @@ export default function Editor({
   }
 
   return (
-    <LexicalComposer initialConfig={editorConfig("")}>
+    <LexicalComposer initialConfig={editorConfig("", editable)}>
       <div className="editor-container">
         {!hideToolbar && <ToolbarPlugin />}
         <div className="editor-inner">

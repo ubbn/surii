@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { getDateFromStr, yyyyMMdd } from "../neuron/utils";
+import { Button } from "antd";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { Button } from "antd";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { thunkFetchNeurons } from "../../redux/neuronSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { getDateFromStr, yyyyMMdd } from "../neuron/utils";
 
 const getDateInYYYYMMDD = (ognooStr?: string) => {
   if (ognooStr) {
@@ -14,7 +15,7 @@ const getDateInYYYYMMDD = (ognooStr?: string) => {
   return "";
 };
 
-const pageSize = 8;
+const pageSize = 50;
 
 const Blog = () => {
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -22,10 +23,15 @@ const Blog = () => {
   const [pagedItems, setPagedItems] = useState<Neuron[]>([]);
   const { items } = useSelector((v: RootState) => v.neuron);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(thunkFetchNeurons());
+  }, []);
 
   useEffect(() => {
     if (items.length > 0) {
-      setPagedItems(items.slice(0, pageSize));
+      setPagedItems(items.filter(v => v.public).slice(0, pageSize));
       setTotalPage(Math.ceil(items.length / pageSize));
     } else {
       setPagedItems([]);
@@ -37,13 +43,13 @@ const Blog = () => {
   const onPrev = () => {
     const newPage = Math.max(currentPage - 1, 1);
     setCurrentPage(newPage);
-    setPagedItems(items.slice((newPage - 1) * pageSize, newPage * pageSize));
+    setPagedItems(pagedItems.slice((newPage - 1) * pageSize, newPage * pageSize));
   };
 
   const onNext = () => {
     const newPage = Math.min(currentPage + 1, totalPage);
     setCurrentPage(newPage);
-    setPagedItems(items.slice((newPage - 1) * pageSize, newPage * pageSize));
+    setPagedItems(pagedItems.slice((newPage - 1) * pageSize, newPage * pageSize));
   };
 
   const onClickPost = (id: number | undefined) => {
@@ -71,11 +77,11 @@ const Blog = () => {
           {getDateInYYYYMMDD(v.created)}
         </div>
       ))}
-      <div style={{ margin: 20 }}>
+      {pagedItems.length > pageSize && <div style={{ margin: 20 }}>
         <Button onClick={onPrev}>prev</Button>
         {currentPage} of {totalPage}
         <Button onClick={onNext}>next</Button>
-      </div>
+      </div>}
     </div>
   );
 };
