@@ -27,6 +27,7 @@ const Container = styled.div`
     padding: 6px 20px;
   }
 `;
+
 const ColumnLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,7 +46,13 @@ const Toolbar = () => {
   };
 
   const onClickProfile = () => {
-    navigate("/myProfile");
+    setMenuOpen(false);
+    navigate("/profile");
+  };
+
+  const onClickBlog = () => {
+    setMenuOpen(false);
+    navigate("/blog");
   };
 
   return (
@@ -60,6 +67,7 @@ const Toolbar = () => {
               isAuthenticated ? (
                 <ColumnLayout>
                   <Button onClick={onClickProfile}>Profile</Button>
+                  <Button onClick={onClickBlog}>Blog</Button>
                   <Logout />
                 </ColumnLayout>
               ) : (

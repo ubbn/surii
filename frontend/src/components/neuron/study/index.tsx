@@ -283,10 +283,6 @@ const $Modal = styled(Modal)`
     .ant-modal-content {
       padding: 15px 10px;
     }
-
-    .non-mobile {
-      display: none;
-    }
   }
 `
 

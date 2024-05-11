@@ -1,21 +1,17 @@
-type Props = {
-  title: string;
-  ognoo?: string;
-};
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-const Post = ({ title, ognoo }: Props) => {
+const Post = () => {
+  const { id } = useParams();
+
+  useEffect(() => {
+    console.log("Url param: ", id);
+  }, [id]);
+
   return (
-    <div
-      style={{
-        border: "1px solid lightgrey",
-        padding: "5px 10px",
-        margin: "20px 0",
-        borderRadius: 6,
-        cursor: "pointer"
-      }}
-    >
-      <h2>{title}</h2>
-      {ognoo}
+    <div>
+      <h2>{id}</h2>
+      <div>Hej hej</div>
     </div>
   );
 };

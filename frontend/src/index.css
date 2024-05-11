@@ -48,3 +48,9 @@ code {
   stroke-width: 2;
   stroke: blue;
 }
+
+@media (max-width: 600px) {
+  .non-mobile {
+    display: none;
+  }
+}

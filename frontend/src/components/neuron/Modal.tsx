@@ -2,11 +2,13 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined,
   ExpandAltOutlined,
+  GlobalOutlined,
+  LockOutlined,
   RetweetOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
 import Editor from "../../common/editor/editor";
-import { Button, Input, Modal, Popconfirm, Segmented, Space } from "antd";
+import { Button, Input, Modal, Popconfirm, Segmented, Space, Switch } from "antd";
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { FlexRow } from "../../common";
@@ -95,6 +97,7 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
         one?.created === other?.created &&
         one?.title === other?.title &&
         one?.detail === other?.detail &&
+        one?.public === other?.public &&
         one?.ntree === other?.ntree
       );
     }
@@ -114,6 +117,22 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
       [key]: "",
     });
   };
+
+  const onPublishChange = () => {
+    let newItem = { ...item };
+    if (item.public) {
+      // Making private, so delete the public property
+      delete newItem.public;
+    } else {
+      newItem = {
+        ...item,
+        public: item.public ? undefined : 1,
+      };
+    }
+    const stats = compare(initial, newItem)
+    setPristine(stats);
+    setItem(newItem as Neuron);
+  }
 
   const onDelete = () => {
     if (item.id !== undefined) {
@@ -160,7 +179,7 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
       onCancel={onModalClose}
       footer={[
         <FlexRow key="foot" style={{ justifyContent: "space-between" }}>
-          <div>
+          <FlexRow style={{ alignItems: "center" }}>
             <Popconfirm
               key="delete"
               placement="bottomRight"
@@ -193,7 +212,14 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
                 color="green"
               />
             </Popconfirm>
-          </div>
+            <Switch
+              title={`${item.public ? "Make private" : "Publish to public"}`}
+              unCheckedChildren={<><LockOutlined /> <span className="non-mobile">private</span></>}
+              checkedChildren={<><GlobalOutlined /> <span className="non-mobile">public</span></>}
+              onChange={onPublishChange}
+              checked={item.public ? true : false}
+            />
+          </FlexRow>
           <div>
             <Button
               key="save"

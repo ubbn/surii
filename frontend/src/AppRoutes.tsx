@@ -2,12 +2,13 @@ import { useMemo } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { getAuthenticationData } from "./common/storage";
 import Login from "./components/auth/login";
+import Blog from "./components/blog";
+import Post from "./components/blog/Post";
 import Home from "./components/home";
 import Ilearn from "./components/neuron";
 import Iedit from "./components/neuron/edit";
-import Stats from "./components/stats";
-import Blog from "./components/blog";
 import MyProfile from "./components/profile/MyProfile";
+import Stats from "./components/stats";
 
 const ProtectedRoute = () => {
   // Had to read directly from localstorage
@@ -25,7 +26,8 @@ const AppRoutes = () => {
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/myProfile" element={<MyProfile />} />
+        <Route path="/profile" element={<MyProfile />} />
+        <Route path="/blog/:id" element={<Post />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<ProtectedRoute />}>

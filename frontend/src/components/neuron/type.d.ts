@@ -31,6 +31,7 @@ interface Neuron {
   created?: string;
   modified?: string;
   ntree?: React.Key;
+  public?: 1 | undefined;
 }
 
 interface NTree {
