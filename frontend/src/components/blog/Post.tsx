@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import { FlexRow } from "../../common";
 import Editor from "../../common/editor/editor";
-import { setNeuron, thunkGetNeuron } from "../../redux/neuronSlice";
+import { setNeuron, thunkGetNeuron, thunkUpdateNeuron } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 
 const Post = () => {
@@ -38,9 +38,11 @@ const Post = () => {
   }, [selected])
 
   const saveNeuron = () => {
-    // onSave(item);
-    setPristine(true);
-    setInitial(item)
+    if (item) {
+      dispatch(thunkUpdateNeuron(item))
+      setPristine(true);
+      setInitial(item)
+    }
   }
 
   const onView = () => {
@@ -51,7 +53,8 @@ const Post = () => {
     setEditMode(true)
   }
 
-  if (loading) {
+  if (loading && !editMode) {
+    // Don't show it if in Edit mode
     return <Container>Loading...</Container>
   }
 
