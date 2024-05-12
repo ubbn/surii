@@ -60,4 +60,7 @@ const Text = styled.div<{ selected: boolean }>`
 
 const Separator = styled.span`
   margin: 0 20px;
+  @media (max-width: 600px) {
+    margin: 0 13px;
+  }
 `;

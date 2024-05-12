@@ -3,9 +3,12 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { styled } from "styled-components";
+import { FlexRow } from "../../common";
 import { thunkFetchNeurons } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { getDateFromStr, yyyyMMdd } from "../neuron/utils";
+import { compareNeurons, getDateFromStr, yyyyMMdd } from "../neuron/utils";
+import { Container } from "./Post";
 
 const getDateInYYYYMMDD = (ognooStr?: string) => {
   if (ognooStr) {
@@ -31,7 +34,7 @@ const Blog = () => {
 
   useEffect(() => {
     if (items.length > 0) {
-      setPagedItems(items.filter(v => v.public).slice(0, pageSize));
+      setPagedItems(items.filter(v => v.public).sort(compareNeurons).slice(0, pageSize));
       setTotalPage(Math.ceil(items.length / pageSize));
     } else {
       setPagedItems([]);
@@ -60,30 +63,41 @@ const Blog = () => {
     }
   }
 
+  if (pagedItems.length === 0) {
+    return <Container>No post...</Container>
+  }
+
   return (
-    <div style={{ width: "100%" }}>
+    <Container>
       {pagedItems.map((v, i) => (
-        <div key={i}
-          onClick={() => onClickPost(v.id)}
-          style={{
-            border: "1px solid lightgrey",
-            padding: "5px 10px",
-            margin: "20px 0",
-            borderRadius: 6,
-            cursor: "pointer"
-          }}
-        >
+        <StyledCart key={i} onClick={() => onClickPost(v.id)}>
           <h2>{v.title}</h2>
-          {getDateInYYYYMMDD(v.created)}
-        </div>
+          <FlexRow style={{ alignItems: "end", justifyContent: "space-between" }}>
+            <div style={{ color: "gray", fontSize: 14 }} title="Published on">
+              {getDateInYYYYMMDD(v.created)}
+            </div>
+          </FlexRow>
+        </StyledCart>
       ))}
       {pagedItems.length > pageSize && <div style={{ margin: 20 }}>
         <Button onClick={onPrev}>prev</Button>
         {currentPage} of {totalPage}
         <Button onClick={onNext}>next</Button>
       </div>}
-    </div>
+    </Container>
   );
 };
 
 export default Blog;
+
+const StyledCart = styled.div`
+  border: 1px solid lightgrey;
+  padding: 25px;
+  margin: 20px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 3px 3px 7px lightgray;
+  &:hover {
+    box-shadow: 7px 7px 13px lightgray;
+  }
+`

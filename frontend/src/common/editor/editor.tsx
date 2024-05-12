@@ -20,7 +20,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { $getRoot } from "lexical";
-import { useEffect } from "react";
+import React from "react";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
 import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
@@ -32,7 +32,7 @@ function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
 }
 
-const editorConfig = (value: string, editable: boolean): any => ({
+const editorConfig = (value: string): any => ({
   // The editor theme
   theme: ExampleTheme,
   // Handling of errors during update
@@ -54,13 +54,12 @@ const editorConfig = (value: string, editable: boolean): any => ({
     AutoLinkNode,
     LinkNode,
   ],
-  editable,
 });
 
-function MyOnChangePlugin({ onChange, value }: { onChange: any, value: any }) {
+function MyOnChangePlugin({ onChange, value, editable }: { onChange: any, value: any, editable: boolean }) {
   const [editor] = useLexicalComposerContext();
 
-  useEffect(() => {
+  React.useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
       // onChange(editorState);
 
@@ -80,7 +79,7 @@ function MyOnChangePlugin({ onChange, value }: { onChange: any, value: any }) {
     });
   }, [editor, onChange]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     editor.update(() => {
       // Get the RootNode from the EditorState
       const rootNode = $getRoot();
@@ -89,6 +88,10 @@ function MyOnChangePlugin({ onChange, value }: { onChange: any, value: any }) {
       $convertFromMarkdownString(value, TRANSFORMERS, rootNode)
     });
   }, [value])
+
+  React.useEffect(() => {
+    editor.setEditable(editable)
+  }, [editor, editable])
 
   return null;
 }
@@ -122,7 +125,7 @@ export default function Editor({
   }
 
   return (
-    <LexicalComposer initialConfig={editorConfig("", editable)}>
+    <LexicalComposer initialConfig={editorConfig("")}>
       <div className="editor-container">
         {!hideToolbar && <ToolbarPlugin />}
         <div className="editor-inner">
@@ -136,7 +139,7 @@ export default function Editor({
             ignoreHistoryMergeTagChange
             ignoreSelectionChange
           />
-          <MyOnChangePlugin value={text} onChange={onChange} />
+          <MyOnChangePlugin value={text} onChange={onChange} editable={editable} />
           <HistoryPlugin />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />

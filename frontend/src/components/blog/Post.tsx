@@ -1,19 +1,26 @@
-import { useEffect, useState } from "react";
+import { EditOutlined, EyeOutlined, SaveOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import React from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { styled } from "styled-components";
+import { FlexRow } from "../../common";
+import Editor from "../../common/editor/editor";
 import { setNeuron, thunkGetNeuron } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { useSelector } from "react-redux";
-import Editor from "../../common/editor/editor";
-import { styled } from "styled-components";
 
 const Post = () => {
-  const [item, setItem] = useState<Neuron>()
-  const { id } = useParams();
-  const dispatch = useAppDispatch();
+  const [initial, setInitial] = React.useState<Neuron>()
+  const [item, setItem] = React.useState<Neuron>()
+  const [editMode, setEditMode] = React.useState<boolean>(false)
+  const [pristine, setPristine] = React.useState<boolean>(true);
   const { selected } = useSelector((v: RootState) => v.neuron);
   const { loading } = useSelector((v: RootState) => v.main);
 
-  useEffect(() => {
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
     if (id) {
       setItem(undefined)
       dispatch(thunkGetNeuron(id))
@@ -23,24 +30,57 @@ const Post = () => {
     })
   }, [id]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (selected) {
+      setInitial(selected)
       setItem(selected)
     }
   }, [selected])
 
+  const saveNeuron = () => {
+    // onSave(item);
+    setPristine(true);
+    setInitial(item)
+  }
+
+  const onView = () => {
+    setEditMode(false)
+  }
+
+  const onEdit = () => {
+    setEditMode(true)
+  }
+
   if (loading) {
-    return <>Loading...</>
+    return <Container>Loading...</Container>
   }
 
   return (
-    <Container>
-      <StyledTitle>{item?.title}</StyledTitle>
+    <Container editMode={editMode}>
+      <FlexRow style={{ justifyContent: "space-between", alignItems: "start" }}>
+        <StyledTitle>{item?.title}</StyledTitle>
+        {editMode ?
+          <div>
+            <Button icon={<SaveOutlined />} disabled={pristine} danger type="text" onClick={saveNeuron} />
+            <Button icon={<EyeOutlined />} type="link" onClick={onView} />
+          </div>
+          :
+          <Button icon={<EditOutlined />} type="link" onClick={onEdit} />
+        }
+      </FlexRow>
       <$Wrapper>
         <Editor
-          text={item?.detail}
-          hideToolbar
-          editable={false}
+          text={initial?.detail}
+          hideToolbar={!editMode}
+          editable={editMode}
+          onChange={(value) => {
+            if (value === initial?.title) {
+              setPristine(true)
+            } else {
+              setPristine(false)
+            }
+            setItem({ ...item, detail: value } as Neuron)
+          }}
         />
       </$Wrapper>
     </Container>
@@ -49,13 +89,14 @@ const Post = () => {
 
 export default Post;
 
-const Container = styled.div`
+export const Container = styled.div<{ editMode?: boolean; }>`
+  width: 100%;
   padding: 20px 80px 60px;
   .editor-container {
-    border: none;
+    border: ${props => props.editMode ? "1px solid #dde" : "none"};
   }
   .editor-input {
-    padding: 0;
+    padding: ${props => props.editMode ? "10px" : 0};
   }
   @media (max-width: 600px) {
     padding: 0 5px;
@@ -64,10 +105,14 @@ const Container = styled.div`
 
 const StyledTitle = styled.h1`
   font-size: 30px;
+  max-width: 90%;
+  line-height: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const $Wrapper = styled.div`
-  margin-top: 20px;
   flex: 1;
   height: 100%
   & img {
