@@ -64,11 +64,11 @@ const Post = () => {
         <StyledTitle>{item?.title}</StyledTitle>
         {editMode ?
           <div>
-            <Button icon={<SaveOutlined />} disabled={pristine} danger type="text" onClick={saveNeuron} />
-            <Button icon={<EyeOutlined />} type="link" onClick={onView} />
+            <Button icon={<SaveOutlined />} size="large" disabled={pristine} danger type="text" onClick={saveNeuron} />
+            <Button icon={<EyeOutlined />} size="large" type="link" onClick={onView} />
           </div>
           :
-          <Button icon={<EditOutlined />} type="link" onClick={onEdit} />
+          <Button icon={<EditOutlined />} size="large" type="link" onClick={onEdit} />
         }
       </FlexRow>
       <$Wrapper>
@@ -77,11 +77,7 @@ const Post = () => {
           hideToolbar={!editMode}
           editable={editMode}
           onChange={(value) => {
-            if (value === initial?.title) {
-              setPristine(true)
-            } else {
-              setPristine(false)
-            }
+            setPristine(value === initial?.detail)
             setItem({ ...item, detail: value } as Neuron)
           }}
         />

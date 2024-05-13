@@ -1,25 +1,25 @@
 import {
   DeleteOutlined,
   ExclamationCircleOutlined,
-  ExpandAltOutlined,
+  ExportOutlined,
   GlobalOutlined,
   LockOutlined,
   RetweetOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
-import Editor from "../../common/editor/editor";
-import { Button, Input, Modal, Popconfirm, Segmented, Space, Switch } from "antd";
+import { Button, Input, Modal, Popconfirm, Segmented, Space, Switch, message } from "antd";
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { FlexRow } from "../../common";
+import Editor from "../../common/editor/editor";
 
 import { useNavigate } from "react-router-dom";
+import { styled } from "styled-components";
 import DatePicker from "../../common/DatePicker";
 import { thunkDeleteNeuron } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import _TreeSelect from "./treeselect";
 import { empty, getDateFromStr, getTimeStamp } from "./utils";
-import { styled } from "styled-components";
 
 const sizeOptions = [
   { label: "S", value: 700 },
@@ -87,8 +87,12 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
     }
   };
 
-  const onEditDetail = () => {
-    item && navigate(`/learn/${item.id}/edit`);
+  const onClickView = () => {
+    if (pristine) {
+      item && navigate(`/blog/${item.id}`);
+    } else {
+      message.warning("Save before leaving the page!")
+    }
   };
 
   const compare = (one: any, other: any) => {
@@ -272,17 +276,17 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
           >
             Clean
           </Button>
+          <Button
+            style={{ marginRight: 10, width: 70 }}
+            icon={<ExportOutlined />}
+            onClick={onClickView}
+            title="Show it in blog mode"
+            type="link"
+          />
           <Segmented
             options={sizeOptions}
             onChange={setModalSize}
             value={modalSize}
-          />
-          <Button
-            style={{ marginLeft: 10, width: 70 }}
-            icon={<ExpandAltOutlined />}
-            onClick={onEditDetail}
-            title="Show in full page"
-            block
           />
         </FlexRow>
         <Editor
