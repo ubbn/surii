@@ -6,7 +6,6 @@ import Blog from "./components/blog";
 import Post from "./components/blog/Post";
 import Home from "./components/home";
 import Ilearn from "./components/neuron";
-import Iedit from "./components/neuron/edit";
 import MyProfile from "./components/profile/MyProfile";
 import Stats from "./components/stats";
 
@@ -31,7 +30,6 @@ const AppRoutes = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<ProtectedRoute />}>
-          <Route path="/learn/:id/edit" element={<Iedit />} />
           <Route path="/learn" element={<Ilearn />} />
           <Route path="/stats" element={<Stats />} />
         </Route>

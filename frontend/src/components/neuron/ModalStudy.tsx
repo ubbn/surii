@@ -10,10 +10,10 @@ import { differenceInCalendarDays } from "date-fns";
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { FlexRow } from "../../../common";
-import Editor from "../../../common/editor/editor";
-import { RootState } from "../../../redux/store";
-import { getDateFromStr } from "../utils";
+import { FlexRow } from "../../common";
+import Editor from "../../common/editor/editor";
+import { RootState } from "../../redux/store";
+import { getDateFromStr } from "./utils";
 
 const sizeOptions = [
   { label: "S", value: 700 },

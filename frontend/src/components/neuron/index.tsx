@@ -11,8 +11,8 @@ import {
   thunkUpdateNeuron,
 } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import EditModal from "./Modal";
-import StudyModal from "./study";
+import EditModal from "./ModalEdit";
+import StudyModal from "./ModalStudy";
 import NeuronTable from "./table";
 import CategoryTree from "./tree";
 import { Anchor, compareNeurons } from "./utils";
