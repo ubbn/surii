@@ -1,6 +1,6 @@
 import {
   ExclamationCircleOutlined,
-  ExpandAltOutlined,
+  ExportOutlined,
   EyeInvisibleOutlined,
   EyeOutlined,
   SaveOutlined,
@@ -9,6 +9,7 @@ import { Button, Modal, Rate, Segmented, Space, Switch, message } from "antd";
 import { differenceInCalendarDays } from "date-fns";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FlexRow } from "../../common";
 import Editor from "../../common/editor/editor";
@@ -53,6 +54,8 @@ const StudyModal = ({
   const [preview, setPreview] = React.useState<boolean>(false);
   const [pristine, setPristine] = React.useState<boolean>(true);
 
+  const navigate = useNavigate();
+
   React.useEffect(() => {
     const score = getScore(neurons[index]);
     setRate(score)
@@ -91,8 +94,15 @@ const StudyModal = ({
   };
 
   const onEditDetail = () => {
-    message.warning("No implemented yet");
-    // item && navigate(`learn/${item.id}`);
+    executeIfPristine(() => item && navigate(`/blog/${item.id}`));
+  };
+
+  const executeIfPristine = (func: () => void) => {
+    if (pristine) {
+      func()
+    } else {
+      message.warning("Save changes before moving")
+    }
   };
 
   const checkPristine = (one: any, other: any) => {
@@ -148,10 +158,13 @@ const StudyModal = ({
     }
   };
 
-  const onPrevious = () =>
-    setIndex(index === 0 ? neurons.length - 1 : index - 1);
+  const onPrevious = () => {
+    executeIfPristine(() => setIndex(index === 0 ? neurons.length - 1 : index - 1));
+  }
 
-  const onNext = () => setIndex(index >= neurons.length - 1 ? 0 : index + 1);
+  const onNext = () => {
+    executeIfPristine(() => setIndex(index >= neurons.length - 1 ? 0 : index + 1));
+  }
 
   return (
     <$Modal
@@ -211,7 +224,7 @@ const StudyModal = ({
             <Button
               className="non-mobile"
               style={{ width: 35 }}
-              icon={<ExpandAltOutlined />}
+              icon={<ExportOutlined />}
               onClick={onEditDetail}
               title="Show in full page"
               block
