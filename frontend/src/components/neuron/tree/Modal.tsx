@@ -35,6 +35,10 @@ const _Modal = ({
   }, [open]);
 
   const handleOk = () => {
+    if (status === "error") {
+      message.warning("Name cannot be empty")
+      return
+    }
     if (isAddNew) {
       if (title && title.trim()) {
         dispatch(
@@ -47,6 +51,7 @@ const _Modal = ({
         onClose();
       } else {
         setStatus("error");
+        message.warning("Name cannot be empty")
       }
     } else if (selectedNode) {
       if (selectedKey === selectedNode.parent) {

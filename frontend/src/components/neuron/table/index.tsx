@@ -186,13 +186,15 @@ function ITable({
     <ITableStyled>
       <FlexRow style={{ marginBottom: 10, alignItems: "center" }}>
         <Button
-          type="primary"
+          type="primary" ref={tourRefs[0]}
           onClick={() => onStudy(filter(studyDate || new Date()))}
-          ref={tourRefs[0]}
+          title="Study neurons due on today"
         >
           Study today
         </Button>
-        <StyledDatePicker placeholder="Study date" value={studyDate} onChange={onDateChange} />
+        <Tooltip text="Filter neurons due on given date" placement="bottomRight">
+          <StyledDatePicker placeholder="Study date" value={studyDate} onChange={onDateChange} />
+        </Tooltip>
         <StyledInput placeholder="Search neurons" allowClear
           prefix={<SearchOutlined />} value={searchKey} onChange={onSearchNeuron}
         />
