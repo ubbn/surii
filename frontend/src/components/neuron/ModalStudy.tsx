@@ -14,7 +14,7 @@ import styled from "styled-components";
 import { FlexRow } from "../../common";
 import Editor from "../../common/editor/editor";
 import { RootState } from "../../redux/store";
-import { getDateFromStr } from "./utils";
+import { getDateFromStr, getGoodFormatted } from "./utils";
 
 const sizeOptions = [
   { label: "S", value: 700 },
@@ -60,7 +60,6 @@ const StudyModal = ({
     const score = getScore(neurons[index]);
     setRate(score)
     setItem(neurons[index])
-    setPreview(false)
     setPristine(true)
   }, [index])
 
@@ -159,10 +158,12 @@ const StudyModal = ({
   };
 
   const onPrevious = () => {
+    setPreview(false)
     executeIfPristine(() => setIndex(index === 0 ? neurons.length - 1 : index - 1));
   }
 
   const onNext = () => {
+    setPreview(false)
     executeIfPristine(() => setIndex(index >= neurons.length - 1 ? 0 : index + 1));
   }
 
@@ -190,7 +191,7 @@ const StudyModal = ({
               <Button onClick={onNext}>{">"}</Button>
             </div>
           )}
-          <StudyHeader>
+          <StudyHeader title={getGoodFormatted(neurons[index]?.created)}>
             <span className="non-mobile">Study on </span><strong>Day {getThatFuckingDay(item)}</strong>
           </StudyHeader>
           <div>

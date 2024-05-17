@@ -5,7 +5,7 @@ const Container = styled.div`
   min-height: 80vh;
   display: flex;
   max-width: 1098px;
-  @media (max-width: 600px) {
+  @media (max-width: 1200px) {
     margin: 20px 10px;
   }
 `;

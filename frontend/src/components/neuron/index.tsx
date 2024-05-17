@@ -88,7 +88,10 @@ const Ilearn = () => {
   };
 
   const onSave = (neuron: Neuron) => {
-    dispatch(thunkUpdateNeuron(neuron));
+    if (showEditModal) {
+      // Only set if it is edit modal
+      dispatch(thunkUpdateNeuron(neuron));
+    }
     setStudyList(studyList.map((v) => (v.id === neuron.id ? neuron : v)));
     setHasChanged(true);
     openNotification(neuron);
