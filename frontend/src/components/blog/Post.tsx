@@ -39,7 +39,7 @@ const Post = () => {
 
   const saveNeuron = () => {
     if (item) {
-      dispatch(thunkUpdateNeuron(item))
+      dispatch(thunkUpdateNeuron(item, true))
       setPristine(true);
       setInitial(item)
     }

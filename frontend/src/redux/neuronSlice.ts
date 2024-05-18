@@ -144,13 +144,18 @@ export const thunkFetchConnectedNeurons = (treeId: any): AppThunk => {
   }
 };
 
-export const thunkUpdateNeuron = (item: Neuron): AppThunk => {
+export const thunkUpdateNeuron = (
+  item: Neuron,
+  updateRedix?: boolean
+): AppThunk => {
   return (dispatch) => {
     dispatch(actionStart());
     return axios
       .post(url(), { user: getUserEmail(), ...item })
       .then(({ data }) => {
-        dispatch(setNeuron(data));
+        if (updateRedix) {
+          dispatch(setNeuron(data));
+        }
         dispatch(actionFinish());
       })
       .catch(handleError(dispatch));
