@@ -296,9 +296,9 @@ function ITable({
           onChange={value => table.setPageSize(Number(value))}
         >
           {[20, 40, 60, 100, 150].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
+            <Select.Option key={pageSize} value={pageSize}>
               Show {pageSize}
-            </option>
+            </Select.Option>
           ))}
         </StyledSelect>
       </div>
