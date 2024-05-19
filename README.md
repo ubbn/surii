@@ -2,12 +2,23 @@
 
 Memory management app
 
+## Tech stack
+
+- [ReactJS 18](https://react.dev/) with Typescript
+- [Ant Design](https://ant.design/) as UI framework
+- [Styled-component](https://styled-components.com/) for customizing styles
+- [Vite](https://vitejs.dev/) as dev build tool
+- [PNPM](https://pnpm.io/) for package manager
+- [Docker](https://www.docker.com/) for development environment
+- [Github Action](https://docs.github.com/en/actions) for automated CD
+- [Firebase](https://firebase.google.com/) for deployment
+
 ## Requirement
 
-`docker` and `docker compose plugin` is required for development.  
-VSCode is recommended.
+Only `docker` and `docker compose plugin` are needed for development.  
+VSCode is recommended as IDE.
 
-## Develop locally
+## Development
 
 ```bash
 # Build image
