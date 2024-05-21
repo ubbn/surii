@@ -33,6 +33,7 @@ const Ilearn = () => {
   const refIntervals = useRef<any>(null);
   const [open, setOpen] = useState<boolean>(false);
 
+  const [keyEvent, setKeyEvent] = useState<KeyboardEvent>();
   const [hasChanged, setHasChanged] = useState(false);
   const { selectedNode, selected } = useSelector((v: RootState) => v.neuron);
   const dispatch = useAppDispatch();
@@ -80,11 +81,7 @@ const Ilearn = () => {
   ];
 
   const onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "c") {
-      e.stopPropagation();
-      // TODO solve keypress feature generally
-      // setShowEditModal(true);
-    }
+    setKeyEvent(e);
   };
 
   const onSave = (neuron: Neuron) => {
@@ -180,6 +177,7 @@ const Ilearn = () => {
         visible={showEditModal}
         onClose={onModalClose}
         onSave={onSave}
+        keyEvent={keyEvent}
       />
       <StudyModal
         neurons={studyList}
@@ -187,6 +185,7 @@ const Ilearn = () => {
         visible={showStudyModal}
         onClose={onModalClose}
         onSave={onSave}
+        keyEvent={keyEvent}
       />
       <Tour open={open} onClose={() => setOpen(false)} steps={steps} />
     </div>

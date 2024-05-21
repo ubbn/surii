@@ -27,14 +27,11 @@ const sizeOptions = [
   { label: "L", value: 1300 },
 ];
 
-type Props = {
+interface Props extends ModalPros {
   neuron?: Neuron;
-  visible: boolean;
-  onClose: () => void;
-  onSave: (neuron: Neuron) => void;
-};
+}
 
-const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
+const EditModal = ({ visible, onClose, neuron, onSave, keyEvent }: Props) => {
   const [initial, setInitial] = React.useState<Neuron>(empty);
   const [item, setItem] = React.useState<Neuron>(empty);
   const [pristine, setPristine] = React.useState<boolean>(true);
@@ -46,6 +43,17 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const editorRef = useRef<any>()
+
+  React.useEffect(() => {
+    if (keyEvent && visible) {
+      if (keyEvent.key === "s" && keyEvent.ctrlKey) {
+        keyEvent.preventDefault()
+        if (!pristine) {
+          saveNeuron()
+        }
+      }
+    }
+  }, [keyEvent, visible])
 
   React.useEffect(() => {
     if (visible && neuron) {

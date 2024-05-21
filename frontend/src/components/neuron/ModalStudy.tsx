@@ -31,20 +31,18 @@ const rateToolTips = [
   "Superb (5)",
 ];
 
-type Props = {
+interface Props extends ModalPros {
   neurons: Neuron[];
   repititionForSingleDay?: number; // This value is set when repitation day cell is singly clicked
-  visible: boolean;
-  onClose: () => void;
-  onSave: (neuron: Neuron) => void;
-};
+}
 
 const StudyModal = ({
-  visible,
+  neurons,
   repititionForSingleDay,
+  visible,
   onClose,
   onSave,
-  neurons,
+  keyEvent,
 }: Props) => {
   const { studyDate } = useSelector((v: RootState) => v.neuron);
   const [index, setIndex] = React.useState<number>(0);
@@ -55,6 +53,17 @@ const StudyModal = ({
   const [pristine, setPristine] = React.useState<boolean>(true);
 
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (keyEvent && visible) {
+      if (keyEvent.key === "s" && keyEvent.ctrlKey) {
+        keyEvent.preventDefault()
+        if (!pristine) {
+          saveNeuron()
+        }
+      }
+    }
+  }, [keyEvent, visible]);
 
   React.useEffect(() => {
     const score = getScore(neurons[index]);

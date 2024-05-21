@@ -47,3 +47,10 @@ interface NeuronState {
   deleted?: boolean;
   updated?: Date;
 }
+
+interface ModalPros {
+  visible: boolean;
+  onClose: () => void;
+  onSave: (neuron: Neuron) => void;
+  keyEvent?: KeyboardEvent;
+}
