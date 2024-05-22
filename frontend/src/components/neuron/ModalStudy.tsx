@@ -11,6 +11,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AppContext } from "../../App";
 import { FlexRow } from "../../common";
 import Editor from "../../common/editor/editor";
 import { RootState } from "../../redux/store";
@@ -42,7 +43,6 @@ const StudyModal = ({
   visible,
   onClose,
   onSave,
-  keyEvent,
 }: Props) => {
   const { studyDate } = useSelector((v: RootState) => v.neuron);
   const [index, setIndex] = React.useState<number>(0);
@@ -51,6 +51,7 @@ const StudyModal = ({
   const [modalSize, setModalSize] = React.useState<number | string>(700);
   const [preview, setPreview] = React.useState<boolean>(false);
   const [pristine, setPristine] = React.useState<boolean>(true);
+  const { keyEvent } = React.useContext(AppContext)!;
 
   const navigate = useNavigate();
 

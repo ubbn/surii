@@ -1,9 +1,11 @@
 import { PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { Button, Tour, TourProps, message, notification } from "antd";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { FlexRow } from "../../common";
 
+import { styled } from "styled-components";
+import Tooltip from "../../common/tooltip";
 import {
   setNeuron,
   setSelectedNode,
@@ -16,8 +18,6 @@ import StudyModal from "./ModalStudy";
 import NeuronTable from "./table";
 import CategoryTree from "./tree";
 import { Anchor, compareNeurons } from "./utils";
-import Tooltip from "../../common/tooltip";
-import { styled } from "styled-components";
 
 const TourButton = styled.div`
   margin-bottom: 10px;
@@ -33,7 +33,6 @@ const Ilearn = () => {
   const refIntervals = useRef<any>(null);
   const [open, setOpen] = useState<boolean>(false);
 
-  const [keyEvent, setKeyEvent] = useState<KeyboardEvent>();
   const [hasChanged, setHasChanged] = useState(false);
   const { selectedNode, selected } = useSelector((v: RootState) => v.neuron);
   const dispatch = useAppDispatch();
@@ -41,13 +40,6 @@ const Ilearn = () => {
   const [repititionDay, setRepititionDay] = useState<number>();
   const [showEditModal, setShowEditModal] = useState(false);
   const [showStudyModal, setShowStudyModal] = useState(false);
-
-  useEffect(() => {
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, []);
 
   const steps: TourProps["steps"] = [
     {
@@ -79,10 +71,6 @@ const Ilearn = () => {
       target: () => refIntervals.current,
     },
   ];
-
-  const onKeyDown = (e: KeyboardEvent) => {
-    setKeyEvent(e);
-  };
 
   const onSave = (neuron: Neuron) => {
     dispatch(thunkUpdateNeuron(neuron, showEditModal)); // Update redux only if it is edit modal
@@ -177,7 +165,6 @@ const Ilearn = () => {
         visible={showEditModal}
         onClose={onModalClose}
         onSave={onSave}
-        keyEvent={keyEvent}
       />
       <StudyModal
         neurons={studyList}
@@ -185,7 +172,6 @@ const Ilearn = () => {
         visible={showStudyModal}
         onClose={onModalClose}
         onSave={onSave}
-        keyEvent={keyEvent}
       />
       <Tour open={open} onClose={() => setOpen(false)} steps={steps} />
     </div>

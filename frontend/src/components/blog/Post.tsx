@@ -1,9 +1,10 @@
 import { EditOutlined, EyeOutlined, SaveOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { styled } from "styled-components";
+import { AppContext } from "../../App";
 import { FlexRow } from "../../common";
 import Editor from "../../common/editor/editor";
 import { setNeuron, thunkGetNeuron, thunkUpdateNeuron } from "../../redux/neuronSlice";
@@ -16,6 +17,7 @@ const Post = () => {
   const [pristine, setPristine] = React.useState<boolean>(true);
   const { selected } = useSelector((v: RootState) => v.neuron);
   const { loading } = useSelector((v: RootState) => v.main);
+  const { keyEvent } = React.useContext(AppContext)!;
 
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -37,11 +39,25 @@ const Post = () => {
     }
   }, [selected])
 
+  React.useEffect(() => {
+    if (keyEvent?.key === "s" && keyEvent?.ctrlKey) {
+      keyEvent.preventDefault()
+      if (!pristine) {
+        saveNeuron()
+      }
+    }
+  }, [keyEvent])
+
   const saveNeuron = () => {
     if (item) {
       dispatch(thunkUpdateNeuron(item, true))
       setPristine(true);
       setInitial(item)
+      notification.info({
+        message: `${item?.title}`,
+        description: "New update",
+        placement: "bottomLeft",
+      });
     }
   }
 

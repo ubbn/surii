@@ -52,5 +52,4 @@ interface ModalPros {
   visible: boolean;
   onClose: () => void;
   onSave: (neuron: Neuron) => void;
-  keyEvent?: KeyboardEvent;
 }

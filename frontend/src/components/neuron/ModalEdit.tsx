@@ -15,6 +15,7 @@ import Editor from "../../common/editor/editor";
 
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { AppContext } from "../../App";
 import DatePicker from "../../common/DatePicker";
 import { thunkDeleteNeuron } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -31,13 +32,14 @@ interface Props extends ModalPros {
   neuron?: Neuron;
 }
 
-const EditModal = ({ visible, onClose, neuron, onSave, keyEvent }: Props) => {
+const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
   const [initial, setInitial] = React.useState<Neuron>(empty);
   const [item, setItem] = React.useState<Neuron>(empty);
   const [pristine, setPristine] = React.useState<boolean>(true);
-
   const [error, setError] = React.useState<any>();
   const [modalSize, setModalSize] = React.useState<number | string>(1000);
+
+  const { keyEvent } = React.useContext(AppContext)!;
   const { selectedNode } = useSelector((v: RootState) => v.neuron); // Selected tree node if any
 
   const dispatch = useAppDispatch();
