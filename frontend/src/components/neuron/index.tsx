@@ -1,10 +1,11 @@
 import { PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { Button, Tour, TourProps, message, notification } from "antd";
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { FlexRow } from "../../common";
 
 import { styled } from "styled-components";
+import { AppContext } from "../../App";
 import Tooltip from "../../common/tooltip";
 import {
   setNeuron,
@@ -31,15 +32,25 @@ const Ilearn = () => {
   const refCategoryFilter = useRef<any>(null);
   const refStudyButton = useRef<any>(null);
   const refIntervals = useRef<any>(null);
-  const [open, setOpen] = useState<boolean>(false);
 
-  const [hasChanged, setHasChanged] = useState(false);
-  const { selectedNode, selected } = useSelector((v: RootState) => v.neuron);
-  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState<boolean>(false);
+  const [hasChanged, setHasChanged] = useState<boolean>(false);
   const [studyList, setStudyList] = useState<Neuron[]>([]);
   const [repititionDay, setRepititionDay] = useState<number>();
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showStudyModal, setShowStudyModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [showStudyModal, setShowStudyModal] = useState<boolean>(false);
+
+  const { selectedNode, selected } = useSelector((v: RootState) => v.neuron);
+  const { keyEvent } = useContext(AppContext)!;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Ctrl+C opens a modal to add new
+    if (keyEvent?.key === "c" && keyEvent.ctrlKey && !showEditModal && !showStudyModal) {
+      keyEvent.preventDefault();
+      setShowEditModal(true);
+    }
+  }, [keyEvent]);
 
   const steps: TourProps["steps"] = [
     {
