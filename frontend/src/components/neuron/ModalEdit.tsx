@@ -227,7 +227,7 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
               />
             </Popconfirm>
             <Switch
-              title={`${item.public ? "Make private" : "Publish to public"}`}
+              title={`${item.public ? "Make private" : "Publish to blog"}`}
               unCheckedChildren={<><LockOutlined /> <span className="non-mobile">private</span></>}
               checkedChildren={<><GlobalOutlined /> <span className="non-mobile">public</span></>}
               onChange={onPublishChange}

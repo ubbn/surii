@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { FlexRow } from "../../common";
 import { thunkFetchNeurons } from "../../redux/neuronSlice";
+import { thunkFetchNeuronTrees } from "../../redux/neuronTreeSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { compareNeurons, getDateFromStr, yyyyMMdd } from "../neuron/utils";
 import { Container } from "./Post";
@@ -24,12 +25,13 @@ const Blog = () => {
   const [totalPage, setTotalPage] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pagedItems, setPagedItems] = useState<Neuron[]>([]);
-  const { items } = useSelector((v: RootState) => v.neuron);
+  const { items, leaves } = useSelector((v: RootState) => v.neuron);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(thunkFetchNeurons());
+    dispatch(thunkFetchNeuronTrees());
   }, []);
 
   useEffect(() => {
@@ -63,18 +65,28 @@ const Blog = () => {
     }
   }
 
+  const getCategoryName = (id: React.Key | undefined) => {
+    if (leaves && id) {
+      const found = leaves.find(v => v.key === id)
+      if (found) {
+        return found.title
+      }
+    }
+    return ""
+  }
+
   if (pagedItems.length === 0) {
     return <Container>No post...</Container>
   }
 
   return (
     <Container>
-      {pagedItems.map((v, i) => (
-        <StyledCart key={i} onClick={() => onClickPost(v.id)}>
-          <h2>{v.title}</h2>
+      {pagedItems.map((post, i) => (
+        <StyledCart key={i} onClick={() => onClickPost(post.id)}>
+          <h2>{post.title}</h2>
           <FlexRow style={{ alignItems: "end", justifyContent: "space-between" }}>
             <div style={{ color: "gray", fontSize: 14 }} title="Published on">
-              {getDateInYYYYMMDD(v.created)}
+              {`${getDateInYYYYMMDD(post.created)} ${post.ntree ? " | " + getCategoryName(post.ntree) : ""}`}
             </div>
           </FlexRow>
         </StyledCart>
