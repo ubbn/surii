@@ -1,14 +1,47 @@
-import { Button, Popover } from "antd";
+import { BoldOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Menu as AntMenu, Popover, message } from "antd";
+import { signOut as logOutFirebase } from "firebase/auth";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { BASE_COLOR, FlexRow, Profile } from "../../common";
-import { RootState } from "../../redux/store";
-import Logout from "../auth/logout";
+import { setAuth } from "../../common/storage";
+import Tooltip from "../../common/tooltip";
+import { resetAll } from "../../redux/mainSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { auth } from "../auth/firebase";
 import iconProfile from "./icon-profile.svg";
 import Menu from "./menu";
-import Tooltip from "../../common/tooltip";
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+const userMenuItems: MenuItem[] = [
+  {
+    label: 'Profile',
+    key: '/profile',
+    icon: <UserOutlined />,
+  },
+  {
+    label: 'Blog',
+    key: '/blog',
+    icon: <BoldOutlined />,
+  },
+  {
+    label: 'Logout',
+    key: 'logout',
+    icon: <LogoutOutlined />
+  },
+]
+
+const loginMenuItems: MenuItem[] = [
+  {
+    label: 'Login',
+    key: '/login',
+    icon: <UserOutlined />,
+  },
+]
 
 const Container = styled.div`
   max-width: 100%;
@@ -28,32 +61,31 @@ const Container = styled.div`
   }
 `;
 
-const ColumnLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
 
 const Toolbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const authState = useSelector((state: RootState) => state.auth);
   const { name, profileUrl, isAuthenticated } = authState;
+  const dispatch = useAppDispatch();
 
-  const onClickLogin = () => {
-    setMenuOpen(false);
+  const logout = () => {
+    dispatch(resetAll());
+    setAuth(undefined);
+    logOutFirebase(auth)
+      .then(() => message.info("You are signed out"))
+      .catch((e) => console.log("Failed to log out: ", e));
     navigate("/login");
   };
 
-  const onClickProfile = () => {
+  const onClickMenu = (item: { key: string }) => {
     setMenuOpen(false);
-    navigate("/profile");
-  };
-
-  const onClickBlog = () => {
-    setMenuOpen(false);
-    navigate("/blog");
-  };
+    if (item.key === "logout") {
+      logout()
+    } else {
+      navigate(item.key);
+    }
+  }
 
   return (
     <Container>
@@ -64,15 +96,7 @@ const Toolbar = () => {
             placement="bottomRight"
             open={menuOpen}
             content={
-              isAuthenticated ? (
-                <ColumnLayout>
-                  <Button onClick={onClickProfile}>Profile</Button>
-                  <Button onClick={onClickBlog}>Blog</Button>
-                  <Logout />
-                </ColumnLayout>
-              ) : (
-                <Button onClick={onClickLogin}>Log in</Button>
-              )
+              <AntMenu mode="vertical" items={isAuthenticated ? userMenuItems : loginMenuItems} onClick={onClickMenu} />
             }
             onOpenChange={setMenuOpen}
             trigger="click"

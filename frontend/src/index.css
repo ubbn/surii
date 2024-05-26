@@ -54,3 +54,7 @@ code {
     display: none;
   }
 }
+
+.ant-popover .ant-popover-inner {
+  padding: 0;
+}
