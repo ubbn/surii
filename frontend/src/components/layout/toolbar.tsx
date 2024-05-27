@@ -96,7 +96,9 @@ const Toolbar = () => {
             placement="bottomRight"
             open={menuOpen}
             content={
-              <AntMenu mode="vertical" items={isAuthenticated ? userMenuItems : loginMenuItems} onClick={onClickMenu} />
+              <AntMenu items={isAuthenticated ? userMenuItems : loginMenuItems}
+                mode="vertical" onClick={onClickMenu} style={{ minWidth: 170 }}
+              />
             }
             onOpenChange={setMenuOpen}
             trigger="click"

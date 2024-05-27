@@ -75,7 +75,7 @@ const Post = () => {
   }
 
   return (
-    <Container editMode={editMode}>
+    <Container $editMode={editMode}>
       <FlexRow style={{ justifyContent: "space-between", alignItems: "start" }}>
         <StyledTitle>{item?.title}</StyledTitle>
         {editMode ?
@@ -104,14 +104,14 @@ const Post = () => {
 
 export default Post;
 
-export const Container = styled.div<{ editMode?: boolean; }>`
+export const Container = styled.div<{ $editMode?: boolean; }>`
   width: 100%;
   padding: 20px 80px 60px;
   .editor-container {
-    border: ${props => props.editMode ? "1px solid #dde" : "none"};
+    border: ${props => props.$editMode ? "1px solid #dde" : "none"};
   }
   .editor-input {
-    padding: ${props => props.editMode ? "10px" : 0};
+    padding: ${props => props.$editMode ? "10px" : 0};
   }
   @media (max-width: 600px) {
     padding: 0 5px;
