@@ -55,6 +55,7 @@ code {
   }
 }
 
+/* Temporarily disable it as it impacts all popover
 .ant-popover .ant-popover-inner {
   padding: 0;
-}
+} */
