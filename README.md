@@ -30,6 +30,9 @@ docker compose run --rm frontend pnpm install
 # Run development server inside docker container
 docker compose up
 
+# Run test
+docker compose run --rm frontend pnpm tests
+
 # Optionally, execute other commands if necessary
 docker compose run --rm frontend <command inside container>
 docker compose run --rm frontend pnpm --version
