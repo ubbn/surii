@@ -206,7 +206,7 @@ const _Tree = ({ tourRefs }: Props) => {
         >
           <Popconfirm
             placement="topLeft"
-            title={"Устгамаар байна уу?"}
+            title={"Do you want to delete it?"}
             onConfirm={onDelete}
             okText="Yes"
             disabled={!selectedNode}

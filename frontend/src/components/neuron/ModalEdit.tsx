@@ -197,14 +197,14 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
             <Popconfirm
               key="delete"
               placement="bottomRight"
-              title={"Устгамаар байна уу?"}
+              title={"Do you want to delete it?"}
               onConfirm={onDelete}
               okText="Yes"
               cancelText="No"
             >
               <Button
                 type="link"
-                title="Устгах"
+                title="Delete"
                 disabled={item.id === undefined}
                 icon={<DeleteOutlined />}
                 danger
@@ -213,14 +213,14 @@ const EditModal = ({ visible, onClose, neuron, onSave }: Props) => {
             <Popconfirm
               key="reset"
               placement="bottomRight"
-              title={"Шинээр эхнээс нь эхлэх үү?"}
+              title={"Clone it as new?"}
               onConfirm={onRestartNeuron}
               okText="Yes"
               cancelText="No"
             >
               <Button
                 type="link"
-                title="Эхлүүлэх"
+                title="Clone"
                 disabled={item.id === undefined}
                 icon={<RetweetOutlined />}
                 color="green"
