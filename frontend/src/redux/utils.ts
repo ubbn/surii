@@ -15,10 +15,13 @@ export const getUserEmail = () => {
 
 export const getIdToken = () => {
   const token = getAuthenticationData();
+
+  // TODO there is bug that this method is only called first time, not called everytime
+  console.log("Token read from localstorage: ", token?.credential);
+
   return token?.credential?.idToken || "";
 };
 
-axios.defaults.baseURL = "http://localhost:1010/";
 axios.defaults.headers.common = { Authorization: `Bearer ${getIdToken()}` };
 export default axios;
 
