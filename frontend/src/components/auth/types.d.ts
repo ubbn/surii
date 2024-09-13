@@ -4,6 +4,7 @@ interface AuthResponse {
     email: string;
     emailVerified: boolean;
     photoURL: string;
+    stsTokenManager: TokenManager;
   };
   credential: {
     accessToken: string;
@@ -13,4 +14,10 @@ interface AuthResponse {
     isNewUser: boolean;
     providerId: string;
   };
+}
+
+interface TokenManager {
+  accessToken: string;
+  expirationTime: number;
+  refreshToken: string;
 }

@@ -19,7 +19,7 @@ export const getIdToken = () => {
   // TODO there is bug that this method is only called first time, not called everytime
   console.log("Token read from localstorage: ", token?.credential);
 
-  return token?.credential?.idToken || "";
+  return token?.user?.stsTokenManager?.accessToken || "";
 };
 
 axios.defaults.headers.common = { Authorization: `Bearer ${getIdToken()}` };
