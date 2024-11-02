@@ -1,7 +1,8 @@
-FROM node:20.9.0-alpine
+FROM node:23.7.0-alpine
 
-# Enable pnpm which is already present in node image 
-RUN corepack enable
+# Enable pnpm which is already present in node image
+RUN corepack enable && corepack install --global pnpm
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
 ARG GID=10001
 ARG UID=10001
