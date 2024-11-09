@@ -11,7 +11,7 @@ import { Button, Input, Modal, Popconfirm, Segmented, Space, Switch, message } f
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { FlexRow } from "../../common";
-import Editor from "../../common/editor/editor";
+import Editor from "../../common/editor";
 
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";

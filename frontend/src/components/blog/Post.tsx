@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import { AppContext } from "../../App";
 import { FlexRow } from "../../common";
-import Editor from "../../common/editor/editor";
+import Editor from "../../common/editor";
 import { setNeuron, thunkGetNeuron, thunkUpdateNeuron } from "../../redux/neuronSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 

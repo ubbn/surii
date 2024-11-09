@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AppContext } from "../../App";
 import { FlexRow } from "../../common";
-import Editor from "../../common/editor/editor";
+import Editor from "../../common/editor";
 import { RootState } from "../../redux/store";
 import { getDateFromStr, getGoodFormatted } from "./utils";
 
