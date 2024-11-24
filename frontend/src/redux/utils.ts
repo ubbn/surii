@@ -25,9 +25,5 @@ export const getIdToken = () => {
 axios.defaults.headers.common = { Authorization: `Bearer ${getIdToken()}` };
 export default axios;
 
-export const API_NEURON =
-  import.meta.env.VITE_NEURON_API ??
-  "https://ssps2j1f24.execute-api.eu-north-1.amazonaws.com/prod/neuron";
-export const API_NEURON_TREE =
-  import.meta.env.VITE_NTREE_API ??
-  "https://6nlg5feov4.execute-api.eu-north-1.amazonaws.com/prod/ntree";
+export const API_NEURON = import.meta.env.VITE_NEURON_API;
+export const API_NEURON_TREE = import.meta.env.VITE_NTREE_API;
