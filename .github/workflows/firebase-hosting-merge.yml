@@ -6,6 +6,9 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - main
+env:
+  VITE_NEURON_API: "${{ secrets.VITE_NEURON_API }}"
+  VITE_NTREE_API: "${{ secrets.VITE_NTREE_API }}"
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
