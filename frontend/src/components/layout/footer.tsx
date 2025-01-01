@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const Footer = () => {
-  return <Container>© 2024. BiSurii</Container>;
+  return <Container>© {new Date().getFullYear()}. BiSurii</Container>;
 };
 
 export default Footer;
