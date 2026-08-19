@@ -45,8 +45,24 @@ const Ilearn = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // Ctrl+C opens a modal to add new
-    if (keyEvent?.key === "c" && keyEvent.ctrlKey && !showEditModal && !showStudyModal) {
+    // Ctrl+C or plain "c" opens a modal to add new (only when /learn is active
+    // and nothing else is open). Ignore when the user is typing in an input,
+    // textarea, select, or a contenteditable element.
+    if (!keyEvent || keyEvent.key !== "c") return;
+    if (showEditModal || showStudyModal) return;
+
+    const target = keyEvent.target as HTMLElement | null;
+    const tag = target?.tagName;
+    const isTypingTarget =
+      tag === "INPUT" ||
+      tag === "TEXTAREA" ||
+      tag === "SELECT" ||
+      !!target?.isContentEditable;
+    if (isTypingTarget) return;
+
+    const plainC = !keyEvent.ctrlKey && !keyEvent.metaKey && !keyEvent.altKey;
+    const ctrlC = keyEvent.ctrlKey && !keyEvent.metaKey && !keyEvent.altKey;
+    if (plainC || ctrlC) {
       keyEvent.preventDefault();
       setShowEditModal(true);
     }
