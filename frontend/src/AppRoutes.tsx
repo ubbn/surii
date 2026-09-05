@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { getAuthenticationData } from "./common/storage";
+import About from "./components/about";
 import Login from "./components/auth/login";
 import Blog from "./components/blog";
 import Post from "./components/blog/Post";
@@ -28,8 +29,9 @@ const AppRoutes = () => {
         <Route path="/profile" element={<MyProfile />} />
         <Route path="/blog/:id" element={<Post />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
           <Route path="/learn" element={<Ilearn />} />
           <Route path="/stats" element={<Stats />} />
         </Route>

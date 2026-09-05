@@ -13,6 +13,7 @@ const menus: MenuEntry[] = [
   { title: "Learn", path: "learn" },
   { title: "Stats", path: "stats" },
   { title: "Blog", path: "blog" },
+  { title: "About", path: "about" },
 ];
 
 const Menu = () => {
