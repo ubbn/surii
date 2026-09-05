@@ -37,8 +37,8 @@ import {
   $createCodeNode,
   $isCodeNode,
   getDefaultCodeLanguage,
-  getCodeLanguages,
 } from "@lexical/code";
+import { getCodeLanguages } from "@lexical/code-prism";
 
 const LowPriority = 1;
 
@@ -77,9 +77,8 @@ function positionEditorElement(editor: any, rect: any) {
   } else {
     editor.style.opacity = "1";
     editor.style.top = `${rect.top + rect.height + window.pageYOffset + 10}px`;
-    editor.style.left = `${
-      rect.left + window.pageXOffset - editor.offsetWidth / 2 + rect.width / 2
-    }px`;
+    editor.style.left = `${rect.left + window.pageXOffset - editor.offsetWidth / 2 + rect.width / 2
+      }px`;
   }
 }
 
@@ -148,15 +147,23 @@ function FloatingLinkEditor({ editor }: { editor: any }) {
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }: { editorState: any }) => {
-        editorState.read(() => {
-          updateLinkEditor();
-        });
+        editorState.read(
+          () => {
+            updateLinkEditor();
+          },
+          { editor }
+        );
       }),
 
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         () => {
-          updateLinkEditor();
+          editor.getEditorState().read(
+            () => {
+              updateLinkEditor();
+            },
+            { editor }
+          );
           return true;
         },
         LowPriority
@@ -165,9 +172,12 @@ function FloatingLinkEditor({ editor }: { editor: any }) {
   }, [editor, updateLinkEditor]);
 
   useEffect(() => {
-    editor.getEditorState().read(() => {
-      updateLinkEditor();
-    });
+    editor.getEditorState().read(
+      () => {
+        updateLinkEditor();
+      },
+      { editor }
+    );
   }, [editor, updateLinkEditor]);
 
   useEffect(() => {
@@ -436,7 +446,7 @@ export default function ToolbarPlugin() {
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const [blockType, setBlockType] = useState("paragraph");
-  const [selectedElementKey, setSelectedElementKey] = useState(null);
+  const [selectedElementKey, setSelectedElementKey] = useState<string | null>(null);
   const [showBlockOptionsDropDown, setShowBlockOptionsDropDown] =
     useState(false);
   const [codeLanguage, setCodeLanguage] = useState("");
@@ -496,14 +506,22 @@ export default function ToolbarPlugin() {
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
-        editorState.read(() => {
-          updateToolbar();
-        });
+        editorState.read(
+          () => {
+            updateToolbar();
+          },
+          { editor }
+        );
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         (_payload, _) => {
-          updateToolbar();
+          editor.getEditorState().read(
+            () => {
+              updateToolbar();
+            },
+            { editor }
+          );
           return false;
         },
         LowPriority
