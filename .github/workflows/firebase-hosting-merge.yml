@@ -12,15 +12,20 @@ env:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    container: ubbn/pnpm:8.10.5
+    container: ubbn/pnpm:9.15.4
     defaults:
       run:
         working-directory: ./frontend
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [24.x]
     steps:
       - uses: actions/checkout@v3
+      - run: |
+          pnpm config set registry https://registry.npmjs.org/
+          pnpm config set lockfile-include-tarball-url false
+      - run: |
+          sed -i -E 's/, tarball: https:\/\/[^}]+//g' pnpm-lock.yaml
       - run: pnpm install && pnpm build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
