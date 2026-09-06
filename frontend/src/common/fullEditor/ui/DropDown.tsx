@@ -6,9 +6,9 @@
  *
  */
 
-import type {JSX} from 'react';
+import type { JSX } from 'react';
 
-import {isDOMNode} from 'lexical';
+import { isDOMNode } from 'lexical';
 import * as React from 'react';
 import {
   ReactNode,
@@ -18,7 +18,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import {createPortal} from 'react-dom';
+import { createPortal } from 'react-dom';
 
 type DropDownContextType = {
   registerItem: (ref: React.RefObject<HTMLButtonElement>) => void;
@@ -47,7 +47,7 @@ export function DropDownItem({
     throw new Error('DropDownItem must be used within a DropDown');
   }
 
-  const {registerItem} = dropDownContext;
+  const { registerItem } = dropDownContext;
 
   useEffect(() => {
     if (ref && ref.current) {
@@ -137,7 +137,10 @@ function DropDownItems({
 
   return (
     <DropDownContext.Provider value={contextValue}>
-      <div className="dropdown" ref={dropDownRef} onKeyDown={handleKeyDown}>
+      <div
+        className="dropdown full-editor-dropdown full-editor-root"
+        ref={dropDownRef}
+        onKeyDown={handleKeyDown}>
         {children}
       </div>
     </DropDownContext.Provider>
@@ -177,7 +180,7 @@ export default function DropDown({
     const dropDown = dropDownRef.current;
 
     if (showDropDown && button !== null && dropDown !== null) {
-      const {top, left} = button.getBoundingClientRect();
+      const { top, left } = button.getBoundingClientRect();
       dropDown.style.top = `${top + button.offsetHeight + dropDownPadding}px`;
       dropDown.style.left = `${Math.min(
         left,
@@ -218,7 +221,7 @@ export default function DropDown({
         const button = buttonRef.current;
         const dropDown = dropDownRef.current;
         if (button !== null && dropDown !== null) {
-          const {top} = button.getBoundingClientRect();
+          const { top } = button.getBoundingClientRect();
           const newPosition = top + button.offsetHeight + dropDownPadding;
           if (newPosition !== dropDown.getBoundingClientRect().top) {
             dropDown.style.top = `${newPosition}px`;

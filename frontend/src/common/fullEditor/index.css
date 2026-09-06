@@ -748,7 +748,8 @@
   color: red;
 }
 
-.full-editor-root .dropdown {
+.full-editor-root .dropdown,
+.full-editor-dropdown {
   z-index: 100;
   display: block;
   position: fixed;
@@ -761,7 +762,8 @@
   background-color: #fff;
 }
 
-.full-editor-root .dropdown .item {
+.full-editor-root .dropdown .item,
+.full-editor-dropdown .item {
   margin: 0 8px 0 8px;
   padding: 8px;
   color: #050505;
@@ -769,7 +771,7 @@
   line-height: 16px;
   font-size: 15px;
   display: flex;
-  align-content: center;
+  align-items: center;
   flex-direction: row;
   flex-shrink: 0;
   justify-content: space-between;
@@ -780,51 +782,65 @@
   min-width: 100px;
 }
 
-.full-editor-root .dropdown .item.wide {
+.full-editor-root .dropdown .item.wide,
+.full-editor-dropdown .item.wide {
   align-items: center;
   width: 260px;
 }
 
-.full-editor-root .dropdown .item.wide .icon-text-container {
+.full-editor-root .dropdown .item.wide .icon-text-container,
+.full-editor-dropdown .item.wide .icon-text-container {
   display: flex;
-
-  .text {
-    min-width: 120px;
-  }
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
-.full-editor-root .dropdown .item .shortcut {
+.full-editor-root .dropdown .item.wide .icon-text-container .text,
+.full-editor-dropdown .item.wide .icon-text-container .text {
+  min-width: 0;
+}
+
+.full-editor-root .dropdown .item .shortcut,
+.full-editor-dropdown .item .shortcut {
   color: #939393;
-  align-self: flex-end;
+  align-self: center;
+  margin-left: 12px;
+  flex-shrink: 0;
 }
 
-.full-editor-root .dropdown .item .active {
+.full-editor-root .dropdown .item .active,
+.full-editor-dropdown .item .active {
   display: flex;
   width: 20px;
   height: 20px;
   background-size: contain;
 }
 
-.full-editor-root .dropdown .item:first-child {
+.full-editor-root .dropdown .item:first-child,
+.full-editor-dropdown .item:first-child {
   margin-top: 8px;
 }
 
-.full-editor-root .dropdown .item:last-child {
+.full-editor-root .dropdown .item:last-child,
+.full-editor-dropdown .item:last-child {
   margin-bottom: 8px;
 }
 
-.full-editor-root .dropdown .item:hover {
+.full-editor-root .dropdown .item:hover,
+.full-editor-dropdown .item:hover {
   background-color: #eee;
 }
 
-.full-editor-root .dropdown .item .text {
+.full-editor-root .dropdown .item .text,
+.full-editor-dropdown .item .text {
   display: flex;
   line-height: 20px;
-  flex-grow: 1;
-  min-width: 150px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-.full-editor-root .dropdown .item .icon {
+.full-editor-root .dropdown .item .icon,
+.full-editor-dropdown .item .icon {
   display: flex;
   width: 20px;
   height: 20px;
@@ -836,7 +852,8 @@
   background-repeat: no-repeat;
 }
 
-.full-editor-root .dropdown .divider {
+.full-editor-root .dropdown .divider,
+.full-editor-dropdown .divider {
   width: auto;
   background-color: #eee;
   margin: 4px 8px;

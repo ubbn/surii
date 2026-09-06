@@ -6,11 +6,11 @@
  *
  */
 
-import type {ElementNode, LexicalEditor} from 'lexical';
-import type {JSX} from 'react';
+import type { ElementNode, LexicalEditor } from 'lexical';
+import type { JSX } from 'react';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {useLexicalEditable} from '@lexical/react/useLexicalEditable';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import {
   $computeTableMapSkipCellCheck,
   $deleteTableColumnAtSelection,
@@ -33,7 +33,7 @@ import {
   TableObserver,
   TableSelection,
 } from '@lexical/table';
-import {mergeRegister} from '@lexical/utils';
+import { mergeRegister } from '@lexical/utils';
 import {
   $getSelection,
   $isElementNode,
@@ -46,12 +46,12 @@ import {
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import * as React from 'react';
-import {ReactPortal, useCallback, useEffect, useRef, useState} from 'react';
-import {createPortal} from 'react-dom';
+import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import useModal from '../../hooks/useModal';
 import ColorPicker from '../../ui/ColorPicker';
-import DropDown, {DropDownItem} from '../../ui/DropDown';
+import DropDown, { DropDownItem } from '../../ui/DropDown';
 
 function computeSelectionCount(selection: TableSelection): {
   columns: number;
@@ -102,7 +102,7 @@ function currentCellBackgroundColor(editor: LexicalEditor): null | string {
 }
 
 type TableCellActionMenuProps = Readonly<{
-  contextRef: {current: null | HTMLElement};
+  contextRef: { current: null | HTMLElement };
   onClose: () => void;
   setIsMenuOpen: (isOpen: boolean) => void;
   showColorPickerModal: (
@@ -148,7 +148,7 @@ function TableActionMenu({
           setBackgroundColor(currentCellBackgroundColor(editor) || '');
         }
       },
-      {skipInitialization: true},
+      { skipInitialization: true },
     );
   }, [editor, tableCellNode]);
 
@@ -498,7 +498,7 @@ function TableActionMenu({
   return createPortal(
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
-      className="dropdown"
+      className="dropdown full-editor-dropdown full-editor-root"
       ref={dropDownRef}
       onClick={(e) => {
         e.stopPropagation();
@@ -654,7 +654,7 @@ function TableActionMenu({
         data-test-id="table-row-header">
         <span className="text">
           {(tableCellNode.__headerState & TableCellHeaderStates.ROW) ===
-          TableCellHeaderStates.ROW
+            TableCellHeaderStates.ROW
             ? 'Remove'
             : 'Add'}{' '}
           row header
@@ -667,7 +667,7 @@ function TableActionMenu({
         data-test-id="table-column-header">
         <span className="text">
           {(tableCellNode.__headerState & TableCellHeaderStates.COLUMN) ===
-          TableCellHeaderStates.COLUMN
+            TableCellHeaderStates.COLUMN
             ? 'Remove'
             : 'Add'}{' '}
           column header

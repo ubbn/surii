@@ -31,18 +31,18 @@
   font-size: 24px;
   color: rgb(5, 5, 5);
   font-weight: 400;
-  margin: 0;
+  margin: 14px 0;
 }
 .PlaygroundEditorTheme__h2 {
   font-size: 15px;
   color: rgb(101, 103, 107);
   font-weight: 700;
-  margin: 0;
+  margin: 14px 0 8px;
   text-transform: uppercase;
 }
 .PlaygroundEditorTheme__h3 {
   font-size: 12px;
-  margin: 0;
+  margin: 12px 0 8px;
   text-transform: uppercase;
 }
 .PlaygroundEditorTheme__indent {
@@ -79,7 +79,7 @@
 }
 
 .PlaygroundEditorTheme__tabNode.PlaygroundEditorTheme__textUnderline::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -88,7 +88,7 @@
 }
 
 .PlaygroundEditorTheme__tabNode.PlaygroundEditorTheme__textStrikethrough::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -98,7 +98,7 @@
 
 .PlaygroundEditorTheme__tabNode.PlaygroundEditorTheme__textUnderlineStrikethrough::before,
 .PlaygroundEditorTheme__tabNode.PlaygroundEditorTheme__textUnderlineStrikethrough::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -155,7 +155,7 @@
   position: absolute;
 }
 .PlaygroundEditorTheme__blockCursor:after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   top: -2px;
@@ -197,7 +197,7 @@
 }
 .PlaygroundEditorTheme__tableScrollableWrapper {
   overflow-x: auto;
-  margin: 0px 25px 30px 0px;
+  margin: 10px 10px 10px 0px;
 }
 .PlaygroundEditorTheme__tableScrollableWrapper > .PlaygroundEditorTheme__table {
   /* Remove the table's vertical margin and put it on the wrapper */
@@ -242,7 +242,7 @@
 }
 .PlaygroundEditorTheme__tableFrozenRow tr:nth-of-type(1) > th:after,
 .PlaygroundEditorTheme__tableFrozenRow tr:nth-of-type(1) > td:after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
@@ -262,7 +262,7 @@
   left: 0;
 }
 .PlaygroundEditorTheme__tableFrozenColumn tr > :first-child::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -320,7 +320,7 @@
   top: 0;
   background-color: highlight;
   mix-blend-mode: multiply;
-  content: '';
+  content: "";
   pointer-events: none;
 }
 .PlaygroundEditorTheme__tableAddColumns {
@@ -337,7 +337,7 @@
   background-position: center;
   background-repeat: no-repeat;
   display: block;
-  content: ' ';
+  content: " ";
   position: absolute;
   top: 0;
   left: 0;
@@ -363,7 +363,7 @@
   background-position: center;
   background-repeat: no-repeat;
   display: block;
-  content: ' ';
+  content: " ";
   position: absolute;
   top: 0;
   left: 0;
@@ -471,7 +471,7 @@
 }
 .PlaygroundEditorTheme__listItemUnchecked:before,
 .PlaygroundEditorTheme__listItemChecked:before {
-  content: '';
+  content: "";
   width: 16px;
   height: 16px;
   top: 2px;
@@ -481,8 +481,8 @@
   background-size: cover;
   position: absolute;
 }
-.PlaygroundEditorTheme__listItemUnchecked[dir='rtl']:before,
-.PlaygroundEditorTheme__listItemChecked[dir='rtl']:before {
+.PlaygroundEditorTheme__listItemUnchecked[dir="rtl"]:before,
+.PlaygroundEditorTheme__listItemChecked[dir="rtl"]:before {
   left: auto;
   right: 0;
 }
@@ -502,7 +502,7 @@
   background-repeat: no-repeat;
 }
 .PlaygroundEditorTheme__listItemChecked:after {
-  content: '';
+  content: "";
   cursor: pointer;
   border-color: #fff;
   border-style: solid;
@@ -588,7 +588,7 @@
   cursor: pointer;
 }
 .PlaygroundEditorTheme__hr:after {
-  content: '';
+  content: "";
   display: block;
   height: 2px;
   background-color: #ccc;

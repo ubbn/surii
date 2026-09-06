@@ -15,7 +15,9 @@
   height: 15px;
   padding: 2px 4px;
   text-align: center;
-  width: 20px;
+  box-sizing: content-box;
+  width: 3ch;
+  min-width: 3ch;
   align-self: center;
 }
 
@@ -31,6 +33,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
