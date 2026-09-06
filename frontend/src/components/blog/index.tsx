@@ -1,3 +1,4 @@
+import { PlusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -76,11 +77,33 @@ const Blog = () => {
   }
 
   if (pagedItems.length === 0) {
-    return <Container>No post...</Container>
+    return (
+      <Container>
+        <FlexRow style={{ justifyContent: "flex-end", marginBottom: 20 }}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => navigate("new")}
+          >
+            New post
+          </Button>
+        </FlexRow>
+        No post...
+      </Container>
+    )
   }
 
   return (
     <Container>
+      <FlexRow style={{ justifyContent: "flex-end", marginBottom: 20 }}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => navigate("new")}
+        >
+          New post
+        </Button>
+      </FlexRow>
       {pagedItems.map((post, i) => (
         <StyledCart key={i} onClick={() => onClickPost(post.id)}>
           <h2>{post.title}</h2>

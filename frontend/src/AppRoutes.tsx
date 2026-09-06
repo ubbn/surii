@@ -4,6 +4,7 @@ import { getAuthenticationData } from "./common/storage";
 import About from "./components/about";
 import Login from "./components/auth/login";
 import Blog from "./components/blog";
+import NewPost from "./components/blog/NewPost";
 import Post from "./components/blog/Post";
 import Home from "./components/home";
 import Ilearn from "./components/neuron";
@@ -27,6 +28,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<MyProfile />} />
+        <Route path="/blog/new" element={<NewPost />} />
         <Route path="/blog/:id" element={<Post />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/about" element={<About />} />
