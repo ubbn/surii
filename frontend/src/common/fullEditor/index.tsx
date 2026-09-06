@@ -36,7 +36,6 @@ import PlaygroundNodes from './nodes/PlaygroundNodes';
 import { PLAYGROUND_TRANSFORMERS } from './plugins/MarkdownTransformers';
 import { TableContext } from './plugins/TablePlugin';
 import { parseAllowedFontSize } from './plugins/ToolbarPlugin/fontSize';
-import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import { parseAllowedColor } from './ui/ColorPicker';
 
@@ -241,7 +240,7 @@ function ControlledEditorPlugin({
 
 function App({ text, onChange, editable }: FullEditorProps): JSX.Element {
   const {
-    settings: { emptyEditor, measureTypingPerf },
+    settings: { emptyEditor },
   } = useSettings();
 
   const initialConfig = {
@@ -268,7 +267,6 @@ function App({ text, onChange, editable }: FullEditorProps): JSX.Element {
               onChange={onChange}
               editable={editable}
             />
-            {measureTypingPerf ? <TypingPerfPlugin /> : null}
           </ToolbarContext>
         </TableContext>
       </SharedHistoryContext>

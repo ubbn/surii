@@ -6,8 +6,6 @@
  *
  */
 
-import type { JSX } from 'react';
-
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { CharacterLimitPlugin } from '@lexical/react/LexicalCharacterLimitPlugin';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
@@ -25,7 +23,6 @@ import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import { CAN_USE_DOM } from '@lexical/utils';
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { useSettings } from './context/SettingsContext';
@@ -67,7 +64,7 @@ import TwitterPlugin from './plugins/TwitterPlugin';
 import YouTubePlugin from './plugins/YouTubePlugin';
 import ContentEditable from './ui/ContentEditable';
 
-export default function Editor(): JSX.Element {
+export default function Editor() {
   const { historyState } = useSharedHistoryContext();
   const {
     settings: {

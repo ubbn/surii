@@ -7,7 +7,6 @@
  */
 
 import type { ElementNode, LexicalEditor } from 'lexical';
-import type { JSX } from 'react';
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
@@ -45,8 +44,8 @@ import {
   isDOMNode,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
-import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { ReactPortal } from 'react';
 import { createPortal } from 'react-dom';
 
 import useModal from '../../hooks/useModal';

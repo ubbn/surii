@@ -134,9 +134,10 @@ function ITable({
     filterNeurons(studyDate);
   }, [items]);
 
-  const onDateChange = (value: Date | null) => {
-    dispatch(setStudyDate(value));
-    filterNeurons(value);
+  const onDateChange = (value: unknown) => {
+    const date = value instanceof Date ? value : null;
+    dispatch(setStudyDate(date));
+    filterNeurons(date);
     setSearchKey("")
   };
 

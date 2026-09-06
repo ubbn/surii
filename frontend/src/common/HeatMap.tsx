@@ -26,10 +26,13 @@ const HeatMap = ({ startDate, data, tipText, ...props }: Props) => {
   return (
     <Container>
       <CalendarHeatmap
-        tooltipDataAttrs={(value: any) => ({
-          "data-tooltip-id": "heatmap-tooltip",
-          "data-tooltip-content": `${value.date}: ${value.count} ${tipText}`,
-        })}
+        tooltipDataAttrs={((value: any) =>
+          value
+            ? {
+              "data-tooltip-id": "heatmap-tooltip",
+              "data-tooltip-content": `${value.date}: ${value.count} ${tipText}`,
+            }
+            : {}) as any}
         showWeekdayLabels={true}
         values={data}
         startDate={subDays(startDate, 1)}

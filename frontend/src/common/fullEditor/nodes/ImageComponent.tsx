@@ -242,7 +242,10 @@ export default function ImageComponent({
   const isEditable = useLexicalEditable();
 
   const $onEnter = useCallback(
-    (event: KeyboardEvent) => {
+    (event: KeyboardEvent | null) => {
+      if (event === null) {
+        return false;
+      }
       return editor.read(() => {
         const latestSelection = $getSelection();
         const buttonElem = buttonRef.current;
@@ -273,7 +276,10 @@ export default function ImageComponent({
   );
 
   const $onEscape = useCallback(
-    (event: KeyboardEvent) => {
+    (event: KeyboardEvent | null) => {
+      if (event === null) {
+        return false;
+      }
       if (
         activeEditorRef.current === caption ||
         buttonRef.current === event.target
