@@ -16,6 +16,7 @@ import {
 import { RootState, useAppDispatch } from "../../redux/store";
 import EditModal from "./ModalEdit";
 import StudyModal from "./ModalStudy";
+import { shouldHandleKeyboardEvent } from "./keyboard";
 import NeuronTable from "./table";
 import CategoryTree from "./tree";
 import { Anchor, compareNeurons } from "./utils";
@@ -42,13 +43,15 @@ const Ilearn = () => {
 
   const { selectedNode, selected } = useSelector((v: RootState) => v.neuron);
   const { keyEvent } = useContext(AppContext)!;
+  const initialKeyEvent = useRef(keyEvent);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     // Ctrl+C or plain "c" opens a modal to add new (only when /learn is active
     // and nothing else is open). Ignore when the user is typing in an input,
     // textarea, select, or a contenteditable element.
-    if (!keyEvent || keyEvent.key !== "c") return;
+    if (!shouldHandleKeyboardEvent(keyEvent, initialKeyEvent.current)) return;
+    if (keyEvent.key !== "c") return;
     if (showEditModal || showStudyModal) return;
 
     const target = keyEvent.target as HTMLElement | null;
